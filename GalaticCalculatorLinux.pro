@@ -18,6 +18,8 @@ INSTALLS += target
 
 INCLUDEPATH += tmp/moc/release_shared
 
+QMAKE_LFLAGS += -static
+
 DISTFILES += macos/Info.plist \
   README.txt \
   qml/BigNumber.js \
@@ -25,13 +27,11 @@ DISTFILES += macos/Info.plist \
   qml/Calculator.qml \
   qml/Common.js \
   qml/Configuration.qml \
-  qml/Database.js \
   qml/EnergyCalculator.js \
   qml/EnergyCalculator.qml \
   qml/Eval.js \
   qml/GalaxyCalculateIt.js \
   qml/GalaxyCalculator.qml \
-  qml/Help.qml \
   qml/LoadProgressStyle.qml \
   qml/MadnessMeter.qml \
   qml/Main.qml \

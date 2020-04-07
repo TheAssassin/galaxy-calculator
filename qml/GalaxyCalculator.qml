@@ -4,19 +4,26 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import TableModel 0.1
 import "Common.js" as Js
-//import "Database.js" as Db
 import "BigNumberMath.js" as BigNumberMath
 /* ****************************************************************************
  * Galaxy Calculator
  */
 Page
 {
+    property bool isBusy: true
+    property alias busyTimer: busyTimer
+    property string headerBgColor: "grey"
+    property string headerFgColor: "white"
+    property string dataBgColor: "white"
+    property string dataFgColor: "black"
     property alias myTableView: myTableView
     property alias myTableModel: myTableModel
     title: qsTr("Galaxy Calculator")
     visible: true
-    /* **********************************************************
-     * Loader
+    /** ***********************************************************************
+     * Loader:
+     * show will set sourceComponent to component, loading page
+     * hide will set sourceComponent to undefined, unloading page
      */
     Loader
     {
@@ -26,6 +33,28 @@ Page
         }
         function hide(){
             sourceComponent = undefined;
+        }
+    }
+    /* ******************************************************
+     * BusyIndicator
+     */
+    BusyIndicator
+    {
+        id: busyIndicator
+        anchors.fill: parent
+        running: isBusy
+    }
+    /* ************************************************************************
+     * Timer
+     */
+    Timer
+    {
+        id: busyTimer
+        onTriggered:
+        {
+            busyTimer.stop();
+            // myGalaxy, mySunSize, myLivalbePlanetSize, myTrinaryEngines, myGalaxyRadius, myPrintNthTrack
+            galaxyCalculor(configurationPage.xappTextEditGalaxy, configurationPage.xappTextEditSunSize, configurationPage.xappTextEditLivalbePlanetSize, configurationPage.xappTextEditTrinaryEngines, configurationPage.xappTextEditGalaxyRadius, configurationPage.xappTextEditPrintNthTrack);
         }
     }
     /* **********************************************************
@@ -42,8 +71,8 @@ Page
         clip: true
         ScrollBar.horizontal: ScrollBar {}
         ScrollBar.vertical: ScrollBar {}
-        //                      "Track", "Trinary Engines", "Max", "Min", "Frequency", "Distance", "Track Frequency"
-        property var columnWidths: [86,  233,               150,  150,    166,         416, 250]
+        //                       "Track,Trinary Engines,Max,Min,Frequency,Distance,Track Frequency"
+        property var columnWidths: [99, 233,            166,133,166,      413,     263]
         columnWidthProvider: function (column) { return columnWidths[column] }
 
         Timer
@@ -52,7 +81,6 @@ Page
             interval: 2000
             onTriggered:
             {
-                myTableView.columnWidths[2] = 150
                 myTableView.forceLayout();
             }
         }
@@ -64,48 +92,25 @@ Page
 
         delegate: Rectangle
         {
+            id: myTableViewDelegate
             implicitHeight: 50
             border.color: "black"
             border.width: 2
-            color: {
-                 if (heading == true) {
-                     if (mainWindowId.isThemeLight) {
-                         //console.debug("Heading Light: isThemeLight=" + isThemeLight);
-                         color = "silver";
-                     } else {
-                         //console.debug("Heading Dark: isThemeLight=" + isThemeLight);
-                         color = "grey";
-                     }
-                 } else {
-                     if (mainWindowId.isThemeLight) {
-                         //console.debug("Data Light: isThemeLight=" + isThemeLight);
-                         color = "white";
-                         //color: alternateBackgroundColors ? (row % 2 == 0 ? oddBackground : evenBackground) : "white"
-                     } else {
-                         //console.debug("Data Dark: isThemeLight=" + isThemeLight);
-                         color = "silver";
-                     }
-                 }
-            } // end color
-
-            // TableView.onPooled: console.log(tabledata + " pooled")
-            // TableView.onReused: console.log(tabledata + " resused")
+            color: (heading) ? headerBgColor : dataBgColor
 
             Text
             {
                 id: myTableText
                 text: tabledata
-                font.pointSize: 12
-                font.family: "Times"
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
+                color: (heading) ? headerFgColor : dataFgColor
+                anchors.right: parent.right
             } // end Text
         } // end delegate
     } // end TableView
     /* ****************************************************************************
-     * Calculate
+     * Galaxy Calculor
      */
-    function calc(myGalaxy, mySunSize, myLivalbePlanetSize, myTrinaryEngines, myGalaxyRadius, myPrintNthTrack) {
+    function galaxyCalculor(myGalaxy, mySunSize, myLivalbePlanetSize, myTrinaryEngines, myGalaxyRadius, myPrintNthTrack) {
         myTableModel.newTable();
         var vStorage;
         // 1 / 137.03599913 is not more accurate
@@ -427,6 +432,7 @@ Page
             minErrorRate = minErrorRate + 1;
         } // end for currentTrackNumber < totalTracks
         console.debug("########### calc finished ############################")
-    } // end calc
+        isBusy = false;
+    } // end galaxyCalculor
 } // end Page
 /* ***************************** End of File ******************************* */

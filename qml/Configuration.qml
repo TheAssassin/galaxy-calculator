@@ -3,7 +3,6 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 import "." // QTBUG-34418, singletons require explicit import to load qmldir file
-// import "Database.js" as Db
 import "Common.js" as Js
 /* ****************************************************************************
  * Configuration Page
@@ -19,27 +18,32 @@ Page
     title: qsTr("Configuration")
     visible: true
     /* **********************************************************
-     * ListModel
+     * ListModel for Themizer
      */
-//    ListModel
-//    {
-//        id: listModelConfiguration
-//        Component.onCompleted: {
-//            if (Db.get("theme", "Light") === "Light") {
-//                console.debug("Configuration ListModel theme change = Material.Light");
-//                radioButtonLight.checked = true;
-//                mainWindowId.doTheme(Material.Light);
-//            } else {
-//                console.debug("Configuration ListModel theme change = Material.Dark");
-//                radioButtonDark.checked = true;
-//                mainWindowId.doTheme(Material.Dark);
-//            }
-//        } // end Component.onCompleted
-//    } // end ListModel
+    ListModel
+    {
+        id: listModelConfiguration
+        Component.onCompleted:
+        {
+            switch(mainWindowId.myTheme) {
+            case 0: // "Dark"
+                //console.debug("Configuration ListModel theme change = Material.Dark");
+                radioButtonDark.checked = true;
+                mainWindowId.doTheme(0);
+                break;
+            case 1: // "Light"
+            default:
+                //console.debug("Configuration ListModel theme change = Material.Light");
+                radioButtonLight.checked = true;
+                mainWindowId.doTheme(1);
+            } // end switch
+        } // end Component.onCompleted
+    } // end ListModel
     /* **********************************************************
      * GridLayout
      */
-    GridLayout {
+    GridLayout
+    {
         id: grid
         rowSpacing: 2
         anchors.rightMargin: 3
@@ -56,12 +60,14 @@ Page
         /* ******************************************************
          * rowLayoutGalaxy
          */
-        RowLayout {
+        RowLayout
+        {
             id: rowLayoutGalaxy
             /* **************************************************
              * Galaxy
              */
-            Text {
+            Text
+            {
                 id: appTextGalaxy
                 color: Style.textColor
                 text: qsTr("Galaxy")
@@ -69,7 +75,8 @@ Page
                 wrapMode: Text.NoWrap
             }
 
-            TextEdit {
+            TextEdit
+            {
                 id: appTextEditGalaxy
                 width: 200
                 text: qsTr("Milky Way")
@@ -80,7 +87,8 @@ Page
         /* ******************************************************
          * SunSize
          */
-        Text {
+        Text
+        {
             id: appTextSunSize
             color: Style.textColor
             text: qsTr("Sun Size in Miles in Diameter")
@@ -89,7 +97,8 @@ Page
             leftPadding: 6
         }
 
-        TextEdit {
+        TextEdit
+        {
             id: appTextEditSunSize
             width: 266
             text: "864575.9"
@@ -99,7 +108,8 @@ Page
         /* ******************************************************
          * LivalbePlanetSize
          */
-        Text {
+        Text
+        {
             id: appTextLivalbePlanetSize
             color: Style.textColor
             text: qsTr("Livable Planet Size Miles in Diameter")
@@ -108,7 +118,8 @@ Page
             wrapMode: Text.NoWrap
         }
 
-        TextEdit {
+        TextEdit
+        {
             id: appTextEditLivalbePlanetSize
             width: 266
             text: "7926.2109"
@@ -118,11 +129,13 @@ Page
         /* ******************************************************
          * TrinaryEngines
          */
-        RowLayout {
+        RowLayout
+        {
             id: rowLayoutTrinaryEngines
             height: 33
 
-            Text {
+            Text
+            {
                 id: appTextTrinaryEngines
                 color: Style.textColor
                 text: qsTr("Number of Trinary Engines")
@@ -131,7 +144,8 @@ Page
                 wrapMode: Text.NoWrap
             }
 
-            TextEdit {
+            TextEdit
+            {
                 id: appTextEditTrinaryEngines
                 width: 200
                 text: "333"
@@ -142,7 +156,8 @@ Page
         /* ******************************************************
          * GalaxyRadius
          */
-        Text {
+        Text
+        {
             id: appTextGalaxyRadius
             color: Style.textColor
             text: qsTr("Radius of Galaxy in Miles")
@@ -151,7 +166,8 @@ Page
             wrapMode: Text.NoWrap
         }
 
-        TextEdit {
+        TextEdit
+        {
             id: appTextEditGalaxyRadius
             width: 293
             text: "241828072282107.5071453596951"
@@ -161,11 +177,13 @@ Page
         /* ******************************************************
          * PrintNthTrack
          */
-        RowLayout {
+        RowLayout
+        {
             id: rowLayoutPrintNthTrack
             height: 33
 
-            Text {
+            Text
+            {
                 id: appTextPrintNthTrack
                 color: Style.textColor
                 text: qsTr("Print Nth Track")
@@ -174,7 +192,8 @@ Page
                 wrapMode: Text.NoWrap
             }
 
-            TextEdit {
+            TextEdit
+            {
                 id: appTextEditPrintNthTrack
                 width: 200
                 leftPadding: 6
@@ -185,11 +204,13 @@ Page
         /* ******************************************************
          * GalaxyWarning
          */
-        RowLayout {
+        RowLayout
+        {
             id: rowLayoutGalaxyWarning
             height: 33
 
-            Text {
+            Text
+            {
                 id: appTextGalaxyWarning
                 color: Style.textColorWarning
                 text: qsTr("Verify settings, go to Galaxy Tab and wait for Calculation to complete and page to load.")
@@ -201,42 +222,47 @@ Page
         /* ******************************************************
          * Themizer
          */
-//        RowLayout {
-//            id: rowLayoutThemizer
-//            GroupBox {
-//                id: groupBox
-//                width: 136
-//                height: 96
-//                title: qsTr("Theme")
+        RowLayout
+        {
+            id: rowLayoutThemizer
+            GroupBox
+            {
+                id: groupBox
+                width: 136
+                height: 96
+                title: qsTr("Theme")
 
-//                Column {
-//                    id: column
-//                    anchors.fill: parent
+                Column
+                {
+                    id: column
+                    anchors.fill: parent
 
-//                    RadioButton {
-//                        id: radioButtonLight
-//                        text: qsTr("Light")
-//                        onClicked: {
-//                            console.debug("Material.theme = Material.Light")
-//                            //Db.set("theme", "Light")
-//                            //Material.theme = Material.Light;
-//                            mainWindowId.doTheme(Material.Light)
-//                        }
-//                    }
+                    RadioButton
+                    {
+                        id: radioButtonLight
+                        text: qsTr("Light")
+                        onClicked:
+                        {
+                            //console.debug("Material.theme = Material.Light")
+                            mainWindowId.myTheme = 1;
+                            mainWindowId.doTheme(1);
+                        }
+                    }
 
-//                    RadioButton {
-//                        id: radioButtonDark
-//                        text: qsTr("Dark")
-//                        onClicked: {
-//                            console.debug("Material.theme = Material.Dark")
-//                            //Db.set("theme", "Dark")
-//                            //Material.theme = Material.Dark;
-//                            mainWindowId.doTheme(Material.Dark)
-//                        }
-//                    }
-//                } // end Column
-//            } // end GroupBox
-//        } // end Themizer
+                    RadioButton
+                    {
+                        id: radioButtonDark
+                        text: qsTr("Dark")
+                        onClicked:
+                        {
+                            //console.debug("Material.theme = Material.Dark")
+                            mainWindowId.myTheme = 0;
+                            mainWindowId.doTheme(0);
+                        }
+                    }
+                } // end Column
+            } // end GroupBox
+        } // end Themizer
     } // end GridLayout
 } // end Page
 /* ***************************** End of File ******************************* */

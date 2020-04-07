@@ -13,6 +13,15 @@ http://LightWizzard.com/installers/linux/GalaxyCalculatorInstaller
 Excutable
 http://LightWizzard.com/installers/linux/GalaxyCalculator-x86_64.run
 
+Windows
+Installer
+http://LightWizzard.com/installers/windows/GalaxyCalculatorInstaller.exe
+Excutable
+http://LightWizzard.com/installers/windows/GalaxyCalculator.exe
+
+MAC, iOS, Apple:
+I do not own one, so I cannot make them.
+
 If you do not see your OS, just download, extract to a folder, and open with Qt Creator, which must be installed, and compile or run it.
 
 TableView for Qt version greater than or equal to 5.12, still has a lot of work, as a result, it does not like a few things, like changeing themses on the fly, or even having a theme, and I cannot seem to get the text alignment to work, as such, the table looks ugly.

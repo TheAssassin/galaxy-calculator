@@ -56,7 +56,6 @@
 #include <QScreen>
 #include <QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
-#include <QtWebView/QtWebView>
 #include <QQuickStyle>
 #include "tablemodel.h"
 
@@ -84,11 +83,8 @@ int main(int argc, char *argv[])
 //! [0]
     QGuiApplication app(argc, argv);
     qmlRegisterType<TableModel>("TableModel", 0, 1, "TableModel");
-    app.setWindowIcon(QIcon(":/favicon.png"));
-
-    QtWebView::initialize();
 //! [0]
-    QGuiApplication::setApplicationDisplayName(QCoreApplication::translate("main", "MiniBrowser"));
+    QGuiApplication::setApplicationDisplayName(QCoreApplication::translate("main", "Light Wizzard"));
     QCommandLineParser parser;
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
     parser.setApplicationDescription(QGuiApplication::applicationDisplayName());
