@@ -69,7 +69,7 @@ Screen Shots
 
 ![Galaxy Configuration](doc/images/screenshot-config.png?raw=true "Galaxy Configuration")
 
-![Galaxy Calculator](doc/images/screenshot-galaxy.png?raw=true "Galaxy Calculator")
+![Galaxy Calculator](/doc/images/screenshot-galaxy.png?raw=true "Galaxy Calculator")
 
 ![Energy Calculator](doc/images/screenshot-energy.png?raw=true "Energy Calculator")
 
