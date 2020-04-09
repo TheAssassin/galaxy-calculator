@@ -67,17 +67,17 @@ For more information see: [Wiki](https://github.com/Light-Wizzard/galaxy-calcula
 
 Screen Shots
 
-![Galaxy Configuration](https://github.com/Light-Wizzard/galaxy-calculator/tree/master/doc/images/screenshot-config.png)
+![Galaxy Configuration](doc/images/screenshot-config.png?raw=true "Galaxy Configuration")
 
-![Galaxy Calculator](https://github.com/Light-Wizzard/galaxy-calculator/tree/master/doc/images/screenshot-galaxy.png)
+![Galaxy Calculator](doc/images/screenshot-galaxy.png?raw=true "Galaxy Calculator")
 
-![Energy Calculator](https://github.com/Light-Wizzard/galaxy-calculator/tree/master/doc/images/screenshot-energy.png)
+![Energy Calculator](doc/images/screenshot-energy.png?raw=true "Energy Calculator")
 
-![Madness Calculator](https://github.com/Light-Wizzard/galaxy-calculator/tree/master/doc/images/screenshot-madness.png)
+![Madness Calculator](doc/images/screenshot-madness.png?raw=true "Madness Calculator")
 
-![World Calculator](https://github.com/Light-Wizzard/galaxy-calculator/tree/master/doc/images/screenshot-world.png)
+![World Calculator](doc/images/screenshot-world.png?raw=true "World Calculator")
 
-![Calculator](https://github.com/Light-Wizzard/galaxy-calculator/tree/master/doc/images/screenshot-calc.png)
+![Calculator](doc/images/screenshot-calc.png?raw=true "Calculator")
 
 This is a work in progress, please report any bugs, and comments.
 
