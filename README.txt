@@ -65,5 +65,19 @@ This is not a Galaxy Simulator, only a Graph and Plot, and that is very importan
 
 For more information see: [Wiki](https://github.com/Light-Wizzard/galaxy-calculator/wiki)
 
+Screen Shots
+
+![Galaxy Configuration](/doc/images/screenshot-config.png)
+
+![Galaxy Calculator](/doc/images/screenshot-galaxy.png)
+
+![Energy Calculator](/doc/images/screenshot-energy.png)
+
+![Madness Calculator](/doc/images/screenshot-madness.png)
+
+![World Calculator](/doc/images/screenshot-world.png)
+
+![Calculator](/doc/images/screenshot-calc.png)
+
 This is a work in progress, please report any bugs, and comments.
 
