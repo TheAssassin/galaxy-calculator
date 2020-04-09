@@ -18,7 +18,7 @@ INSTALLS += target
 
 INCLUDEPATH += tmp/moc/release_shared
 
-QMAKE_LFLAGS += -static
+# QMAKE_LFLAGS += -static
 
 DISTFILES += macos/Info.plist \
   README.txt \
@@ -35,7 +35,10 @@ DISTFILES += macos/Info.plist \
   qml/LoadProgressStyle.qml \
   qml/MadnessMeter.qml \
   qml/Main.qml \
+  qml/PiCalculator.js \
+  qml/PushButton.qml \
   qml/Style.qml \
+  qml/TextEditorBox.qml \
   qml/TextEditorColor.qml \
   qml/WorldCalculator.js \
   qml/WorldCalculator.qml \

@@ -11,9 +11,8 @@
 /* ****************************************************************************
  * Calculate
  */
-function calc(myTableModel) {
-
-
+function calc(myTableModel)
+{
     var vStorage;
     // 1 / 137.03599913 is not more accurate
     // var trinaryMarker = ( 1/137 );
@@ -23,8 +22,7 @@ function calc(myTableModel) {
     // 0.00729927007299270073
     // 0.0072992700730
     var trinaryMarker = BigNumberMath.dividedBy("1", "137", 13);
-    if (Js.getIsDebugMessage())
-        console.debug("trinaryMarker=" + trinaryMarker);
+    if (Js.getIsDebugMessage()) console.debug("trinaryMarker=" + trinaryMarker);
     /*
          * 42          3.141592653589793238462643383279502884197169
          * 100         3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
@@ -54,8 +52,7 @@ function calc(myTableModel) {
     // 55571.435845717
     var aP = BigNumberMath.times(lpDensity, vStorage, 9);
     // aP=( lpDensity * (1/760) )=73.120284 * 0.001315789 = 0.096210865
-    if (Js.getIsDebugMessage())
-        console.debug("aP=( lpDensity * (1/760) )=" + lpDensity + " * " + vStorage + " = " + aP)
+    if (Js.getIsDebugMessage()) console.debug("aP=( lpDensity * (1/760) )=" + lpDensity + " * " + vStorage + " = " + aP)
     // Planets Trinary Engine Rings: First=.0001, Second=0.001, Third=.01
     var ringPlanetSecond = "0.001";
     // Used to iterate
@@ -91,8 +88,7 @@ function calc(myTableModel) {
     vStorage = BigNumberMath.times(livePlanetSize, ringPlanetSecond, 3);
     var lpRingFreq = BigNumberMath.minus(vStorage, aP, 3);
     // 7926.2109 * 0.001 - 55571.435845717 = -55563.510
-    if (Js.getIsDebugMessage())
-        console.debug("lpRingFreq=((livePlanetSize * ringPlanetSecond) - aP ) " + livePlanetSize + " * " + ringPlanetSecond + " - " + aP + " = " + lpRingFreq)
+    if (Js.getIsDebugMessage()) console.debug("lpRingFreq=((livePlanetSize * ringPlanetSecond) - aP ) " + livePlanetSize + " * " + ringPlanetSecond + " - " + aP + " = " + lpRingFreq)
     //console.debug("subtract lpRingFreq = " + lpRingFreq )
     //console.debug("subtract lpRingFreq - aP ~ vStorage - Ap " + vStorage + " - " + aP)
 
@@ -101,8 +97,7 @@ function calc(myTableModel) {
     // var pRate = ( sunSize / cpRate );
     var pRate = BigNumberMath.dividedBy(sunSize, cpRate, 0);
     // 2664
-    if (Js.getIsDebugMessage())
-        console.debug("pRate=" + pRate)
+    if (Js.getIsDebugMessage()) console.debug("pRate=" + pRate)
     // Precession: you must remove the speed required to over come it.
     var maxErrorRate = pRate;
     // To print Life Track: based on Trinary Engines
@@ -161,7 +156,8 @@ function calc(myTableModel) {
     var currentTrackNumber = 0;
 
     //console.debug("Js.getIsDebugMessage()=" + Js.getIsDebugMessage())
-    if (Js.getIsDebugMessage()) {
+    if (Js.getIsDebugMessage())
+    {
         console.debug("galaxyName=" + galaxyName);
         console.debug("sunSize=" + sunSize);
         console.debug("livePlanetSize=" + livePlanetSize);
@@ -209,7 +205,8 @@ function calc(myTableModel) {
     totalTracks=(((Math.abs(trinaryEngines) * 2) * 2) + 1 );
     maxErrorRate = parseInt(maxErrorRate, 10);
     // for loop
-    for ( currentTrackNumber = 0; currentTrackNumber < totalTracks; currentTrackNumber++ )  {
+    for ( currentTrackNumber = 0; currentTrackNumber < totalTracks; currentTrackNumber++ )
+    {
         //console.debug("Working on: " + currentTrackNumber);
         // Orbital Distance
         // ((241828072282107.5071453596951 * 666) * 2) * 3.14159265359
@@ -223,20 +220,25 @@ function calc(myTableModel) {
         // orbitDist = ((( galaxyRadius * currentTrackNumber) * 2) * pIe );
         orbitDist = BigNumberMath.format(vStorage, 0);
         // maxSpeed
-        if ( trackEngines <= 0 ) {
+        if ( trackEngines <= 0 )
+        {
             vStorage = BigNumberMath.times(aveIteration, trackEngines, 42);
             maxSpeed = BigNumberMath.plus(vStorage, maxErrorRate, 16);
             maxSpeed = Math.floor(maxSpeed);
             //maxSpeed = (( aveIteration * trackEngines) + maxErrorRate );
-        } else {
+        }
+        else
+        {
             // aveIteration * trackEngines - maxErrorRate
             vStorage = BigNumberMath.times(aveIteration, trackEngines, 42);
             maxSpeed = BigNumberMath.minus(vStorage, maxErrorRate, 0);
             maxSpeed = Math.floor(maxSpeed);
             //maxSpeed = (( aveIteration * trackEngines) - maxErrorRate );
         }
-        if ( doNotSkipThisTrack === currentTrackNumber ) {
-            if (Js.getIsDebugMessage()) {
+        if ( doNotSkipThisTrack === currentTrackNumber )
+        {
+            if (Js.getIsDebugMessage())
+            {
                 console.debug("******************* orbitDist=" + orbitDist)
                 console.debug("galaxyRadius=" + galaxyRadius)
                 console.debug("pIe=" + pIe)
@@ -245,21 +247,24 @@ function calc(myTableModel) {
             }
         }
         // minSpeed
-        if ( trackEngines <= 0 ) {
+        if ( trackEngines <= 0 )
+        {
             vStorage = BigNumberMath.times(minIteration, trackEngines, 42);
             minSpeed = BigNumberMath.minus(vStorage, minErrorRate, 13);
-            if ( doNotSkipThisTrack === currentTrackNumber ) {
-                if (Js.getIsDebugMessage())
-                    console.debug("minSpeed: minIteration * trackEngines - minErrorRate=" + minIteration + " * " + trackEngines + " - " + minErrorRate + " = " + minSpeed)
+            if ( doNotSkipThisTrack === currentTrackNumber )
+            {
+                if (Js.getIsDebugMessage())  console.debug("minSpeed: minIteration * trackEngines - minErrorRate=" + minIteration + " * " + trackEngines + " - " + minErrorRate + " = " + minSpeed)
             }
             minSpeed = Math.floor(minSpeed);
             //minSpeed = (( minIteration * trackEngines) - minErrorRate );
-        } else {
+        }
+        else
+        {
             minSpeed = BigNumberMath.times(minIteration, trackEngines, 42);
             minSpeed = BigNumberMath.plus(minSpeed, minErrorRate, 13);
-            if ( doNotSkipThisTrack === currentTrackNumber ) {
-                if (Js.getIsDebugMessage())
-                   console.debug("minSpeed: minIteration * trackEngines - minErrorRate=" + minIteration + " * " + trackEngines + " + " + minErrorRate + " = " + minSpeed)
+            if ( doNotSkipThisTrack === currentTrackNumber )
+            {
+                if (Js.getIsDebugMessage()) console.debug("minSpeed: minIteration * trackEngines - minErrorRate=" + minIteration + " * " + trackEngines + " + " + minErrorRate + " = " + minSpeed)
             }
             minSpeed = Math.floor(minSpeed);
             //minSpeed = (( minIteration * trackEngines) + minErrorRate );
@@ -267,40 +272,49 @@ function calc(myTableModel) {
         // lpFrequency
         lpFrequency = BigNumberMath.times(maxSpeed, ringSunFirst, 4);
         lpFrequency = lpFrequency.substring(0, lpFrequency.length - 1)
-        if (Js.getIsDebugMessage())
-            console.debug("lpFrequency: maxSpeed * ringSunFirst = " + maxSpeed + " * " + ringSunFirst  + " = " + lpFrequency)
+        if (Js.getIsDebugMessage()) console.debug("lpFrequency: maxSpeed * ringSunFirst = " + maxSpeed + " * " + ringSunFirst  + " = " + lpFrequency)
         // lpFrequency = ( maxSpeed * ringSunFirst );
         // trackFreq
         //console.debug("minSpeed=" + minSpeed + " abs(minSpeed)=" + abs(minSpeed))
         trackFreq = BigNumberMath.times(trackFreqMultiplier, BigNumberMath.abs(minSpeed), 16);
         // These Calculations are meaningless
-        if ( trackEngines === trinaryEngines || trackEngines === 0 || trackEngines === 1 || trackEngines === -1) {
+        if ( trackEngines === trinaryEngines || trackEngines === 0 || trackEngines === 1 || trackEngines === -1)
+        {
             trackFreq = 0;
         }
         // Now do the Math
-        if ( trackFreq !== 0 ) {
+        if ( trackFreq !== 0 )
+        {
             trackFreq = BigNumberMath.dividedBy(1, trackFreq, 16);
         }
         // Format: Round
-        if ( trackEngines <= 0 ) {
+        if ( trackEngines <= 0 )
+        {
             trackFreq = BigNumberMath.format(trackFreq, 0);
-        } else {
+        }
+        else
+        {
             trackFreq = BigNumberMath.format(trackFreq, 0);
         }
         //
         currentNth = currentNth + 1;
-        if ( printNthTrack === currentNth ) {
+        if ( printNthTrack === currentNth )
+        {
             currentNth = 0;
             printThis = 1;
-        } else {
+        }
+        else
+        {
             printThis = 0;
         }
         // always show 666 or Life Track
-        if ( doNotSkipThisTrack === currentTrackNumber ) {
+        if ( doNotSkipThisTrack === currentTrackNumber )
+        {
             printThis = 1;
         }
         //
-        if ( printThis === 1 ) {
+        if ( printThis === 1 )
+        {
             // 666 | 333 | 666,666 | 333,333 | 6.66666 | 1,011,954,093,357,316,200 | 30,000,030
             // 666 | 666 |
             //console.debug("trackEngines=" + trackEngines)
@@ -321,7 +335,7 @@ function calc(myTableModel) {
         maxErrorRate = maxErrorRate + 1;
         minErrorRate = minErrorRate + 1;
     } // end for currentTrackNumber < totalTracks
-    console.debug("########### calc finished ############################")
+    if (Js.getIsDebugMessage()) console.debug("########### calc finished ############################")
 } // end calc
 /* ****************************************************************************
  *

@@ -196,8 +196,9 @@
  *
  * TODO: Add support for NaN and Infinity.
  */
-BigNumber.evaluate = (function () {
-  var index,
+BigNumber.evaluate = (function ()
+{
+    var index,
     token,
     TOKENIZER,
     TOKENS,
@@ -206,243 +207,282 @@ BigNumber.evaluate = (function () {
     DEFAULT_TOKENIZER = TOKENIZER = /(?:(\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|(0)|(\)))(?=([\w($\u221A\u0370-\u03FF]|!(?!=))?)|([!<>=]=|[-+*\/(^%><!\u221A,]|&&|\|\|)|\S/g,
     VALID_IDENTIFIER = /^[a-zA-Z_$\u0370-\u03FF][\w\u0370-\u03FF$]*$/,
 
-    OPERATORS = (function () {
-      var ops = {},
+    OPERATORS = (function ()
+    {
+        var ops = {},
 
         // lbp: left binding power.
-        add = function (op, lbp, fn, prefix) {
-          var obj = {};
+        add = function (op, lbp, fn, prefix)
+        {
+            var obj = {};
 
-          if ((obj.lbp = lbp)) {
-            obj.infix =
-              typeof fn == 'string'
-                ? lbp < 50 // I.e. comparison methods returning true/false
-                  ? function (left) { return new BigNumber(+left[fn](evaluate(lbp))); }
-                  : function (left) { return left[fn](evaluate(lbp)); }
+            if ((obj.lbp = lbp))
+            {
+                // I.e. comparison methods returning true/false
+                obj.infix = typeof fn == 'string' ? lbp < 50 ? function (left) { return new BigNumber(+left[fn](evaluate(lbp))); }
+                : function (left) { return left[fn](evaluate(lbp)); }
                 : fn;
 
-            if (prefix) obj.prefix = prefix;
-          } else {
-            obj.prefix = fn;
-          }
+                if (prefix) obj.prefix = prefix;
+            }
+            else
+            {
+                obj.prefix = fn;
+            }
 
-          ops[(obj.val = op)] = obj;
+            ops[(obj.val = op)] = obj;
         };
 
-      add('^', 80, function (left) { return left.pow(evaluate(79)); });
-      add('*', 60, 'times');
-      add('/', 60, 'div');
-      add('%', 60, 'mod');
-      add('+', 50, 'plus', function () { return evaluate(70); });
-      add('-', 50, 'minus', function () {
-        var r = new BigNumber(evaluate(70));
-        r.s = -r.s;
-        return r;
-      });
-      add('>', 40, 'gt');
-      add('>=', 40, 'gte');
-      add('<', 40, 'lt');
-      add('<=', 40, 'lte');
-      add('==', 30, 'eq');
-      add('!=', 30, function (left) { return new BigNumber(+!left.eq(evaluate(30))); });
-      add('&&', 20, function (left) {
-        var r = evaluate(20);
-        return left.isZero() ? left : r;
-      });
-      add('||', 10, function (left) {
-        var r = evaluate(10);
-        return left.isZero() ? r : left;
-      });
-      add('\u221A', 0, function () { return evaluate(79).sqrt(); });
+        add('^', 80, function (left) { return left.pow(evaluate(79)); });
+        add('*', 60, 'times');
+        add('/', 60, 'div');
+        add('%', 60, 'mod');
+        add('+', 50, 'plus', function () { return evaluate(70); });
+        add('-', 50, 'minus', function ()
+        {
+            var r = new BigNumber(evaluate(70));
+            r.s = -r.s;
+            return r;
+        });
+        add('>', 40, 'gt');
+        add('>=', 40, 'gte');
+        add('<', 40, 'lt');
+        add('<=', 40, 'lte');
+        add('==', 30, 'eq');
+        add('!=', 30, function (left) { return new BigNumber(+!left.eq(evaluate(30))); });
+        add('&&', 20, function (left)
+        {
+            var r = evaluate(20);
+            return left.isZero() ? left : r;
+        });
+        add('||', 10, function (left)
+        {
+            var r = evaluate(10);
+            return left.isZero() ? r : left;
+        });
+        add('\u221A', 0, function () { return evaluate(79).sqrt(); });
 
-      // If 'left' is 0 return 1 else return 0.
-      add('!', 0, function () { return new BigNumber(+(evaluate(70).isZero())); });
-      add('(', 0, function () {
-        var r = evaluate(0);
-        if (token.val != ')') throw err + 'expected )';
-        token = TOKENS[++index];
-        return r;
-      });
-      add(')', 0);
-      add(',', 0);
+        // If 'left' is 0 return 1 else return 0.
+        add('!', 0, function () { return new BigNumber(+(evaluate(70).isZero())); });
+        add('(', 0, function ()
+        {
+            var r = evaluate(0);
+            if (token.val !== ')') throw err + 'expected )';
+            token = TOKENS[++index];
+            return r;
+        });
+        add(')', 0);
+        add(',', 0);
 
-      return ops;
+        return ops;
     })(),
 
-    func_prefix = function () {
-      var args = [];
+    func_prefix = function ()
+    {
+        var args = [];
 
-      if (token.val != '(') throw err + 'expected (';
-      token = TOKENS[++index];
+        if (token.val !== '(') throw err + 'expected (';
+        token = TOKENS[++index];
 
-      if (token.val != ')') {
-        while (true) {
-          args.push(evaluate(0));
+        if (token.val !== ')')
+        {
+            while (true) {
+                args.push(evaluate(0));
 
-          if (token.val != ',') {
-            if (token.val != ')') throw err + 'expected )';
-            break;
-          }
-          token = TOKENS[++index];
+                if (token.val !== ',')
+                {
+                    if (token.val !== ')') throw err + 'expected )';
+                    break;
+                }
+                token = TOKENS[++index];
+            }
         }
-      }
-      token = TOKENS[++index];
+        token = TOKENS[++index];
 
-      return new BigNumber(SCOPE[this.val].apply(null, args));
+        return new BigNumber(SCOPE[this.val].apply(null, args));
     },
 
     var_prefix = function () { return SCOPE[this.val]; },
 
     num_prefix = function () { return this.val; },
 
-    evaluate = function (rbp) {
-      var left,
+    evaluate = function (rbp)
+    {
+        var left,
         t = token;
 
-      if (!t.prefix) throw err + 'unexpected ' + (t.val == 'end' ? 'end' : 'symbol: ' + t.val);
+        if (!t.prefix) throw err + 'unexpected ' + (t.val === 'end' ? 'end' : 'symbol: ' + t.val);
 
-      token = TOKENS[++index];
-      left = t.prefix();
-
-      while (rbp < token.lbp) {
-        t = token;
         token = TOKENS[++index];
-        left = t.infix(left);
-      }
+        left = t.prefix();
 
-      // 'left' is returned to 'infix' or 'prefix', or it may be the final result.
-      return left;
+        while (rbp < token.lbp)
+        {
+            t = token;
+            token = TOKENS[++index];
+            left = t.infix(left);
+        }
+
+        // 'left' is returned to 'infix' or 'prefix', or it may be the final result.
+        return left;
     };
 
-  return function (expression, scope) {
-    var arr,
-      id,
-      parsed,
-      val,
-      has = Object.prototype.hasOwnProperty;
+    return function (expression, scope)
+    {
+        var arr,
+        id,
+        parsed,
+        val,
+        has = Object.prototype.hasOwnProperty;
 
-    // Update SCOPE and reuse existing TOKENS.
-    if (expression && typeof expression == 'object') {
-      scope = expression;
+        // Update SCOPE and reuse existing TOKENS.
+        if (expression && typeof expression == 'object')
+        {
+            scope = expression;
 
-      for (id in scope) {
-        if (has.call(SCOPE, id)) {
-          val = scope[id];
+            for (id in scope)
+            {
+                if (has.call(SCOPE, id))
+                {
+                    val = scope[id];
 
-          if (typeof SCOPE[id] == 'function') {
-            if (typeof val == 'function') {
-              SCOPE[id] = val;
-            } else {
-              throw err + 'not a function: ' + id + ': ' + val;
+                    if (typeof SCOPE[id] == 'function')
+                    {
+                        if (typeof val == 'function')
+                        {
+                            SCOPE[id] = val;
+                        }
+                        else
+                        {
+                            throw err + 'not a function: ' + id + ': ' + val;
+                        }
+                    }
+                    else
+                    {
+                        SCOPE[id] = new BigNumber(val);
+                    }
+                }
+                else
+                {
+                    throw err + 'identifier not in scope: ' + id;
+                }
             }
-          } else {
-            SCOPE[id] = new BigNumber(val);
-          }
-        } else {
-          throw err + 'identifier not in scope: ' + id;
+
+            if (!TOKENS) return null;
         }
-      }
+        else
+        {
 
-      if (!TOKENS) return null;
-    } else {
+            // Create new SCOPE.
+            if (scope && typeof scope == 'object')
+            {
+                SCOPE = {};
+                arr = [];
 
-      // Create new SCOPE.
-      if (scope && typeof scope == 'object') {
-        SCOPE = {};
-        arr = [];
+                for (id in scope)
+                {
+                    if (has.call(scope, id))
+                    {
 
-        for (id in scope) {
-          if (has.call(scope, id)) {
+                        // Allow characters in Unicode 'Greek and Coptic' range: \u0370-\u03FF
+                        // VALID_IDENTIFIER: /^[a-zA-Z\u0370-\u03FF_$][\w\u0370-\u03FF$]*$/
+                        if (!VALID_IDENTIFIER.test(id)) throw err + 'invalid identifier: ' + id;
+                        val = scope[id];
+                        SCOPE[id] = typeof val == 'function' ? val : new BigNumber(val);
+                        arr.push(id);
+                    }
+                }
 
-            // Allow characters in Unicode 'Greek and Coptic' range: \u0370-\u03FF
-            // VALID_IDENTIFIER: /^[a-zA-Z\u0370-\u03FF_$][\w\u0370-\u03FF$]*$/
-            if (!VALID_IDENTIFIER.test(id)) throw err + 'invalid identifier: ' + id;
-            val = scope[id];
-            SCOPE[id] = typeof val == 'function' ? val : new BigNumber(val);
-            arr.push(id);
-          }
+                if (arr[0])
+                {
+                    arr.sort(function (a, b) { return b.length - a.length; });
+                    TOKENIZER = new RegExp('(?:(\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)|(' + arr.join('|').replace(/\$/g, '\\$') + ')|(\\)))(?=([\\w($\\u221A\\u0370-\\u03FF]|!(?!=))?)|([!<>=]=|[-+*\\/(^%><!\\u221A,]|&&|\\|\\|)|\\S', 'g');
+                }
+                else
+                {
+                    TOKENIZER = DEFAULT_TOKENIZER;
+                }
+
+                // Clear SCOPE.
+            }
+            else if (scope === null)
+            {
+                SCOPE = null;
+                TOKENIZER = DEFAULT_TOKENIZER;
+            }
+
+            // Tokenize.
+            if (expression !== null && /\S/.test((expression += '')))
+            {
+                parsed = '';
+                TOKENS = [];
+                TOKENIZER.lastIndex = 0;
+
+                // × multiplication \xd7  (215)
+                // ÷ division       \xf7  (247)
+                // Uncomment the line below to support the use of the above multiplication and division symbols.
+                // expression = expression.replace(/\xd7/g, '*').replace(/\xf7/g, '/');
+
+                // Uncomment the line below to support the use of '**' for the power operation, as well as '^'.
+                expression = expression.replace(/\*\*/g, '^');
+
+                // Example TOKENIZER with capture groups numbered (and a scope with a variable 'x' and a function 'y'):
+                //    1                                2     3       4                                    5
+                // (?:(\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|(x|y)|(\)))(?=([\w($\u221A\u0370-\u03FF]|!(?!=))?)|([!<>=]=|[-+*\/(^%><!\u221A,]|&&|\|\|)|\S
+                while ((arr = TOKENIZER.exec(expression)))
+                {
+                    // BigNumber.
+                    if ((val = arr[1]))
+                    {
+                        token = { val: new BigNumber(val), prefix: num_prefix };
+
+                        // Operator.
+                    }
+                    else if ((val = arr[5] || arr[3]))
+                    {
+                        token = OPERATORS[val];
+
+                        // Function/variable.
+                    }
+                    else if ((val = arr[2]))
+                    {
+                        token = typeof SCOPE[val] == 'function' ? ((arr[4] = null), { val: val, prefix: func_prefix }) : { val: val, prefix: var_prefix };
+                    }
+                    else
+                    {
+                        TOKENS = null;
+                        throw err + 'unknown symbol: ' + arr[0].charAt(0);
+                    }
+
+                    TOKENS.push(token);
+                    parsed += val;
+
+                    // Add '*' if a number is followed by a variable, square root, '(' or '!', OR a variable
+                    // or ')' is followed by a number, variable, square root, '(' or '!'.
+                    if (arr[4])
+                    {
+                        TOKENS.push(OPERATORS['*']);
+                        parsed += '*';
+                    }
+                }
+
+                BigNumber.evaluate.expression = parsed;
+                TOKENS.push({ val: 'end' });
+            }
+            else if (expression !== void 0 || !TOKENS)
+            {
+                // 'expression' is null, undefined, '' or white-space.
+                return (BigNumber.evaluate.expression = TOKENS = null);
+            }
+            // else re-evaluate existing TOKENS if 'expression' is undefined.
         }
 
-        if (arr[0]) {
-          arr.sort(function (a, b) { return b.length - a.length; });
-          TOKENIZER = new RegExp(
-            '(?:(\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?)|(' + arr.join('|').replace(/\$/g, '\\$') +
-              ')|(\\)))(?=([\\w($\\u221A\\u0370-\\u03FF]|!(?!=))?)|([!<>=]=|[-+*\\/(^%><!\\u221A,]|&&|\\|\\|)|\\S', 'g'
-          );
-        } else {
-          TOKENIZER = DEFAULT_TOKENIZER;
-        }
+        // Evaluate tokens.
+        token = TOKENS[(index = 0)];
+        val = new BigNumber(evaluate(0));
 
-        // Clear SCOPE.
-      } else if (scope === null) {
-        SCOPE = null;
-        TOKENIZER = DEFAULT_TOKENIZER;
-      }
+        if (token.val !== 'end') throw err + 'unexpected symbol: ' + token.val;
 
-      // Tokenize.
-      if (expression != null && /\S/.test((expression += ''))) {
-        parsed = '';
-        TOKENS = [];
-        TOKENIZER.lastIndex = 0;
-
-        // × multiplication \xd7  (215)
-        // ÷ division       \xf7  (247)
-        // Uncomment the line below to support the use of the above multiplication and division symbols.
-        // expression = expression.replace(/\xd7/g, '*').replace(/\xf7/g, '/');
-
-        // Uncomment the line below to support the use of '**' for the power operation, as well as '^'.
-        expression = expression.replace(/\*\*/g, '^');
-
-        // Example TOKENIZER with capture groups numbered (and a scope with a variable 'x' and a function 'y'):
-        //    1                                2     3       4                                    5
-        // (?:(\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|(x|y)|(\)))(?=([\w($\u221A\u0370-\u03FF]|!(?!=))?)|([!<>=]=|[-+*\/(^%><!\u221A,]|&&|\|\|)|\S
-        while ((arr = TOKENIZER.exec(expression))) {
-          // BigNumber.
-          if ((val = arr[1])) {
-            token = { val: new BigNumber(val), prefix: num_prefix };
-
-            // Operator.
-          } else if ((val = arr[5] || arr[3])) {
-            token = OPERATORS[val];
-
-            // Function/variable.
-          } else if ((val = arr[2])) {
-            token =
-              typeof SCOPE[val] == 'function'
-                ? ((arr[4] = null), { val: val, prefix: func_prefix })
-                : { val: val, prefix: var_prefix };
-          } else {
-            TOKENS = null;
-            throw err + 'unknown symbol: ' + arr[0].charAt(0);
-          }
-
-          TOKENS.push(token);
-          parsed += val;
-
-          // Add '*' if a number is followed by a variable, square root, '(' or '!', OR a variable
-          // or ')' is followed by a number, variable, square root, '(' or '!'.
-          if (arr[4]) {
-            TOKENS.push(OPERATORS['*']);
-            parsed += '*';
-          }
-        }
-
-        BigNumber.evaluate.expression = parsed;
-        TOKENS.push({ val: 'end' });
-      } else if (expression !== void 0 || !TOKENS) {
-
-        // 'expression' is null, undefined, '' or white-space.
-        return (BigNumber.evaluate.expression = TOKENS = null);
-      }
-      // else re-evaluate existing TOKENS if 'expression' is undefined.
-    }
-
-    // Evaluate tokens.
-    token = TOKENS[(index = 0)];
-    val = new BigNumber(evaluate(0));
-
-    if (token.val != 'end') throw err + 'unexpected symbol: ' + token.val;
-
-    return val;
-  };
+        return val;
+    };
 })();

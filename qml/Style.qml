@@ -13,5 +13,9 @@ QtObject
     property color textColorError: "red"
     property color textColorWarning: "purple"
     property color textColorCaution: "yellow"
+    property color borderColor: "black"
+    property color gradientColorStart: "lightsteelblue"
+    property color gradientColorStop: "blue"
+    property color backgroundColor: "aliceblue"
 }
 /* ***************************** End of File ******************************* */

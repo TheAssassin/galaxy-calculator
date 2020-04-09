@@ -9,117 +9,141 @@ import QtQuick.Layouts 1.12
 Page
 {
     title: qsTr("Energy Calculator")
+    property int myHeight: 42
     /* ************************************************************************
-     * Column
+     * Rectangle
      */
-    Column
+    Rectangle
     {
-        id: columnMain
-        anchors.right: parent.right
-        anchors.rightMargin: 13
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 8
-        anchors.left: parent.left
-        anchors.leftMargin: 6
-        anchors.top: parent.top
-        anchors.topMargin: 6
-        Component.onCompleted: {
-            calculatIt();
-        }
-        /* ********************************************************************
-         * Fire Resonant Frequency
+        id: pageRectangle
+        color: Style.backgroundColor
+        anchors.fill: parent
+        /* ************************************************************************
+         * Column
          */
-        Text {
-            id: appTextFrF
-            text: qsTr("Enter Fire Resonant in Frequency, Wavelength or Percentage")
-            color: Style.textColor
-        }
-
-        TextEdit {
-            id: appTextFieldFrF
-            width: 333
-            text: "100"
-            color: Style.textEditColor
-        }
-
-        Slider {
-            id: appSliderFrf
-            width: 609
-            height: 42
+        Column
+        {
+            id: columnMain
             anchors.right: parent.right
-            anchors.rightMargin: 3
+            anchors.rightMargin: 13
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 8
             anchors.left: parent.left
-            anchors.leftMargin: 3
-            value: 100
-            to: 100
-            onPositionChanged: {
-                appTextFieldFrF.text = Math.round(appSliderFrf.position * 100);
+            anchors.leftMargin: 6
+            anchors.top: parent.top
+            anchors.topMargin: 6
+            Component.onCompleted:
+            {
                 calculatIt();
             }
-        }
-        /* ********************************************************************
-         * X
-         */
-        Text {
-            id: appTextX
-            text: qsTr("Enter X for the current value")
-            color: Style.textColor
-        }
+            /* ********************************************************************
+             * Fire Resonant Frequency
+             */
+            Text
+            {
+                id: appTextFrF
+                text: qsTr("Enter Fire Resonant in Frequency, Wavelength or Percentage")
+                color: Style.textColor
+            }
 
-        TextEdit {
-            id: appTextFieldX
-            width: 333
-            text: "66"
-            color: Style.textEditColor
-        }
+            TextEdit
+            {
+                id: appTextFieldFrF
+                width: 333
+                text: "100"
+                color: Style.textEditColor
+            }
 
-        Slider {
-            id: appSliderX
-            height: 42
-            anchors.left: parent.left
-            anchors.leftMargin: 3
-            anchors.right: parent.right
-            anchors.rightMargin: 3
-            value: 66
-            to: 100
-            onPositionChanged: {
-                appTextFieldX.text = Math.round(appSliderX.position * 100);
-                calculatIt();
+            Slider
+            {
+                id: appSliderFrf
+                width: 609
+                height: 42
+                anchors.right: parent.right
+                anchors.rightMargin: 3
+                anchors.left: parent.left
+                anchors.leftMargin: 3
+                value: 100
+                to: 100
+                onPositionChanged:
+                {
+                    appTextFieldFrF.text = Math.round(appSliderFrf.position * 100);
+                    calculatIt();
+                }
             }
-        }
-        /* ********************************************************************
-         * appButtonCalculate
-         */
-        Button {
-            id: appButtonCalculate
-            text: qsTr("Calculate")
-            onClicked: {
-                calculatIt();
+            /* ********************************************************************
+             * X
+             */
+            Text
+            {
+                id: appTextX
+                text: qsTr("Enter X for the current value")
+                color: Style.textColor
             }
-        }
-        /* ********************************************************************
-         * appTextEditAnswer
-         */
-        TextEdit {
-            id: appTextEditAnswer
-            width: 200
-            text: qsTr("Energy")
-            color: Style.textEditColor
-        }
-        /* ********************************************************************
-         * appTextEditFormula
-         */
-        TextEdit {
-            id: appTextEditFormula
-            width: 200
-            text: qsTr("Formula")
-            color: Style.textEditColor
-        }
-    } // end Column
+
+            TextEdit
+            {
+                id: appTextFieldX
+                width: 333
+                text: "66"
+                color: Style.textEditColor
+            }
+
+            Slider
+            {
+                id: appSliderX
+                height: 42
+                anchors.left: parent.left
+                anchors.leftMargin: 3
+                anchors.right: parent.right
+                anchors.rightMargin: 3
+                value: 66
+                to: 100
+                onPositionChanged:
+                {
+                    appTextFieldX.text = Math.round(appSliderX.position * 100);
+                    calculatIt();
+                }
+            }
+            /* ********************************************************************
+             * appButtonCalculate
+             */
+            Button
+            {
+                id: appButtonCalculate
+                text: qsTr("Calculate")
+                onClicked:
+                {
+                    calculatIt();
+                }
+            }
+            /* ********************************************************************
+             * appTextEditAnswer
+             */
+            TextEdit
+            {
+                id: appTextEditAnswer
+                width: 200
+                text: qsTr("Energy")
+                color: Style.textEditColor
+            }
+            /* ********************************************************************
+             * appTextEditFormula
+             */
+            TextEdit
+            {
+                id: appTextEditFormula
+                width: 200
+                text: qsTr("Formula")
+                color: Style.textEditColor
+            }
+        } // end Column
+    } // end Rectangle
     /* ********************************************************************
      * calculatIt
      */
-    function calculatIt() {
+    function calculatIt()
+    {
         var f = appTextFieldFrF.text;
         var x = appTextFieldX.text;
         appTextEditAnswer.text = qsTr("Energy") + " = " + (f - (f - x));

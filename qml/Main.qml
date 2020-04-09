@@ -13,7 +13,7 @@ ApplicationWindow
     id: mainWindowId
     property int myTheme: 1; // Light = 1 or Dark = 0
     visible: true
-    width: 1496
+    width: 1796
     height: 1196
     title: qsTr("Trinary Galaxy Calculator")
     /* ****************************************************************************
@@ -22,20 +22,23 @@ ApplicationWindow
      */
     Component.onCompleted:
     {
-        switch(myTheme) {
+        switch(myTheme)
+        {
           case 0: // "Dark"
-              doTheme(Material.Dark);
+              doTheme(0);
             break;
           case 1: // "Light"
           default:
-              doTheme(Material.Light);
+              doTheme(1);
         } // end switch
     } // end onCompleted
     /* ****************************************************************************
      * doTheme
      */
-    function doTheme(myTheme) {
-        switch(myTheme) {
+    function doTheme(myTheme)
+    {
+        switch(myTheme)
+        {
             case 0: // Material.Dark
                 Material.theme = Material.Dark
                 Material.accent = Material.Blue;
@@ -46,6 +49,10 @@ ApplicationWindow
                 Style.textColorError = "red";
                 Style.textColorWarning = "purple";
                 Style.textColorCaution = "yellow";
+                Style.borderColor = "black"
+                Style.gradientColorStart = "lightsteelblue"
+                Style.gradientColorStop = "blue"
+                Style.backgroundColor = "grey"
                 galaxyCalculatorPage.headerBgColor = "grey";
                 galaxyCalculatorPage.headerFgColor = "white";
                 galaxyCalculatorPage.dataBgColor = "silver";
@@ -63,6 +70,10 @@ ApplicationWindow
                 Style.textColorError = "red";
                 Style.textColorWarning = "purple";
                 Style.textColorCaution = "yellow";
+                Style.borderColor = "black"
+                Style.gradientColorStart = "lightsteelblue"
+                Style.gradientColorStop = "blue"
+                Style.backgroundColor = "aliceblue"
                 galaxyCalculatorPage.headerBgColor = "silver";
                 galaxyCalculatorPage.headerFgColor = "white";
                 galaxyCalculatorPage.dataBgColor = "white";
@@ -93,7 +104,8 @@ ApplicationWindow
 
         onCurrentIndexChanged:
         {
-            if (currentIndex == 1) {
+            if (currentIndex == 1)
+            {
                 galaxyCalculatorPage.busyTimer.start();
             }
         } // end onCurrentIndexChanged

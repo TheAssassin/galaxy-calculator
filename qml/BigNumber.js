@@ -1,8 +1,8 @@
 ;(function (globalObject) {
-  ;'use strict';
+  'use strict';
 
 /*
- *      bignumber.js v8.1.1
+ *      bignumber.js v9.0.0
  *      A JavaScript library for arbitrary-precision arithmetic.
  *      https://github.com/MikeMcl/bignumber.js
  *      Copyright (c) 2019 Michael Mclaughlin <M8ch88l@gmail.com>
@@ -51,8 +51,6 @@
 
   var BigNumber,
     isNumeric = /^-?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i,
-    hasSymbol = typeof Symbol == 'function' && typeof Symbol.iterator == 'symbol',
-
     mathceil = Math.ceil,
     mathfloor = Math.floor,
 
@@ -181,20 +179,13 @@
      * [b] {number} The base of v. Integer, 2 to ALPHABET.length inclusive.
      */
     function BigNumber(v, b) {
-        var alphabet;
-        var c;
-        var caseChanged;
-        var e;
-        var i;
-        var isNum;
-        var len;
-        var str;
-        var x = this;
-        //console.debug("BigNumber(" + v + ", " + b + ")")
+      var alphabet, c, caseChanged, e, i, isNum, len, str,
+        x = this;
+
       // Enable constructor call without `new`.
       if (!(x instanceof BigNumber)) return new BigNumber(v, b);
 
-      if (b === undefined) {
+      if (b == null) {
 
         if (v && v._isBigNumber === true) {
           x.s = v.s;
@@ -235,7 +226,7 @@
 
           if (!isNumeric.test(str = String(v))) return parseNumeric(x, str, isNum);
 
-          x.s = str.charCodeAt(0) === 45 ? (str = str.slice(1), -1) : 1;
+          x.s = str.charCodeAt(0) == 45 ? (str = str.slice(1), -1) : 1;
         }
 
         // Decimal point?
@@ -261,7 +252,7 @@
 
         // Allow exponential notation to be used with base 10 argument, while
         // also rounding to DECIMAL_PLACES as with other bases.
-        if (b === 10) {
+        if (b == 10) {
           x = new BigNumber(v);
           return round(x, DECIMAL_PLACES + x.e + 1, ROUNDING_MODE);
         }
@@ -277,7 +268,8 @@
 
           // '[BigNumber Error] Number primitive has more than 15 significant digits: {n}'
           if (BigNumber.DEBUG && str.replace(/^0\.0*|\./, '').length > 15) {
-            throw new Error(tooManyDigits + v);
+            throw Error
+             (tooManyDigits + v);
           }
         } else {
           x.s = str.charCodeAt(0) === 45 ? (str = str.slice(1), -1) : 1;
@@ -290,7 +282,7 @@
         // Don't use RegExp, so alphabet can contain special characters.
         for (len = str.length; i < len; i++) {
           if (alphabet.indexOf(c = str.charAt(i)) < 0) {
-            if (c === '.') {
+            if (c == '.') {
 
               // If '.' is not the first character and it has not be found before.
               if (i > e) {
@@ -300,8 +292,8 @@
             } else if (!caseChanged) {
 
               // Allow e.g. hexadecimal 'FF' as well as 'ff'.
-              if (str === str.toUpperCase() && (str = str.toLowerCase()) ||
-                  str === str.toLowerCase() && (str = str.toUpperCase())) {
+              if (str == str.toUpperCase() && (str = str.toLowerCase()) ||
+                  str == str.toLowerCase() && (str = str.toUpperCase())) {
                 caseChanged = true;
                 i = -1;
                 e = 0;
@@ -334,7 +326,7 @@
         // '[BigNumber Error] Number primitive has more than 15 significant digits: {n}'
         if (isNum && BigNumber.DEBUG &&
           len > 15 && (v > MAX_SAFE_INTEGER || v !== mathfloor(v))) {
-            throw new Error
+            throw Error
              (tooManyDigits + (x.s * v));
         }
 
@@ -549,9 +541,9 @@
           if (obj.hasOwnProperty(p = 'ALPHABET')) {
             v = obj[p];
 
-            // Disallow if only one character,
+            // Disallow if less than two characters,
             // or if it contains '+', '-', '.', whitespace, or a repeated character.
-            if (typeof v == 'string' && !/^.$|[+-.\s]|(.).*\1/.test(v)) {
+            if (typeof v == 'string' && !/^.?$|[+\-.\s]|(.).*\1/.test(v)) {
               ALPHABET = v;
             } else {
               throw Error
@@ -2752,13 +2744,6 @@
 
     P._isBigNumber = true;
 
-    if (hasSymbol) {
-      P[Symbol.toStringTag] = 'BigNumber';
-
-      // Node.js v10.12.0+
-      P[Symbol.for('nodejs.util.inspect.custom')] = P.valueOf;
-    }
-
     if (configObject != null) BigNumber.set(configObject);
 
     return BigNumber;
@@ -2844,7 +2829,7 @@
    */
   function intCheck(n, min, max, name) {
     if (n < min || n > max || n !== mathfloor(n)) {
-      throw new Error
+      throw Error
        (bignumberError + (name || 'Argument') + (typeof n == 'number'
          ? n < min || n > max ? ' out of range: ' : ' not an integer: '
          : ' not a primitive number: ') + String(n));

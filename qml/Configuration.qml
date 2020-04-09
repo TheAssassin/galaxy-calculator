@@ -15,6 +15,7 @@ Page
     property alias xappTextEditTrinaryEngines: appTextEditTrinaryEngines.text
     property alias xappTextEditGalaxyRadius: appTextEditGalaxyRadius.text
     property alias xappTextEditPrintNthTrack: appTextEditPrintNthTrack.text
+    property int myHeight: 42
     title: qsTr("Configuration")
     visible: true
     /* **********************************************************
@@ -25,47 +26,48 @@ Page
         id: listModelConfiguration
         Component.onCompleted:
         {
-            switch(mainWindowId.myTheme) {
-            case 0: // "Dark"
-                //console.debug("Configuration ListModel theme change = Material.Dark");
-                radioButtonDark.checked = true;
-                mainWindowId.doTheme(0);
-                break;
-            case 1: // "Light"
-            default:
-                //console.debug("Configuration ListModel theme change = Material.Light");
-                radioButtonLight.checked = true;
-                mainWindowId.doTheme(1);
+            switch(mainWindowId.myTheme)
+            {
+                case 0: // "Dark"
+                    //console.debug("Configuration ListModel theme change = Material.Dark");
+                    radioButtonDark.checked = true;
+                    mainWindowId.doTheme(0);
+                    break;
+                case 1: // "Light"
+                default:
+                    //console.debug("Configuration ListModel theme change = Material.Light");
+                    radioButtonLight.checked = true;
+                    mainWindowId.doTheme(1);
             } // end switch
         } // end Component.onCompleted
     } // end ListModel
-    /* **********************************************************
-     * GridLayout
+    /* ************************************************************************
+     * Rectangle
      */
-    GridLayout
+    Rectangle
     {
-        id: grid
-        rowSpacing: 2
-        anchors.rightMargin: 3
-        anchors.bottomMargin: 3
-        anchors.leftMargin: 3
-        anchors.topMargin: 3
+        id: pageRectangle
+        color: Style.backgroundColor
         anchors.fill: parent
-        visible: true
-        clip: false
-        flow: GridLayout.TopToBottom
-        rows: 13
-        columns: 1
-
         /* ******************************************************
-         * rowLayoutGalaxy
+         * Galaxy 1
          */
-        RowLayout
+        /* **************************************************
+         * Galaxy
+         */
+        Rectangle
         {
-            id: rowLayoutGalaxy
-            /* **************************************************
-             * Galaxy
-             */
+            id: backgroundGalaxy;
+            color: (appTextEditGalaxy.activeFocus ? Style.textColorFocus : Style.backgroundColor);
+            radius: 5;
+            antialiasing: true;
+            height: myHeight
+            width: pageRectangle.width
+            border
+            {
+                width: 3;
+                color: (appTextEditGalaxy.activeFocus ? Style.borderColor : Style.backgroundColor);
+            }
             Text
             {
                 id: appTextGalaxy
@@ -78,61 +80,107 @@ Page
             TextEdit
             {
                 id: appTextEditGalaxy
-                width: 200
                 text: qsTr("Milky Way")
                 leftPadding: 6
                 color: Style.textEditColor
+                Layout.fillWidth: true
+                anchors.left: appTextGalaxy.right
+                //activeFocus:
             }
-        } // end RowLayout
+        } // end Rectangle
         /* ******************************************************
-         * SunSize
+         * SunSize 2
          */
-        Text
+        Rectangle
         {
-            id: appTextSunSize
-            color: Style.textColor
-            text: qsTr("Sun Size in Miles in Diameter")
-            wrapMode: Text.NoWrap
-            visible: true
-            leftPadding: 6
-        }
+            id: backgroundSunSize;
+            color: (appTextEditSunSize.activeFocus ? Style.textColorFocus : Style.backgroundColor);
+            radius: 5;
+            anchors.top: backgroundGalaxy.bottom
+            height: myHeight
+            width: pageRectangle.width
+            antialiasing: true;
+            border
+            {
+                width: 3;
+                color: (appTextEditSunSize.activeFocus ? Style.borderColor : Style.backgroundColor);
+            }
+            Text
+            {
+                id: appTextSunSize
+                color: Style.textColor
+                text: qsTr("Sun Size in Miles in Diameter")
+                wrapMode: Text.NoWrap
+                visible: true
+                leftPadding: 6
+            }
 
-        TextEdit
-        {
-            id: appTextEditSunSize
-            width: 266
-            text: "864575.9"
-            leftPadding: 6
-            color: Style.textEditColor
+            TextEdit
+            {
+                id: appTextEditSunSize
+                text: "864575.9"
+                anchors.left: appTextSunSize.right
+                anchors.leftMargin: 6
+                leftPadding: 6
+                color: Style.textEditColor
+                Layout.fillWidth: true
+            }
         }
         /* ******************************************************
-         * LivalbePlanetSize
+         * LivalbePlanetSize 3
          */
-        Text
+        Rectangle
         {
-            id: appTextLivalbePlanetSize
-            color: Style.textColor
-            text: qsTr("Livable Planet Size Miles in Diameter")
-            visible: true
-            leftPadding: 6
-            wrapMode: Text.NoWrap
-        }
+            id: backgroundLivalbePlanetSize;
+            color: (appTextEditLivalbePlanetSize.activeFocus ? Style.textColorFocus : Style.backgroundColor);
+            radius: 5;
+            anchors.top: backgroundSunSize.bottom
+            height: myHeight
+            width: pageRectangle.width
+            antialiasing: true;
+            border
+            {
+                width: 3;
+                color: (appTextEditLivalbePlanetSize.activeFocus ? Style.borderColor : Style.backgroundColor);
+            }
+            Text
+            {
+                id: appTextLivalbePlanetSize
+                color: Style.textColor
+                text: qsTr("Livable Planet Size Miles in Diameter")
+                visible: true
+                leftPadding: 6
+                wrapMode: Text.NoWrap
+            }
 
-        TextEdit
-        {
-            id: appTextEditLivalbePlanetSize
-            width: 266
-            text: "7926.2109"
-            leftPadding: 6
-            color: Style.textEditColor
+            TextEdit
+            {
+                id: appTextEditLivalbePlanetSize
+                text: "7926.2109"
+                anchors.left: appTextLivalbePlanetSize.right
+                anchors.leftMargin: 6
+                leftPadding: 6
+                color: Style.textEditColor
+                Layout.fillWidth: true
+            }
         }
         /* ******************************************************
-         * TrinaryEngines
+         * TrinaryEngines 4
          */
-        RowLayout
+        Rectangle
         {
-            id: rowLayoutTrinaryEngines
-            height: 33
+            id: backgroundTrinaryEngines;
+            color: (appTextEditTrinaryEngines.activeFocus ? Style.textColorFocus : Style.backgroundColor);
+            radius: 5;
+            anchors.top: backgroundLivalbePlanetSize.bottom
+            height: myHeight
+            width: pageRectangle.width
+            antialiasing: true;
+            border
+            {
+                width: 3;
+                color: (appTextEditTrinaryEngines.activeFocus ? Style.borderColor : Style.backgroundColor);
+            }
 
             Text
             {
@@ -147,40 +195,70 @@ Page
             TextEdit
             {
                 id: appTextEditTrinaryEngines
-                width: 200
                 text: "333"
+                anchors.left: appTextTrinaryEngines.right
+                anchors.leftMargin: 6
                 leftPadding: 6
                 color: Style.textEditColor
+                Layout.fillWidth: true
             }
         }
         /* ******************************************************
-         * GalaxyRadius
+         * GalaxyRadius 5
          */
-        Text
+        Rectangle
         {
-            id: appTextGalaxyRadius
-            color: Style.textColor
-            text: qsTr("Radius of Galaxy in Miles")
-            visible: true
-            leftPadding: 6
-            wrapMode: Text.NoWrap
-        }
+            id: backgroundGalaxyRadius;
+            color: (appTextEditGalaxyRadius.activeFocus ? Style.textColorFocus : Style.backgroundColor);
+            radius: 5;
+            anchors.top: backgroundTrinaryEngines.bottom
+            height: myHeight
+            width: pageRectangle.width
+            antialiasing: true;
+            border
+            {
+                width: 3;
+                color: (appTextEditGalaxyRadius.activeFocus ? Style.borderColor : Style.backgroundColor);
+            }
 
-        TextEdit
-        {
-            id: appTextEditGalaxyRadius
-            width: 293
-            text: "241828072282107.5071453596951"
-            leftPadding: 6
-            color: Style.textEditColor
+            Text
+            {
+                id: appTextGalaxyRadius
+                color: Style.textColor
+                text: qsTr("Radius of Galaxy in Miles")
+                visible: true
+                leftPadding: 6
+                wrapMode: Text.NoWrap
+            }
+
+            TextEdit
+            {
+                id: appTextEditGalaxyRadius
+                text: "241828072282107.5071453596951"
+                anchors.left: appTextGalaxyRadius.right
+                anchors.leftMargin: 6
+                leftPadding: 6
+                color: Style.textEditColor
+                Layout.fillWidth: true
+            }
         }
         /* ******************************************************
-         * PrintNthTrack
+         * PrintNthTrack 6
          */
-        RowLayout
+        Rectangle
         {
-            id: rowLayoutPrintNthTrack
-            height: 33
+            id: backgroundPrintNthTrack;
+            color: (appTextEditPrintNthTrack.activeFocus ? Style.textColorFocus : Style.backgroundColor);
+            radius: 5;
+            anchors.top: backgroundGalaxyRadius.bottom
+            height: myHeight
+            width: pageRectangle.width
+            antialiasing: true;
+            border
+            {
+                width: 3;
+                color: (appTextEditPrintNthTrack.activeFocus ? Style.borderColor : Style.backgroundColor);
+            }
 
             Text
             {
@@ -195,19 +273,23 @@ Page
             TextEdit
             {
                 id: appTextEditPrintNthTrack
-                width: 200
                 leftPadding: 6
                 text: "66"
+                anchors.left: appTextPrintNthTrack.right
+                anchors.leftMargin: 6
                 color: Style.textEditColor
+                Layout.fillWidth: true
             }
         }
         /* ******************************************************
-         * GalaxyWarning
+         * GalaxyWarning 7
          */
-        RowLayout
+        Rectangle
         {
             id: rowLayoutGalaxyWarning
-            height: 33
+            anchors.top: backgroundPrintNthTrack.bottom
+            height: myHeight
+            width: pageRectangle.width
 
             Text
             {
@@ -218,18 +300,18 @@ Page
                 leftPadding: 6
                 wrapMode: Text.NoWrap
             }
-        }
+        } // end Rectangle
         /* ******************************************************
-         * Themizer
+         * Themizer 8
          */
-        RowLayout
+        Rectangle
         {
             id: rowLayoutThemizer
+            anchors.top: rowLayoutGalaxyWarning.bottom
+            anchors.topMargin: 6
             GroupBox
             {
                 id: groupBox
-                width: 136
-                height: 96
                 title: qsTr("Theme")
 
                 Column
@@ -243,7 +325,7 @@ Page
                         text: qsTr("Light")
                         onClicked:
                         {
-                            //console.debug("Material.theme = Material.Light")
+                            //console.debug("Material.theme = Material.Light");
                             mainWindowId.myTheme = 1;
                             mainWindowId.doTheme(1);
                         }
@@ -255,7 +337,7 @@ Page
                         text: qsTr("Dark")
                         onClicked:
                         {
-                            //console.debug("Material.theme = Material.Dark")
+                            //console.debug("Material.theme = Material.Dark");
                             mainWindowId.myTheme = 0;
                             mainWindowId.doTheme(0);
                         }
@@ -263,10 +345,11 @@ Page
                 } // end Column
             } // end GroupBox
         } // end Themizer
-    } // end GridLayout
+    } // end Rectangle
 } // end Page
 /* ***************************** End of File ******************************* */
-/*##^## Designer {
+/*##^##
+Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
- ##^##*/
+##^##*/
