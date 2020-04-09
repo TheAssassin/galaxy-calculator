@@ -67,7 +67,7 @@ For more information see: [Wiki](https://github.com/Light-Wizzard/galaxy-calcula
 
 Screen Shots
 
-![Galaxy Configuration](doc/images/screenshot-config.png?raw=true "Galaxy Configuration")
+![Galaxy-Configuration](doc/images/screenshot-config.png)
 
 ![Galaxy Calculator](/doc/images/screenshot-galaxy.png?raw=true "Galaxy Calculator")
 
