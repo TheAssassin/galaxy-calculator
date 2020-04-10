@@ -11,7 +11,7 @@ os:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      sudo apt-add-repository ppa:beineri/opt-qt-5.12.7-xenial -y;
+      sudo add-apt-repository ppa:beineri/opt-qt-5.12.6-xenial -y;
       sudo apt-get update -q -y;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -48,18 +48,18 @@ script:
       make install;
     fi
 
-after_success:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-      cp GalaticCalculator*.AppImage* GalaticCalculator.run
-      bash upload.sh GalaticCalculator.run
-    fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      cd bin/;
-      zip -r -X GalaticCalculator.zip GalaticCalculator.app;
-      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-      bash upload.sh GalaticCalculator.zip
-    fi
+#after_success:
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+#      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+#      cp GalaticCalculator*.AppImage* GalaticCalculator.run
+#      bash upload.sh GalaticCalculator.run
+#    fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+#      cd bin/;
+#      zip -r -X GalaticCalculator.zip GalaticCalculator.app;
+#      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+#      bash upload.sh GalaticCalculator.zip
+#    fi
 
 branches:
   except:
