@@ -3,14 +3,14 @@ sudo: required
 dist: xenial
 
 install:
-  - sudo apt-get install -y qt5-default qttools5-dev-tools #install necessary Qt files
+  - sudo apt-get install -y qt5-default qttools5-dev-tools # install necessary Qt files
 
 script:
-  - qmake "CONFIG+=test" SimpleQtTest.pro #we gonna compile for Unit test first
+  - qmake "CONFIG+=release" GalaticCalculatorLinux.pro # test release debug
   - make
-  - ./SimpleQtTest #run unit test
-  - rm Makefile SimpleQtTest *.o #remove files (which are generated from unit test) for next build
-  - qmake "CONFIG+=debug" SimpleQtTest.pro #we gonna compile for actual program
+  - ./GalaticCalculator # run unit test
+  - rm Makefile GalaticCalculator *.o # remove files (which are generated from unit test) for next build
+  - qmake "CONFIG+=release" GalaticCalculatorLinux.pro # we gonna compile for actual program
   - make
-  - ./SimpleQtTest #run actual program
+  - ./GalaticCalculator # run actual program
 # End of File

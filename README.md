@@ -1,7 +1,7 @@
 # galaxy-calculator
 Galaxy Calculator
 
-[![Build Status](https://travis-ci.org/aknay/SimpleQtUnitTest.svg?branch=master)](https://travis-ci.org/aknay/SimpleQtUnitTest)
+[![Build Status](https://api.travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/github/Light-Wizzard/galaxy-calculator)
 
 This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop.
 

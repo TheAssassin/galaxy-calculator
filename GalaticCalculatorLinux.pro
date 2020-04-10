@@ -21,6 +21,7 @@ INCLUDEPATH += tmp/moc/release_shared
 # QMAKE_LFLAGS += -static
 
 DISTFILES += macos/Info.plist \
+  .travis.yml \
   README.md \
   qml/BigNumber.js \
   qml/BigNumberMath.js \
