@@ -1,6 +1,8 @@
 # galaxy-calculator
 Galaxy Calculator
 
+[![Build Status](https://travis-ci.org/aknay/SimpleQtUnitTest.svg?branch=master)](https://travis-ci.org/aknay/SimpleQtUnitTest)
+
 This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop.
 
 This App can be compiled for any OS that Qt supports: Linux, Windows, MAC, Android and iOS, as well as every OS that Qt supports, so this should run on most if not all popular OS's.
@@ -67,17 +69,17 @@ For more information see: [Wiki](https://github.com/Light-Wizzard/galaxy-calcula
 
 Screen Shots
 
-![Galaxy-Configuration](doc/images/screenshot-config.png)
+![Galaxy Configuration](/doc/images/screenshot-config.png?raw=true "Galaxy Configuration")
 
 ![Galaxy Calculator](/doc/images/screenshot-galaxy.png?raw=true "Galaxy Calculator")
 
-![Energy Calculator](doc/images/screenshot-energy.png?raw=true "Energy Calculator")
+![Energy Calculator](/doc/images/screenshot-energy.png?raw=true "Energy Calculator")
 
-![Madness Calculator](doc/images/screenshot-madness.png?raw=true "Madness Calculator")
+![Madness Calculator](/doc/images/screenshot-madness.png?raw=true "Madness Calculator")
 
-![World Calculator](doc/images/screenshot-world.png?raw=true "World Calculator")
+![World Calculator](/doc/images/screenshot-world.png?raw=true "World Calculator")
 
-![Calculator](doc/images/screenshot-calc.png?raw=true "Calculator")
+![Calculator](/doc/images/screenshot-calc.png?raw=true "Calculator")
 
 This is a work in progress, please report any bugs, and comments.
 

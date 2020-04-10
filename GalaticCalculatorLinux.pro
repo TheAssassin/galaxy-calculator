@@ -21,7 +21,7 @@ INCLUDEPATH += tmp/moc/release_shared
 # QMAKE_LFLAGS += -static
 
 DISTFILES += macos/Info.plist \
-  README.txt \
+  README.md \
   qml/BigNumber.js \
   qml/BigNumberMath.js \
   qml/Calculator.qml \
@@ -48,4 +48,16 @@ DISTFILES += macos/Info.plist \
   qml/images/stop-32.png\
   bash/makeappendix.a.sh bash/makeappendix.a.zip
 
+test { # the following files will be included for Unit test build
+    message(Test build)
+
+    QT += testlib #needed for QtTest
+    SOURCES -= main.cpp
+
+#    HEADERS += Test/UnitTest.h
+#    SOURCES += Test/main.cpp Test/UnitTest.cpp
+
+} else {
+    message(Normal build) #we will just show this message for Debug/Release build
+}
 ################################# End of File #################################
