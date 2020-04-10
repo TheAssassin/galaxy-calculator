@@ -12,7 +12,7 @@ os:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       sudo apt-add-repository ppa:beineri/opt-qt-5.12.7-xenial -y;
-      sudo apt-get update -qq;
+      sudo apt-get update -q -y;
     fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew install qt;
@@ -21,10 +21,10 @@ before_install:
 install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       sudo apt-get install -y debian-keyring debian-archive-keyring;
-      sudo apt-get update -q;
-      sudo apt-get install -y build-essential g++ -y;
-      sudo apt-get install libgl1-mesa-dev -y;
-      sudo apt-get install qt512-meta-full qt512base qt512tools qt512quickcontrols2 -y;
+      sudo apt-get update -q -y;
+      sudo apt-get install -y build-essential g++;
+      sudo apt-get install -y libgl1-mesa-dev;
+      sudo apt-get install -y qt512-meta-full qt512base qt512tools qt512quickcontrols2;
       source /opt/qt*/bin/qt*-env.sh
     fi
 
