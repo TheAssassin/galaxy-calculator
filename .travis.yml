@@ -1,17 +1,22 @@
+# GalaticCalculator
 # The Xenial Build Environment
 # https://launchpad.net/~beineri/+archive/ubuntu/opt-qt-5.12.7-xenial
 sudo: required
 dist: xenial
+osx_image: xcode11.3
 
 os:
   - linux
+  - osx
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      sudo apt-add-repository ppa:beineri/opt-qt-12.7-xenial -y;
-      sudo apt-get update -q;
+      sudo apt-add-repository ppa:beineri/opt-qt-5.12.7-xenial -y;
+      sudo apt-get update -qq;
     fi
-
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew install qt;
+    fi
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -19,16 +24,46 @@ install:
       sudo apt-get update -q;
       sudo apt-get install -y build-essential g++ -y;
       sudo apt-get install libgl1-mesa-dev -y;
-      sudo apt-get install qt512base qt512tools qt512quickcontrols2 qt512graphicaleffects qt512connectivity qt512svg qt512imageformats -y;
+      sudo apt-get install qt512-meta-full qt512base qt512tools qt512quickcontrols2 -y;
+      source /opt/qt*/bin/qt*-env.sh
     fi
 
+before_script:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then source /opt/qt512/bin/qt512-env.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH=$PATH:/usr/local/opt/qt/bin:/usr/local/bin; fi
+  - qmake --version
+  - qmake CONFIG+=release PREFIX=/usr
 
 script:
-#  - qmake "CONFIG+=test" GalaticCalculatorLinux.pro # test mode 
-#  - make
-#  - ./GalaticCalculator # run unit test
-#  - rm Makefile GalaticCalculator *.o # remove files (which are generated from unit test) for next build
-  - qmake "CONFIG+=release" GalaticCalculatorLinux.pro # we gonna compile for actual program
-  - make
-  - ./GalaticCalculator # run actual program
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      qmake CONFIG+=release PREFIX=/usr GalaticCalculatorLinux.pro
+      make -j$(nproc)
+      make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
+      wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+      chmod a+x linuxdeployqt-continuous-x86_64.AppImage
+      # export VERSION=... # linuxdeployqt uses this for naming the file
+      ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -qmldir=qml/ -appimage  
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      make install;
+    fi
+
+after_success:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+      cp GalaticCalculator*.AppImage* GalaticCalculator.run
+      bash upload.sh GalaticCalculator.run
+    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      cd bin/;
+      zip -r -X GalaticCalculator.zip GalaticCalculator.app;
+      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+      bash upload.sh GalaticCalculator.zip
+    fi
+
+branches:
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous)/
+
 # End of File
