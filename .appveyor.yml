@@ -31,6 +31,7 @@ install:
   - cmd: echo '%QTDIR%'
   - '%QTDIR%\bin\qtenv2.bat'
   - qmake -v
+  - cmd: echo 'qmake'
   - set PRJLIBDIR=%WINDIR%\SysWOW64 # Find vclibs
   - set QTDIR
   - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
