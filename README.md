@@ -1,6 +1,8 @@
 # Galaxy Calculator
 
-This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop.
+Galaxy Calculator is a Work in Progress, it is based on Sir Isaac Newtons Calculations, and was updated to include the Math Nikola Tesla, thus inventing a new type of Math I call Trinary Mathematics, that is used to Calculate the Galaxy.
+
+This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop and other devices.
 
 This App can be compiled for any OS that Qt supports: Linux, Windows, MAC, Android and iOS, as well as every OS that Qt supports, so this should run on most if not all popular OS's.
 
@@ -51,8 +53,6 @@ You can also get it at any major book store, but I would recommend reading it, i
 If you do not see your OS, just download, extract to a folder, and open with Qt Creator, which must be installed, and compile or run it.
 
 TableView for Qt version greater than or equal to 5.12, still has a lot of work, as a result, it does not like a few things, like changing themes on the fly, or even having a theme, and I cannot seem to get the text alignment to work, as such, the table looks ugly.
-
-Galaxy Calculator is a Work in Progress, it is based on Sir Isaac Newtons Calculations, and was updated to include the Math Nikola Tesla, thus inventing a new type of Math I call Trinary Mathematics, that is used to Calculate the Galaxy.
 
 Currently I am working on learning Qt 3D Studio so I can add a Graphical Simulator, that will have two views, one of an view of the Galaxy with a sample of Tracks, since screen space is a limiting factor, and the second view is of one Track, for closer inspection.
 My goal is to create a 3D Studio scene using on its built in features, so I can change the size of the Galaxy, Sun, Planet and Moon, and number of Tracks displayed, so that all variables can be adjusted.
