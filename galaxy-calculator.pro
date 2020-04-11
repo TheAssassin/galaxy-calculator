@@ -20,19 +20,6 @@ INCLUDEPATH += tmp/moc/release_shared
 
 # QMAKE_LFLAGS += -static
 
-win32{
-	#enter your Windows definitions here ...
-}
-
-unix{
-	macx {
-		# Mac OS X definitions should be entered here ...
-	}
-	 else {
-		# Linux definitions go here ...
-	}
-}
-
 DISTFILES += macos/Info.plist \
   .appveyor.yml \
   .travis.yml \
@@ -66,6 +53,19 @@ DISTFILES += macos/Info.plist \
   qml/images/right-32.png \
   qml/images/stop-32.png\
   bash/makeappendix.a.sh bash/makeappendix.a.zip
+
+win32{
+	#enter your Windows definitions here ...
+}
+
+unix{
+	macx {
+		# Mac OS X definitions should be entered here ...
+	}
+	 else {
+		# Linux definitions go here ...
+	}
+}
 
 #test { # the following files will be included for Unit test build
 #    message(Test build)
