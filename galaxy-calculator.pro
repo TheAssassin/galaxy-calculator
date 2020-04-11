@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = GalaxyCalculator
+TARGET = galaxy-calculator
 
 QT += qml quick quickcontrols2
 
