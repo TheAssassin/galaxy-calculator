@@ -2,8 +2,8 @@
 Type=Application
 Name=Galaxy Calculator
 Comment=Galaxy Calculator by the Light Wizzard
-Exec=GalaxyCalculator.AppImage
-Icon=galaxycalculator
+Exec=galaxy-calculator.AppImage
+Icon=galaxy-calculator
 Categories=Education;
 X-AppImage-Version=
 Name[en_US]=galaxy-calculator.desktop
