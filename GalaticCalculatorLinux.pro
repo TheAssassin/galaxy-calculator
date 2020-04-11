@@ -21,6 +21,7 @@ INCLUDEPATH += tmp/moc/release_shared
 # QMAKE_LFLAGS += -static
 
 DISTFILES += macos/Info.plist \
+  .appveyor.yml \
   .travis.yml \
   README.md \
   deploy/GalaxyCalculator.desktop \

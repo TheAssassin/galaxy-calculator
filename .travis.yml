@@ -1,82 +1,123 @@
-# GalaticCalculator
-# The Xenial Build Environment
-# https://launchpad.net/~beineri/+archive/ubuntu/opt-qt-5.12.7-xenial
-version: ~> 1.0
-
+sudo: false
 language: cpp
 
-jobs:
+branches:
+  only:
+  - master
+
+env:
+  global:
+    - BIN=GalaticCalculator
+
+matrix:
   include:
     - os: linux
       dist: xenial
+      sudo: require
+      addons:
+        apt:
+          sources:
+            # Add ppa for gcc-7
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+            # Set ppa to get a modern version of qt
+            - sourceline: 'ppa:beineri/opt-qt-5.12.6-xenial'
+          packages:
+            - g++-7
+            - git
+      env:
+        - APPIMAGE="true"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    - os: linux
+      dist: xenial
+      sudo: require
+      services: docker
+      env: WEBASM="true"
+
     - os: osx
-      osx_image: xcode7.2 # xcode11.3
-
-addons:
-  apt:
-    sources:
-      - ppa:beineri/opt-qt-5.12.6-xenial
-    packages:
-      - qt512-meta-full
-      - qt512base
-      - qt512tools 
-      - qt512quickcontrols2
-      - debian-keyring
-      - debian-archive-keyring
-      - build-essential 
-      - g++
-      - libgl1-mesa-dev
-
-compiler:
-  - gcc
-  - clang
-
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install qt;
-    fi
+      osx_image: xcode10.1
+      compiler: clang
+      env:
+        - DMG="true"
+        - MATRIX_EVAL="COMPILER=clang++"
 
 install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      source /opt/qt*/bin/qt*-env.sh
-    fi
-
-before_script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then source /opt/qt512/bin/qt512-env.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH=$PATH:/usr/local/opt/qt/bin:/usr/local/bin; fi
-  - qmake --version
-  - qmake CONFIG+=release PREFIX=/usr
+- if [ ! -z "${APPIMAGE}" ]; then
+    export QTV=qt512;
+    sudo apt update -qq;
+    echo "Install qt libraries";
+    sudo apt install build-essential ${QTV}base
+    ${QTV}quickcontrols ${QTV}quickcontrols2
+    ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev;
+    export ARTIFACT="$BIN*.AppImage";
+  fi
+- if [ ! -z "${DMG}" ]; then
+    echo "Download last version of Qt with brew";
+    brew update > /dev/null;
+    brew install qt5;
+    chmod -R 755 /usr/local/opt/qt5/*;
+    export QTDIR="/usr/local/opt/qt5";
+    export PATH="$QTDIR/bin:$PATH";
+    export ARTIFACT="$BIN*.dmg";
+  fi
 
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      qmake CONFIG+=release PREFIX=/usr GalaticCalculatorLinux.pro
-      make -j$(nproc)
-      make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
-      wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-      chmod a+x linuxdeployqt-continuous-x86_64.AppImage
-      # export VERSION=... # linuxdeployqt uses this for naming the file
-      ./linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -qmldir=qml/ -appimage  
-    fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      make install;
-    fi
+- export GITHUB_TOKEN="${github_token}"
+- eval "${MATRIX_EVAL}"
+- if [ ! -z "${APPIMAGE}" ]; then
+    echo "Load qt env";
+    source /opt/qt*/bin/qt*-env.sh;
+    echo "Build project";
+    mkdir build && cd build;
+    qmake ..;
+    make;
+    echo "Create deploy folder";
+    mkdir deploy;
+    cp ../deploy/icon.png deploy/;
+    cp ../deploy/$BIN.desktop deploy/;
+    mv $BIN deploy/;
+    echo "Donwload and run linuxdeployqt";
+    wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
+    chmod a+x linuxdeployqt*.AppImage;
+    unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
+    mkdir -p deploy/usr/share/doc/libc6/;
+    cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
+    ./linuxdeployqt*.AppImage deploy/$BIN.desktop -unsupported-allow-new-glibc -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage;
+    mv $BIN*.AppImage $BIN.AppImage;
+  fi
+- if [ ! -z "${DMG}" ]; then
+    echo "Build project";
+    mkdir build && cd build;
+    qmake ..;
+    make;
+    echo "Run macdeployqt";
+    macdeployqt $BIN.app/ -qmldir=../qml -dmg;
+    find . | grep dmg;
+  fi
+- if [ ! -z "${WEBASM}" ]; then
+    git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
+    git fetch --all;
+    git config --global user.name "Light-Wizzard";
+    git config --global user.email "thelightwizzard@gmail.com";
+    echo "Build project";
+    mkdir build;
+    docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
+    rm -rf build/{Makefile,*.o,*.cpp};
+    git checkout --track origin/gh-pages;
+    mv build/* .;
+    rm -rf build;
+    sudo mv mini-qml.html index.html;
+    git add --all;
+    git commit -sm "Update WebAssembly";
+  fi
 
-#after_success:
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-#      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-#      cp GalaticCalculator*.AppImage* GalaticCalculator.run
-#      bash upload.sh GalaticCalculator.run
-#    fi
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-#      cd bin/;
-#      zip -r -X GalaticCalculator.zip GalaticCalculator.app;
-#      wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-#      bash upload.sh GalaticCalculator.zip
-#    fi
-
-branches:
-  except:
-    - # Do not build tags that we create when we upload to GitHub Releases
-    - /^(?i:continuous)/
-
-# End of File
+after_success:
+- if [ "${TRAVIS_PULL_REQUEST}" != false ] || [ "${TRAVIS_BRANCH}" != "master" ]; then
+    echo "This is not the master branch, no deploy will be done";
+    travis_terminate 0;
+  fi
+- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+- if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh $ARTIFACT; fi
+- if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
+- if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
