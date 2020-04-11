@@ -100,6 +100,7 @@ deploy:
     artifact: '%BIN%'
     draft: false
     prerelease: true
-    auth_token:
-      secure: '%my_variable%'
+    auth_token: '%my_variable%'
+#    auth_token:
+#      secure: '%my_variable%'
 ############################################## End of File
