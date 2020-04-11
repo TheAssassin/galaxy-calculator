@@ -81,5 +81,5 @@ deploy:
     draft: false
     prerelease: true
     auth_token:
-      secure: eb511d30f4e915f6317d8f5ccb2bc3dbc8d5858f
+      secure: e688fdb2804499ea0da4cbf527b91633530cf5ed
 ############################################## End of File
