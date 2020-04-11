@@ -23,6 +23,7 @@ INCLUDEPATH += tmp/moc/release_shared
 DISTFILES += macos/Info.plist \
   .appveyor.yml \
   .travis.yml \
+  CMakeLists.txt \
   README.md \
   deploy/GalaxyCalculator.desktop \
   deploy/galaxycalculator.ico \

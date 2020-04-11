@@ -1,7 +1,15 @@
 # galaxy-calculator
 Galaxy Calculator
 
-[![Build Status](https://api.travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/github/Light-Wizzard/galaxy-calculator)
+[![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
+[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
+:package: **Downloads:**
+ - :earth_americas: [WebAssembly](http://LightWizzard.com/installers/webassembly/GalaxyCalculator/)
+ - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/GalaxyCalculator.AppImage)
+ - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/GalaxyCalculator.dmg)
+ - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/GalaxyCalculator_release.zip)
+
+
 
 This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop.
 
