@@ -28,7 +28,8 @@ configuration:
 
 install:
   # Set some vars
-  - dir
+  # C:\projects\galaxy-calculator
+  - dir C:\
   - cmd: echo '%QTDIR%'
   - dir '%QTDIR%'
   - '%QTDIR%\bin\qtenv2.bat'
