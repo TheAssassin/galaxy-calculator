@@ -75,7 +75,7 @@ script:
     echo "Create deploy folder";
     mkdir deploy;
     ls;
-    cp ../deploy/galaxycalculator.png deploy/;
+    cp ../deploy/galaxy-calculator.png deploy/;
     cp ../deploy/$BIN.desktop deploy/;
     mv $BIN deploy/;
     echo "Donwload and run linuxdeployqt";
