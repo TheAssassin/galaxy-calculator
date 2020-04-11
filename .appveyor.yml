@@ -31,7 +31,8 @@ install:
   # C:\projects\galaxy-calculator
   - cmd: echo '%QTDIR%'
   - dir C:\Qt\5.12
-  - dir 'C:\Program Files (x86)\'
+  - dir C:\
+  - dir "C:\Program Files (x86)\"
   - '%QTDIR%\bin\qtenv2.bat'
   - qmake -v
   - set PRJLIBDIR=%WINDIR%\SysWOW64 # Find vclibs
