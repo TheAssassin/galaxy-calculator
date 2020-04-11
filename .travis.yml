@@ -109,7 +109,7 @@ script:
     git checkout --track origin/gh-pages;
     mv build/* .;
     rm -rf build;
-    sudo mv galaxy-calculator.html index.html;
+    sudo mv $BIN.html index.html;
     git add --all;
     git commit -sm "Update WebAssembly";
   fi
