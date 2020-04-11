@@ -19,7 +19,7 @@ environment:
       QT_LINKAGE: static
       COVERITY_BUILD_CANDIDATE: True
       #https://www.appveyor.com/docs/build-environment/#qt
-      QTDIR: C:\Qt\5.12\msvc2015_64
+      QTDIR: C:\Qt\5.12\msvc2017_64
       PRJLIBS: VCRUNTIME140.dll MSVCP140.dll
 
 configuration:
@@ -29,14 +29,10 @@ configuration:
 install:
   # Set some vars
   # C:\projects\galaxy-calculator
-  - dir C:\Qt
-  - dir C:\Qt\5.12
-  - dir C:\Qt\5.12\msvc2015_64
   - cmd: echo '%QTDIR%'
-  - dir '%QTDIR%'
+  - dir C:\Qt\5.12
   - '%QTDIR%\bin\qtenv2.bat'
   - qmake -v
-  - cmd: echo 'qmake'
   - set PRJLIBDIR=%WINDIR%\SysWOW64 # Find vclibs
   - set QTDIR
   - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
