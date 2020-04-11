@@ -20,6 +20,19 @@ INCLUDEPATH += tmp/moc/release_shared
 
 # QMAKE_LFLAGS += -static
 
+win32{
+	#enter your Windows definitions here ...
+}
+
+unix{
+	macx {
+		# Mac OS X definitions should be entered here ...
+	}
+	 else {
+		# Linux definitions go here ...
+	}
+}
+
 DISTFILES += macos/Info.plist \
   .appveyor.yml \
   .travis.yml \
