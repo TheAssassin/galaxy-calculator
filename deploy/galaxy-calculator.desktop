@@ -6,4 +6,4 @@ Exec=GalaxyCalculator.AppImage
 Icon=galaxycalculator
 Categories=Education;
 X-AppImage-Version=
-Name[en_US]=GalaxyCalculator.desktop
+Name[en_US]=galaxy-calculator.desktop

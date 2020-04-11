@@ -1,21 +1,20 @@
-# galaxy-calculator
-Galaxy Calculator
-
-[![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
-[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
-:package: **Downloads:**
- - :earth_americas: [WebAssembly](http://LightWizzard.com/installers/webassembly/GalaxyCalculator/)
- - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/GalaxyCalculator.AppImage)
- - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/GalaxyCalculator.dmg)
- - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/GalaxyCalculator_release.zip)
-
-
+# Galaxy Calculator
 
 This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop.
 
 This App can be compiled for any OS that Qt supports: Linux, Windows, MAC, Android and iOS, as well as every OS that Qt supports, so this should run on most if not all popular OS's.
 
 I will try to make installers and executable for all supported Qt OS's, currently I have:
+
+If the badges are Green, you should be able to download the apps.
+
+[![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
+[![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
+:package: **Downloads:**
+ - :earth_americas: [WebAssembly](http://LightWizzard.com/installers/webassembly/galaxy-calculator/)
+ - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.AppImage)
+ - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.dmg)
+ - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
 
 Linux: 
 Installer (Working on Menu item in installer, it is not working)
