@@ -1,3 +1,4 @@
+# Galaxy Calculator appveyor configuration files
 version: '{branch}-{build}'
 
 branches:
@@ -21,6 +22,8 @@ environment:
       #https://www.appveyor.com/docs/build-environment/#qt
       QTDIR: C:\Qt\5.12\msvc2017_64
       PRJLIBS: VCRUNTIME140.dll MSVCP140.dll
+  my_variable:
+    secure: zhMbBtnPhVjygBTfOpQniE0jUPWOLewzUCFmEQIqZ/VSfFGpdzh+ZPeDU03rP1yD
 
 configuration:
   - release
@@ -98,5 +101,5 @@ deploy:
     draft: false
     prerelease: true
     auth_token:
-      secure: e688fdb2804499ea0da4cbf527b91633530cf5ed
+      secure: '%my_variable%'
 ############################################## End of File
