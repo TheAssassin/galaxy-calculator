@@ -62,7 +62,7 @@ install:
   fi
 
 script:
-- export GITHUB_TOKEN="${github_token}"
+- export GITHUB_TOKEN="eb511d30f4e915f6317d8f5ccb2bc3dbc8d5858f"
 - eval "${MATRIX_EVAL}"
 - if [ ! -z "${APPIMAGE}" ]; then
     echo "Load qt env";
@@ -73,7 +73,7 @@ script:
     make;
     echo "Create deploy folder";
     mkdir deploy;
-    cp ../deploy/icon.png deploy/;
+    cp ../deploy/galaxycalculator.png deploy/;
     cp ../deploy/$BIN.desktop deploy/;
     mv $BIN deploy/;
     echo "Donwload and run linuxdeployqt";
