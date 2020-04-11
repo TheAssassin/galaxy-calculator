@@ -29,11 +29,23 @@ configuration:
 install:
   # Set some vars
   # C:\projects\galaxy-calculator
-  - cmd: echo '%QTDIR%'
-  - dir C:\Qt\5.12
-  - dir "C:\Program Files (x86)\Windows Kits\10\bin"
-  - dir "C:\Program Files (x86)\"
-  - dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN"
+  
+  #- cmd: echo '%QTDIR%'
+  #- dir C:\Qt\5.12
+  # - dir "C:\Program Files (x86)\Windows Kits\10\bin"
+  # 10.0.14393.0
+  # 10.0.15063.0
+  # 10.0.16299.0
+  # 10.0.17134.0
+  # 10.0.17763.0
+  # 10.0.18362.0
+  # arm
+  # arm64
+  - copy "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\rc.exe" "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN\"
+  - copy "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\rcdll.dll" "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN\"
+  #- copy "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\" "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN\"
+  #- dir "C:\Program Files (x86)\"
+  #- dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN"
   - '%QTDIR%\bin\qtenv2.bat'
   - qmake -v
   - set PRJLIBDIR=%WINDIR%\SysWOW64 # Find vclibs
