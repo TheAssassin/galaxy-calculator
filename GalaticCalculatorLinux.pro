@@ -23,6 +23,9 @@ INCLUDEPATH += tmp/moc/release_shared
 DISTFILES += macos/Info.plist \
   .travis.yml \
   README.md \
+  deploy/GalaxyCalculator.desktop \
+  deploy/galaxycalculator.ico \
+  deploy/galaxycalculator.png \
   qml/BigNumber.js \
   qml/BigNumberMath.js \
   qml/Calculator.qml \

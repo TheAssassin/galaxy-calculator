@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Galaxy Calculator
+Comment=Galaxy Calculator by the Light Wizzard
+Exec=GalaxyCalculator.run
+Icon=galaxycalculator
+Categories=Education;
+X-AppImage-Version=
+Name[en_US]=GalaxyCalculator.desktop
