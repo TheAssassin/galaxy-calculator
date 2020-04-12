@@ -64,28 +64,33 @@ script:
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project"; 
         mkdir build && cd build; 
+        # We are in the build folder
         qmake ..; make; 
         echo "Create deploy folder"; 
         mkdir deploy; 
         cp ../deploy/galaxy-calculator.png deploy/; 
-        cp ../deploy/$BIN.desktop deploy/; 
+        cp ../deploy/${BIN}.desktop deploy/; 
         mv $BIN deploy/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
         wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt*.AppImage; 
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
-        ./linuxdeployqt*.AppImage deploy/$BIN.desktop -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
-        mv $BIN*.AppImage $BIN.AppImage; 
-        printf "moved %s to %s" ${BIN}*.AppImage "${BIN}.AppImage";
+        ./linuxdeployqt*.AppImage deploy/${BIN}.desktop -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        mv deploy/${BIN}*.AppImage deploy/${BIN}.AppImage; 
+        echo "current folder"
         ls;
+        echo "root folder"
+        ls /;
+        echo "deploy folder"
+        ls /build/deploy;
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
         mkdir build && cd build; 
         qmake ..; make; 
         echo "Run macdeployqt"; 
-        macdeployqt $BIN.app/ -qmldir=../qml -dmg; 
+        macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
         find . | grep dmg; 
       fi
     - if [ ! -z "${WEBASM}" ]; then 
@@ -94,12 +99,12 @@ script:
         git fetch --all; git config --global user.name "Light-Wizzard"; 
         git config --global user.email "thelightwizzard@gmail.com"; 
         echo "Build project"; mkdir build; 
-        docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
+        docker run --rm -v ${PWD}:/project/source -v ${PWD}/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
         rm -rf build/{Makefile,*.o,*.cpp}; 
         git checkout --track origin/gh-pages; 
         mv build/* .; 
         rm -rf build; 
-        sudo mv $BIN.html index.html; 
+        sudo mv "${BIN}.html" index.html; 
         git add --all; 
         git commit -sm "Update WebAssembly"; 
       fi
@@ -114,8 +119,8 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "/deploy/${BIN}.AppImage"
-      - "/deploy/index.html"
-      - "/deploy/${BIN}.dmg"
+      - "build/deploy/${BIN}.AppImage"
+      - "build/deploy/index.html"
+      - "build/deploy/${BIN}.dmg"
 # End of File
 
