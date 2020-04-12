@@ -64,7 +64,6 @@ script:
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project"; 
         mkdir build && cd build; 
-        # We are in the build folder
         qmake ..; make; 
         echo "Create deploy folder"; 
         mkdir deploy; 
