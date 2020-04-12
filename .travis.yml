@@ -34,7 +34,7 @@ jobs:
       services: docker
       env: WEBASM="true"
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode11.0
       compiler: clang
       env:
         - DMG="true"
@@ -82,8 +82,8 @@ script:
         echo "Renameing Galaxy-Calculator-*-x86_64.AppImage and Galaxy-Calculator-*-x86_64.AppImage.zsync";
         mv Galaxy-Calculator-*.AppImage "${BIN}.AppImage"; 
         mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
-        echo "Renamed";
-        ls;
+        mv "${BIN}.AppImage" .; 
+        mv "${BIN}.AppImage.zsync" .; 
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -91,8 +91,7 @@ script:
         qmake ..; make; 
         echo "Run macdeployqt"; 
         macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
-        ls;
-        find . | grep dmg; 
+        mv "${BIN}.dmg" .; 
       fi
     - if [ ! -z "${WEBASM}" ]; then 
         git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
@@ -125,9 +124,9 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "build/${BIN}.AppImage"
-      - "build/${BIN}.AppImage.zsync"
+      - "${BIN}.AppImage"
+      - "${BIN}.AppImage.zsync"
       - "index.html"
-      - "build/${BIN}.dmg"
+      - "${BIN}.dmg"
 # End of File
 
