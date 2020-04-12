@@ -102,7 +102,7 @@ script:
     git config --global user.email "thelightwizzard@gmail.com";
     echo "Build project";
     mkdir build;
-    docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
+    docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.14_latest;
     rm -rf build/{Makefile,*.o,*.cpp};
     git checkout --track origin/gh-pages;
     mv build/* .;
@@ -112,26 +112,29 @@ script:
     git commit -sm "Update WebAssembly";
   fi
 
-#before_deploy:
-#  # Set up git user name and tag this commit
-#  - git config --local user.name "Light-Wizzard"
-#  - git config --local user.email "thelightwizzard@gmail.com"
-#  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-#  - git tag $TRAVIS_TAG
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "Light-Wizzard"
+  - git config --local user.email "thelightwizzard@gmail.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
 
-#deploy:
-#  provider: releases
-#    api_key: "GITHUB OAUTH TOKEN"
-#    file: "$BIN.AppImage"
-#    skip_cleanup: true
+deploy:
+  provider: releases
+    api_key: "GITHUB OAUTH TOKEN"
+    file: 
+      - "$BIN.AppImage"
+      - "index.html"
+      - "$BIN.dwg"
+    skip_cleanup: true
 
-after_success:
-- if [ "${TRAVIS_PULL_REQUEST}" != false ] || [ "${TRAVIS_BRANCH}" != "master" ]; then
-    echo "This is not the master branch, no deploy will be done";
-    travis_terminate 0;
-  fi
-- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-- if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh $ARTIFACT; fi
-- if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
-- if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
+#after_success:
+#- if [ "${TRAVIS_PULL_REQUEST}" != false ] || [ "${TRAVIS_BRANCH}" != "master" ]; then
+#    echo "This is not the master branch, no deploy will be done";
+#    travis_terminate 0;
+#  fi
+#- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+#- if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh $ARTIFACT; fi
+#- if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
+#- if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
 ############################################################### End of File ###
