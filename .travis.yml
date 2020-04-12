@@ -1,4 +1,3 @@
-sudo: false
 language: cpp
 branches:
   only:
@@ -6,34 +5,41 @@ branches:
 env:
   global:
     - BIN=galaxy-calculator
-    - secure: ViNMiyZvw6i9vbWuO4pbd8chpetPNhMqu6m/9pMN+nl0tpHnNtStJ0abU+00ssWRErBAxCDIIbfmxB/VGUGCQF8lMh+ULIlUXrHn176XMHNNhqsvJyCwKzdYrmgPysuMPXa+ooOeqKg2kZyM/aL/SqKGEUBnajvb7BZBu+4Ttuatz4viq/5hCFRSeAIv3Vg1QGz5iMbHs6smWfZjDOjHyULphZ2f2404LFT9ao0iNIs8EGJNzOrdkV/LLkuuzi9+X06yRU957yZJdvsKrrI5ZeIbDygnGTYGug85lvdie6hXkb7XFKyrudmU0JBLxIXdIjJ/68DxCOSO0Pda5Fscs9SYo0o3IWMY251HG1Zcdb5ERK6melFq1I12X7Y9pO/cd9OpvCzvHTU2T9fbeRpLUjNo1VnMwdaDXM+dle9FGK3htK8XLTLJMa8PtLF32CGaODWMAiTz4zaV//GRCtdvqVzbm1jXAE0LTwSTQ+j5i6Vh2dGgJBcCraCkLy1GB8kkDiP8v3I+mLpXsV0+Oswf8boD2DTEYkn+C5S5P3BnoFkFm9mhD1Bq+IBjwx2h3huksrLmictOZyMutbb836SThSlqFSo9ef7Y1dxcL5gMot7GcAps9wu/SY7id5mc3cAlXxLsrFFJ8iYLrb8lUkgS9OkavATZUsxy+tUHQHZDGCk=
-matrix:
+    - secure: "drLCd1qFj12SGLlynkHXaZtSBuDBHtSMFAFe0Krx7bVrPO5a9RqNavi3VBjxz88+x/72MIeRrGkYLDCbn/RHHnznbc/UQiFk8WXNr/3/p5IwE56ee/vZfRor67Be21fPb6PuKCqbaZWkAtVBy6slvc1hvdfk5F4yJIkFUW8wjhEtsbq+tAdzW83jNXjpawdx4C9QkUTuwhg51pgvQjxfEAN2lAZxay2xPN/JxW1jcfYNuGvS36P/ahWONlZVmHdEcNVMEcMycpa2JHyhkeQSdCr/bNl6gJKMnGdcCGnz5C6HXcsk6vXjxWWc0nVXWMRZxmZ1tEr5CpXpO9cbMVdIACDPjwBp22b+TR5vhKlSEBxTB3GCLik/68jwSaMMS0KklaO5VfK+fiwoUB4r4jJdIjUDEzj7lS8pai9loHv0hxMRPAJezg+TNetjUtAXCYeBvjv5xaGviclPx0f0yXPTdtqiL5xvaOGRFVoQEb6KufBO9j7pqfLVFyczK8qGsIpbrWvHeXgJdoEdk5tQyDE4SfhDvdN3TNb+ktY2hsjMeX/PUdjkTgD42pREgne3aXUoAGbo20gVQLQfvxFgz5aqV7l5nCtW5HZ8WeTk8g3ilGGM51rr/u9wdcMurhn2YouAVGMRMJ3cHCDQuNltMmbjHj6D/RAHvsmViqoDhsEp7CY="
+    #- secure: "${GITHUB_TOKEN}"
+
+os:
+  - linux
+  - osx
+
+dist: xenial
+
+jobs:
   include:
-  - os: linux
-    dist: xenial
-    sudo: require
-    addons:
-      apt:
-        sources:
+    - os: linux
+      dist: xenial
+      addons:
+        apt:
+          sources:
             - sourceline: ppa:ubuntu-toolchain-r/test
             - sourceline: ppa:beineri/opt-qt-5.12.6-xenial
-        packages:
+          packages:
             - g++-7
             - git
-    env:
+      env:
         - APPIMAGE="true"
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-  - os: linux
-    dist: xenial
-    sudo: require
-    services: docker
-    env: WEBASM="true"
-  - os: osx
-    osx_image: xcode10.1
-    compiler: clang
-    env:
+    - os: linux
+      dist: xenial
+      services: docker
+      env: WEBASM="true"
+    - os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      env:
         - DMG="true"
         - MATRIX_EVAL="COMPILER=clang++"
+        
 install:
     - if [ ! -z "${APPIMAGE}" ]; then 
         export QTV=qt512; 
@@ -102,10 +108,11 @@ before_deploy:
     - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
     - git tag $TRAVIS_TAG
 deploy:
-  api_key: GITHUB OAUTH TOKEN
-  file:
-    - "$BIN.AppImage"
-    - index.html
-    - "$BIN.dmg"
-  skip_cleanup: true
+  - provider: releases
+    #api_key: secure: "drLCd1qFj12SGLlynkHXaZtSBuDBHtSMFAFe0Krx7bVrPO5a9RqNavi3VBjxz88+x/72MIeRrGkYLDCbn/RHHnznbc/UQiFk8WXNr/3/p5IwE56ee/vZfRor67Be21fPb6PuKCqbaZWkAtVBy6slvc1hvdfk5F4yJIkFUW8wjhEtsbq+tAdzW83jNXjpawdx4C9QkUTuwhg51pgvQjxfEAN2lAZxay2xPN/JxW1jcfYNuGvS36P/ahWONlZVmHdEcNVMEcMycpa2JHyhkeQSdCr/bNl6gJKMnGdcCGnz5C6HXcsk6vXjxWWc0nVXWMRZxmZ1tEr5CpXpO9cbMVdIACDPjwBp22b+TR5vhKlSEBxTB3GCLik/68jwSaMMS0KklaO5VfK+fiwoUB4r4jJdIjUDEzj7lS8pai9loHv0hxMRPAJezg+TNetjUtAXCYeBvjv5xaGviclPx0f0yXPTdtqiL5xvaOGRFVoQEb6KufBO9j7pqfLVFyczK8qGsIpbrWvHeXgJdoEdk5tQyDE4SfhDvdN3TNb+ktY2hsjMeX/PUdjkTgD42pREgne3aXUoAGbo20gVQLQfvxFgz5aqV7l5nCtW5HZ8WeTk8g3ilGGM51rr/u9wdcMurhn2YouAVGMRMJ3cHCDQuNltMmbjHj6D/RAHvsmViqoDhsEp7CY="
+    file:
+      - "$BIN.AppImage"
+      - index.html
+      - "$BIN.dmg"
 # End of File
+
