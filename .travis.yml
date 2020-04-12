@@ -43,12 +43,12 @@ install:
     - if [ ! -z "${APPIMAGE}" ]; then 
         export QTV=qt512; 
         sudo apt update -qq; 
-        echo "Install qt libraries"; 
+        echo "Install qt libraries for Linux";
         sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
         export ARTIFACT="$BIN*.AppImage";
       fi
     - if [ ! -z "${DMG}" ]; then 
-        echo "Download last version of Qt with brew"; 
+        echo "Download last version of Qt with brew for Mac";
         brew update > /dev/null; 
         brew install qt5; 
         chmod -R 755 /usr/local/opt/qt5/*; 
@@ -59,7 +59,7 @@ script:
     - export GITHUB_TOKEN="${github_token}"
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then 
-        echo "Load Qt env Make Linux AppImage";
+        echo "Load Qt env Make Linux AppImage in ${PWD}";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project in folder=/home/travis/build/[secure]/galaxy-calculator/build/deploy/build"; 
         mkdir build && cd build; 
@@ -76,61 +76,56 @@ script:
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         ./linuxdeployqt*.AppImage "deploy/${BIN}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
-        echo "linuxdeployqt finished";
-        ls;
-        echo "Renameing Galaxy-Calculator-*-x86_64.AppImage and Galaxy-Calculator-*-x86_64.AppImage.zsync";
+        echo "LinuxDeployQt finished AppImage in build/deploy";
         mv Galaxy-Calculator-*.AppImage "${BIN}.AppImage"; 
         mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
-        mv "${BIN}.AppImage" ../; 
-        mv "${BIN}.AppImage.zsync" ../; 
-        echo "after move";
+        echo "Renamed Galaxy-Calculator-*-x86_64.AppImage and Galaxy-Calculator-*-x86_64.AppImage.zsync too ${BIN}";
         ls;
-        cd ../;
-        echo "after cd ../";
-        ls;
-        echo "Create Linux ${BIN}.AppImage and ${BIN}.AppImage.zsync";
+        echo "Created Linux ${BIN}.AppImage and ${BIN}.AppImage.zsync";
       fi    
     - if [ ! -z "${DMG}" ]; then 
-        echo "Build project for Mac";
-        mkdir build && cd build; 
-        qmake ..; make; 
+        echo "Build project for Mac in ${PWD}";
+        mkdir -p build && cd build;
+        mkdir -p build/deploy;
+        qmake ..; make;
         echo "Run macdeployqt"; 
         macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
-        mv "${BIN}.dmg" ../; 
-        cd ../;
-        ls;
-        echo "Create Mac ${BIN}.dmg";
+        mv "${BIN}.dmg" deploy/;
+        ls deploy/*;
+        echo "Created Mac ${BIN}.dmg";
       fi
     - if [ ! -z "${WEBASM}" ]; then 
-        echo "Build WEBASM";
+        echo "Build WEBASM in ${PWD}";
         git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; 
-        git fetch --all; git config --global user.name "Light-Wizzard"; 
+        git fetch --all;
+        git config --global user.name "Light-Wizzard";
         git config --global user.email "thelightwizzard@gmail.com"; 
-        echo "make build folder and run docker";
-        mkdir build; 
+        git tag continuous
+        echo "WEBASM make build folder and run docker";
+        mkdir -p build;
+        mkdir -p build/deploy;
         docker run --rm -v "${PWD}:/project/source" -v "${PWD}/build:/project/build" maukalinow/qtwasm_builder:5.13_latest;
         rm -rf build/{Makefile,*.o,*.cpp}; 
         git checkout --track origin/gh-pages; 
-        mv build/* .; 
-        rm -rf build; 
-        sudo mv "${BIN}.html" index.html; 
+        sudo mv "${BIN}.html" build/deploy/index.html;
         echo "WebAssembly Renamed ${BIN}.html too index.html";
+        cd build/deploy/;
         ls;
-        git add --all; 
+        git add index.html;
         git commit -sm "Update WebAssembly"; 
+        git push --tags;
       fi
 
 before_deploy:
     - git config --local user.name "Light-Wizzard"
     - git config --local user.email "thelightwizzard@gmail.com"
-    - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-    - git tag $TRAVIS_TAG
+    - git tag continuous
 
 deploy:
     provider: releases
     api_key:
-        secure: "drLCd1qFj12SGLlynkHXaZtSBuDBHtSMFAFe0Krx7bVrPO5a9RqNavi3VBjxz88+x/72MIeRrGkYLDCbn/RHHnznbc/UQiFk8WXNr/3/p5IwE56ee/vZfRor67Be21fPb6PuKCqbaZWkAtVBy6slvc1hvdfk5F4yJIkFUW8wjhEtsbq+tAdzW83jNXjpawdx4C9QkUTuwhg51pgvQjxfEAN2lAZxay2xPN/JxW1jcfYNuGvS36P/ahWONlZVmHdEcNVMEcMycpa2JHyhkeQSdCr/bNl6gJKMnGdcCGnz5C6HXcsk6vXjxWWc0nVXWMRZxmZ1tEr5CpXpO9cbMVdIACDPjwBp22b+TR5vhKlSEBxTB3GCLik/68jwSaMMS0KklaO5VfK+fiwoUB4r4jJdIjUDEzj7lS8pai9loHv0hxMRPAJezg+TNetjUtAXCYeBvjv5xaGviclPx0f0yXPTdtqiL5xvaOGRFVoQEb6KufBO9j7pqfLVFyczK8qGsIpbrWvHeXgJdoEdk5tQyDE4SfhDvdN3TNb+ktY2hsjMeX/PUdjkTgD42pREgne3aXUoAGbo20gVQLQfvxFgz5aqV7l5nCtW5HZ8WeTk8g3ilGGM51rr/u9wdcMurhn2YouAVGMRMJ3cHCDQuNltMmbjHj6D/RAHvsmViqoDhsEp7CY="
+        secure: "${GITHUB_TOKEN}"
     file:
         - "${BIN}.AppImage"
         - "${BIN}.AppImage.zsync"
