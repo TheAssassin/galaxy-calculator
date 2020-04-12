@@ -6,8 +6,8 @@ env:
   global:
     - BIN=galaxy-calculator
     - secure: "drLCd1qFj12SGLlynkHXaZtSBuDBHtSMFAFe0Krx7bVrPO5a9RqNavi3VBjxz88+x/72MIeRrGkYLDCbn/RHHnznbc/UQiFk8WXNr/3/p5IwE56ee/vZfRor67Be21fPb6PuKCqbaZWkAtVBy6slvc1hvdfk5F4yJIkFUW8wjhEtsbq+tAdzW83jNXjpawdx4C9QkUTuwhg51pgvQjxfEAN2lAZxay2xPN/JxW1jcfYNuGvS36P/ahWONlZVmHdEcNVMEcMycpa2JHyhkeQSdCr/bNl6gJKMnGdcCGnz5C6HXcsk6vXjxWWc0nVXWMRZxmZ1tEr5CpXpO9cbMVdIACDPjwBp22b+TR5vhKlSEBxTB3GCLik/68jwSaMMS0KklaO5VfK+fiwoUB4r4jJdIjUDEzj7lS8pai9loHv0hxMRPAJezg+TNetjUtAXCYeBvjv5xaGviclPx0f0yXPTdtqiL5xvaOGRFVoQEb6KufBO9j7pqfLVFyczK8qGsIpbrWvHeXgJdoEdk5tQyDE4SfhDvdN3TNb+ktY2hsjMeX/PUdjkTgD42pREgne3aXUoAGbo20gVQLQfvxFgz5aqV7l5nCtW5HZ8WeTk8g3ilGGM51rr/u9wdcMurhn2YouAVGMRMJ3cHCDQuNltMmbjHj6D/RAHvsmViqoDhsEp7CY="
-    #- secure: "${GITHUB_TOKEN}"
 
+# I get a warning without them, and two extra jobs with them, comment out.
 #os:
 #  - linux
 #  - osx
@@ -111,8 +111,8 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "$BIN.AppImage"
-      - index.html
-      - "$BIN.dmg"
+      - "deploy/${BIN}.AppImage"
+      - deploy/index.html
+      - "deploy/${BIN}.dmg"
 # End of File
 
