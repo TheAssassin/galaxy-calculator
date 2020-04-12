@@ -55,6 +55,7 @@ install:
         chmod -R 755 /usr/local/opt/qt5/*; 
         export QTDIR="/usr/local/opt/qt5"; export PATH="$QTDIR/bin:$PATH"; export ARTIFACT="$BIN*.dmg"; 
       fi
+      
 script:
     - export GITHUB_TOKEN="${github_token}"
     - eval "${MATRIX_EVAL}"
@@ -69,12 +70,11 @@ script:
         cp ../deploy/galaxy-calculator.png deploy/; 
         cp ../deploy/$BIN.desktop deploy/; 
         mv $BIN deploy/; 
-        echo "Donwload and run linuxdeployqt"; 
+        echo "Donwload and run linuxdeployqt continuous..."; 
         wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt*.AppImage; 
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
-        #  -unsupported-allow-new-glibc
         ./linuxdeployqt*.AppImage deploy/$BIN.desktop -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         mv $BIN*.AppImage $BIN.AppImage; 
         printf "moved %s to %s" ${BIN}*.AppImage "${BIN}.AppImage";
@@ -114,8 +114,8 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "deploy/${BIN}.AppImage"
-      - "deploy/index.html"
-      - "deploy/${BIN}.dmg"
+      - "/deploy/${BIN}.AppImage"
+      - "/deploy/index.html"
+      - "/deploy/${BIN}.dmg"
 # End of File
 
