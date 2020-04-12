@@ -1,3 +1,4 @@
+sudo: false
 language: cpp
 branches:
   only:
@@ -6,17 +7,11 @@ env:
   global:
     - BIN=galaxy-calculator
 
-# I get a warning without them, and two extra jobs with them, comment out.
-#os:
-#  - linux
-#  - osx
-
-#dist: xenial
-
 jobs:
   include:
     - os: linux
       dist: xenial
+      sudo: require
       addons:
         apt:
           sources:
@@ -30,6 +25,7 @@ jobs:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
     - os: linux
       dist: xenial
+      sudo: require
       services: docker
       env: WEBASM="true"
     - os: osx
@@ -58,85 +54,63 @@ install:
 script:
     - export GITHUB_TOKEN="${github_token}"
     - eval "${MATRIX_EVAL}"
-    - if [ ! -z "${APPIMAGE}" ]; then 
-        echo "Load Qt env Make Linux AppImage in ${PWD}";
+    - if [ ! -z "${APPIMAGE}" ]; then
+        echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/galaxy-calculator";
         source /opt/qt*/bin/qt*-env.sh;
-        echo "Build project in folder=/home/travis/build/[secure]/galaxy-calculator/build/deploy/build"; 
-        mkdir build && cd build; 
-        qmake ..; make; 
+        echo "Build project";
+        mkdir build && cd build;
+        qmake ..;
+        make;
         echo "Create deploy folder=/home/travis/build/[secure]/galaxy-calculator/build/deploy/build/deploy";
-        mkdir deploy; 
+        mkdir deploy;
         cp "../deploy/${BIN}.png" deploy/;
         cp "../deploy/${BIN}.desktop" deploy/; 
-        ls;
         mv "$BIN" deploy/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
         wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
-        chmod a+x linuxdeployqt*.AppImage; 
+        chmod a+x linuxdeployqt*.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
-        mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
+        mkdir -p deploy/usr/share/doc/libc6/;
+        cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         ./linuxdeployqt*.AppImage "deploy/${BIN}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
-        echo "LinuxDeployQt finished AppImage in build/deploy";
         mv Galaxy-Calculator-*.AppImage "${BIN}.AppImage"; 
         mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
-        echo "Renamed Galaxy-Calculator-*-x86_64.AppImage and Galaxy-Calculator-*-x86_64.AppImage.zsync too ${BIN}";
-        cd deploy/;
-        ls;
-        echo "Created Linux ${BIN}.AppImage and ${BIN}.AppImage.zsync";
-      fi    
-    - if [ ! -z "${DMG}" ]; then 
-        echo "Build project for Mac in ${PWD}";
-        mkdir -p build && cd build;
-        mkdir -p build/deploy;
-        qmake ..; make;
-        echo "Run macdeployqt"; 
-        macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
-        mv "${BIN}.dmg" deploy/;
-        cd deploy/;
-        ls;
-        echo "Created Mac ${BIN}.dmg";
       fi
-    - if [ ! -z "${WEBASM}" ]; then 
-        echo "Build WEBASM in ${PWD}";
+    - if [ ! -z "${DMG}" ]; then
+        echo "Build project for Mac in /home/travis/build/[secure]/galaxy-calculator";
+        mkdir build && cd build;
+        qmake ..;
+        make;
+        echo "Run macdeployqt";
+        macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
+        find . | grep dmg;
+      fi
+    - if [ ! -z "${WEBASM}" ]; then
+        echo "Build WEBASM in /home/travis/build/[secure]/galaxy-calculator";
         git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
-        git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; 
+        git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
         git fetch --all;
         git config --global user.name "Light-Wizzard";
         git config --global user.email "thelightwizzard@gmail.com"; 
-        git tag continuous
         echo "WEBASM make build folder and run docker";
-        mkdir -p build;
-        mkdir -p build/deploy;
-        docker run --rm -v "${PWD}:/project/source" -v "${PWD}/build:/project/build" maukalinow/qtwasm_builder:5.13_latest;
-        rm -rf build/{Makefile,*.o,*.cpp}; 
-        git checkout --track origin/gh-pages; 
-        sudo mv "${BIN}.html" build/deploy/index.html;
-        echo "WebAssembly Renamed ${BIN}.html too build/deploy/index.html";
-        cd build/deploy/;
-        ls;
+        mkdir build;
+        docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
+        rm -rf build/{Makefile,*.o,*.cpp};
+        git checkout --track origin/gh-pages;
+        mv build/* .;
+        rm -rf build;
+        sudo mv "${BIN}.html" index.html;
         git add --all;
-        git commit -sm "Update WebAssembly"; 
-        git push --tags;
+        git commit -sm "Update WebAssembly";
+      fi    
+
+after_success:
+    - if [ "${TRAVIS_PULL_REQUEST}" != false ] || [ "${TRAVIS_BRANCH}" != "master" ]; then
+        echo "This is not the master branch, no deploy will be done";
+        travis_terminate 0;
       fi
-
-before_deploy:
-    - git config --local user.name "Light-Wizzard"
-    - git config --local user.email "thelightwizzard@gmail.com"
-    - git tag continuous
-
-deploy:
-    provider: releases
-    api_key:
-        secure: "${GITHUB_TOKEN}"
-    file:
-        - "build/deploy/${BIN}.AppImage"
-        - "build/deploy/${BIN}.AppImage.zsync"
-        - "build/deploy/index.html"
-        - "build/deploy/${BIN}.dmg"
-    skip_cleanup: true
-    on:
-        repo: Light-Wizzard/galaxy-calculator
-        tags: true
-
-# End of File
+    - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh $ARTIFACT; fi
+    - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
+    - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
 
