@@ -67,8 +67,8 @@ script:
         qmake ..; make; 
         echo "Create deploy folder=/home/travis/build/[secure]/galaxy-calculator/build/deploy/build/deploy";
         mkdir deploy; 
-        cp ../deploy/galaxy-calculator.png deploy/;
-        cp ../deploy/${BIN}.desktop deploy/; 
+        cp "../deploy/${BIN}.png" deploy/;
+        cp "../deploy/${BIN}.desktop" deploy/; 
         ls;
         mv "$BIN" deploy/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
@@ -78,7 +78,9 @@ script:
         mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         ./linuxdeployqt*.AppImage "deploy/${BIN}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         ls;
-        mv "${BIN}"*.AppImage "${BIN}.AppImage"; 
+        echo "Galaxy-Calculator-d71a8e5-x86_64.AppImage and Galaxy-Calculator-d71a8e5-x86_64.AppImage.zsync"
+        mv Galaxy-Calculator*.AppImage "${BIN}.AppImage"; 
+        mv Galaxy-Calculator*.AppImage.zsync "${BIN}.AppImage.zsync"; 
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -86,6 +88,7 @@ script:
         qmake ..; make; 
         echo "Run macdeployqt"; 
         macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
+        ls;
         find . | grep dmg; 
       fi
     - if [ ! -z "${WEBASM}" ]; then 
@@ -100,6 +103,7 @@ script:
         git checkout --track origin/gh-pages; 
         mv build/* .; 
         rm -rf build; 
+        ls;
         sudo mv "${BIN}.html" index.html; 
         git add --all; 
         git commit -sm "Update WebAssembly"; 
@@ -115,8 +119,9 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "/build/${BIN}.AppImage"
+      - "${BIN}.AppImage"
+      - "${BIN}.AppImage.zsync"
       - "index.html"
-      - "/build/${BIN}.dmg"
+      - "${BIN}.dmg"
 # End of File
 
