@@ -8,7 +8,7 @@ This App can be compiled for any OS that Qt supports: Linux, Windows, MAC, Andro
 
 I will try to make installers and executable for all supported Qt OS's, currently I have:
 
-If the badges are Green, you should be able to download the apps.
+If the badges are Green, you should be able to download the apps (Unix upload not working currently, in work).
 
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
@@ -19,6 +19,10 @@ Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j
  - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
 
 Windows: Download zip and extract it, and run the file inside of it.
+
+Currently I am having issues with setting up Travis for the Unix (Linux/Mac) builds, the code compiles, it just does not upload to continuous, like Appveyor.
+
+These are other verions of the program:
 
 Linux: 
 Installer (Working on Menu item in installer, it is not working)

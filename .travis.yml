@@ -80,6 +80,7 @@ script:
         mv Galaxy-Calculator-*.AppImage "${BIN}.AppImage"; 
         mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
         echo "Renamed Galaxy-Calculator-*-x86_64.AppImage and Galaxy-Calculator-*-x86_64.AppImage.zsync too ${BIN}";
+        cd deploy/;
         ls;
         echo "Created Linux ${BIN}.AppImage and ${BIN}.AppImage.zsync";
       fi    
@@ -91,7 +92,8 @@ script:
         echo "Run macdeployqt"; 
         macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
         mv "${BIN}.dmg" deploy/;
-        ls deploy/*;
+        cd deploy/;
+        ls;
         echo "Created Mac ${BIN}.dmg";
       fi
     - if [ ! -z "${WEBASM}" ]; then 
@@ -109,10 +111,10 @@ script:
         rm -rf build/{Makefile,*.o,*.cpp}; 
         git checkout --track origin/gh-pages; 
         sudo mv "${BIN}.html" build/deploy/index.html;
-        echo "WebAssembly Renamed ${BIN}.html too index.html";
+        echo "WebAssembly Renamed ${BIN}.html too build/deploy/index.html";
         cd build/deploy/;
         ls;
-        git add index.html;
+        git add --all;
         git commit -sm "Update WebAssembly"; 
         git push --tags;
       fi
@@ -127,10 +129,10 @@ deploy:
     api_key:
         secure: "${GITHUB_TOKEN}"
     file:
-        - "${BIN}.AppImage"
-        - "${BIN}.AppImage.zsync"
-        - "index.html"
-        - "${BIN}.dmg"
+        - "build/deploy/${BIN}.AppImage"
+        - "build/deploy/${BIN}.AppImage.zsync"
+        - "build/deploy/index.html"
+        - "build/deploy/${BIN}.dmg"
     skip_cleanup: true
     on:
         repo: Light-Wizzard/galaxy-calculator
