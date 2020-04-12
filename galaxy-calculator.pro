@@ -3,10 +3,10 @@ TARGET = galaxy-calculator
 
 QT += qml quick quickcontrols2
 
-SOURCES += main.cpp tablemodel.cpp
-HEADERS += tablemodel.h
+SOURCES += src/main.cpp src/tablemodel.cpp
+HEADERS += src/tablemodel.h
 
-RESOURCES += qml.qrc
+RESOURCES += resources.qrc
 
 EXAMPLE_FILES += doc
 

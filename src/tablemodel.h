@@ -7,7 +7,8 @@
 class TableModel : public QAbstractTableModel
 {
         Q_OBJECT
-        enum TableRoles{
+        enum TableRoles
+        {
             TableDataRole = Qt::UserRole + 1,
             HeadingRole
         };
