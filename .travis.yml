@@ -82,8 +82,8 @@ script:
         echo "Renameing Galaxy-Calculator-*-x86_64.AppImage and Galaxy-Calculator-*-x86_64.AppImage.zsync";
         mv Galaxy-Calculator-*.AppImage "${BIN}.AppImage"; 
         mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
-        mv "${BIN}.AppImage" .; 
-        mv "${BIN}.AppImage.zsync" .; 
+        mv "${BIN}.AppImage" ../; 
+        mv "${BIN}.AppImage.zsync" ../; 
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -91,7 +91,7 @@ script:
         qmake ..; make; 
         echo "Run macdeployqt"; 
         macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
-        mv "${BIN}.dmg" .; 
+        mv "${BIN}.dmg" ../; 
       fi
     - if [ ! -z "${WEBASM}" ]; then 
         git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
@@ -106,10 +106,8 @@ script:
         mv build/* .; 
         rm -rf build; 
         echo "WebAssembly";
-        ls;
         sudo mv "${BIN}.html" index.html; 
         echo "Renamed ${BIN}.html index.html";
-        ls;
         git add --all; 
         git commit -sm "Update WebAssembly"; 
       fi

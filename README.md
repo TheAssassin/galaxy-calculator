@@ -18,6 +18,8 @@ Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j
  - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.dmg)
  - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
 
+Windows: Download zip and extract it, and run the file inside of it.
+
 Linux: 
 Installer (Working on Menu item in installer, it is not working)
 http://LightWizzard.com/installers/linux/GalaxyCalculatorInstaller
@@ -35,7 +37,7 @@ Standalone Executable's are larger, since they have all the libraries and resour
 Windows XP, 7,8 Support is going to be iffy, since this app requires Qt 5.12 Minimum, so XP support is out, since it does not support anything higher then 5.1, if you need it ask, otherwise too much work, I need to install Windows 7, then I can compile it, and it should work on 8.
 
 MAC, iOS, Apple:
-I do not own one, so I cannot make them.
+I do not own one, so I cannot make them other then on Travis.
 
 I plan to support as much as I can, once my Book or ePubs start to sell, I will save up for a Mac, and iOS device.
 
