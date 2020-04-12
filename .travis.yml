@@ -63,23 +63,23 @@ script:
         echo "Load qt env"; 
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project"; 
-        ls;
         mkdir build && cd build; 
-        ls;
         qmake ..; make; 
         echo "Create deploy folder"; 
-        ls;
         mkdir deploy; 
         cp ../deploy/galaxy-calculator.png deploy/; 
         cp ../deploy/${BIN}.desktop deploy/; 
-        mv $BIN deploy/; 
+        mv "$BIN" deploy/; 
+        echo "Donwload and run linuxdeployqt continuous..."; 
+        wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
+        chmod a+x linuxdeployqt*.AppImage; 
+        unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
+        mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
+        ./linuxdeployqt*.AppImage "deploy/${BIN}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         ls;
-        echo "current folder";
-        ls -lh;
-        echo "root folder";
-        ls -lh /;
-        echo "deploy folder";
-        ls -lh build/deploy;
+        mv "${BIN}"*.AppImage "${BIN}.AppImage"; 
+        ls;
+        echo "current folder"
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -95,7 +95,7 @@ script:
         git fetch --all; git config --global user.name "Light-Wizzard"; 
         git config --global user.email "thelightwizzard@gmail.com"; 
         echo "Build project"; mkdir build; 
-        docker run --rm -v ${PWD}:/project/source -v ${PWD}/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
+        docker run --rm -v "${PWD}":/project/source -v "${PWD}"/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
         rm -rf build/{Makefile,*.o,*.cpp}; 
         git checkout --track origin/gh-pages; 
         mv build/* .; 
@@ -115,8 +115,8 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "/build/deploy/${BIN}.AppImage"
-      - "/build/deploy/index.html"
-      - "/build/deploy/${BIN}.dmg"
+      - "/build/${BIN}.AppImage"
+      - "/build/index.html"
+      - "/build/${BIN}.dmg"
 # End of File
 
