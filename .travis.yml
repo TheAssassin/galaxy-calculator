@@ -53,7 +53,7 @@ install:
         brew update > /dev/null; 
         brew install qt5; 
         chmod -R 755 /usr/local/opt/qt5/*; 
-        export QTDIR="/usr/local/opt/qt5"; export PATH="$QTDIR/bin:$PATH"; export ARTIFACT="$BIN*.dmg"; 
+        export QTDIR="/usr/local/opt/qt5"; export PATH="${QTDIR}/bin:$PATH"; export ARTIFACT="${BIN}*.dmg"; 
       fi
       
 script:
@@ -76,10 +76,7 @@ script:
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         ./linuxdeployqt*.AppImage "deploy/${BIN}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
-        ls;
         mv "${BIN}"*.AppImage "${BIN}.AppImage"; 
-        ls;
-        echo "current folder"
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -116,7 +113,7 @@ deploy:
     token: "${GITHUB_TOKEN}"
     file:
       - "/build/${BIN}.AppImage"
-      - "/build/index.html"
+      - "index.html"
       - "/build/${BIN}.dmg"
 # End of File
 
