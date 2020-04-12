@@ -1,140 +1,111 @@
 sudo: false
 language: cpp
-
 branches:
   only:
-  - master
-
+    - master
 env:
   global:
     - BIN=galaxy-calculator
-
+    - secure: ViNMiyZvw6i9vbWuO4pbd8chpetPNhMqu6m/9pMN+nl0tpHnNtStJ0abU+00ssWRErBAxCDIIbfmxB/VGUGCQF8lMh+ULIlUXrHn176XMHNNhqsvJyCwKzdYrmgPysuMPXa+ooOeqKg2kZyM/aL/SqKGEUBnajvb7BZBu+4Ttuatz4viq/5hCFRSeAIv3Vg1QGz5iMbHs6smWfZjDOjHyULphZ2f2404LFT9ao0iNIs8EGJNzOrdkV/LLkuuzi9+X06yRU957yZJdvsKrrI5ZeIbDygnGTYGug85lvdie6hXkb7XFKyrudmU0JBLxIXdIjJ/68DxCOSO0Pda5Fscs9SYo0o3IWMY251HG1Zcdb5ERK6melFq1I12X7Y9pO/cd9OpvCzvHTU2T9fbeRpLUjNo1VnMwdaDXM+dle9FGK3htK8XLTLJMa8PtLF32CGaODWMAiTz4zaV//GRCtdvqVzbm1jXAE0LTwSTQ+j5i6Vh2dGgJBcCraCkLy1GB8kkDiP8v3I+mLpXsV0+Oswf8boD2DTEYkn+C5S5P3BnoFkFm9mhD1Bq+IBjwx2h3huksrLmictOZyMutbb836SThSlqFSo9ef7Y1dxcL5gMot7GcAps9wu/SY7id5mc3cAlXxLsrFFJ8iYLrb8lUkgS9OkavATZUsxy+tUHQHZDGCk=
 matrix:
   include:
-    - os: linux
-      dist: xenial
-      sudo: require
-      addons:
-        apt:
-          sources:
-            # Add ppa for gcc-7
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-            # Set ppa to get a modern version of qt
-            - sourceline: 'ppa:beineri/opt-qt-5.12.6-xenial'
-          packages:
+  - os: linux
+    dist: xenial
+    sudo: require
+    addons:
+      apt:
+        sources:
+            - sourceline: ppa:ubuntu-toolchain-r/test
+            - sourceline: ppa:beineri/opt-qt-5.12.6-xenial
+        packages:
             - g++-7
             - git
-      env:
+    env:
         - APPIMAGE="true"
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-
-    - os: linux
-      dist: xenial
-      sudo: require
-      services: docker
-      env: WEBASM="true"
-
-    - os: osx
-      osx_image: xcode10.1
-      compiler: clang
-      env:
+  - os: linux
+    dist: xenial
+    sudo: require
+    services: docker
+    env: WEBASM="true"
+  - os: osx
+    osx_image: xcode10.1
+    compiler: clang
+    env:
         - DMG="true"
         - MATRIX_EVAL="COMPILER=clang++"
-
 install:
-- if [ ! -z "${APPIMAGE}" ]; then
-    export QTV=qt512;
-    sudo apt update -qq;
-    echo "Install qt libraries";
-    sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev;
-    export ARTIFACT="$BIN*.AppImage";
-  fi
-- if [ ! -z "${DMG}" ]; then
-    echo "Download last version of Qt with brew";
-    brew update > /dev/null;
-    brew install qt5;
-    chmod -R 755 /usr/local/opt/qt5/*;
-    export QTDIR="/usr/local/opt/qt5";
-    export PATH="$QTDIR/bin:$PATH";
-    export ARTIFACT="$BIN*.dmg";
-  fi
-
+    - if [ ! -z "${APPIMAGE}" ]; then 
+        export QTV=qt512; 
+        sudo apt update -qq; 
+        echo "Install qt libraries"; 
+        sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
+        export ARTIFACT="$BIN*.AppImage";
+      fi
+    - if [ ! -z "${DMG}" ]; then 
+        echo "Download last version of Qt with brew"; 
+        brew update > /dev/null; 
+        brew install qt5; 
+        chmod -R 755 /usr/local/opt/qt5/*; 
+        export QTDIR="/usr/local/opt/qt5"; export PATH="$QTDIR/bin:$PATH"; export ARTIFACT="$BIN*.dmg"; 
+      fi
 script:
-- export GITHUB_TOKEN="${github_token}"
-- eval "${MATRIX_EVAL}"
-- if [ ! -z "${APPIMAGE}" ]; then
-    echo "Load qt env";
-    source /opt/qt*/bin/qt*-env.sh;
-    echo "Build project";
-    mkdir build && cd build;
-    qmake ..;
-    make;
-    echo "Create deploy folder";
-    mkdir deploy;
-    cp ../deploy/galaxy-calculator.png deploy/;
-    cp ../deploy/$BIN.desktop deploy/;
-    mv $BIN deploy/;
-    echo "Donwload and run linuxdeployqt";
-    wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
-    chmod a+x linuxdeployqt*.AppImage;
-    unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
-    mkdir -p deploy/usr/share/doc/libc6/;
-    cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
-    ./linuxdeployqt*.AppImage deploy/$BIN.desktop -unsupported-allow-new-glibc -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage;
-    mv $BIN*.AppImage $BIN.AppImage;
-    ls;
-    printf "moved %s to %s" ${BIN}*.AppImage "${BIN}.AppImage";
-  fi
-- if [ ! -z "${DMG}" ]; then
-    echo "Build project";
-    mkdir build && cd build;
-    qmake ..;
-    make;
-    echo "Run macdeployqt";
-    macdeployqt $BIN.app/ -qmldir=../qml -dmg;
-    find . | grep dmg;
-  fi
-- if [ ! -z "${WEBASM}" ]; then
-    git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
-    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
-    git fetch --all;
-    git config --global user.name "Light-Wizzard";
-    git config --global user.email "thelightwizzard@gmail.com";
-    echo "Build project";
-    mkdir build;
-    docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.14_latest;
-    rm -rf build/{Makefile,*.o,*.cpp};
-    git checkout --track origin/gh-pages;
-    mv build/* .;
-    rm -rf build;
-    sudo mv $BIN.html index.html;
-    git add --all;
-    git commit -sm "Update WebAssembly";
-  fi
-
+    - export GITHUB_TOKEN="${github_token}"
+    - eval "${MATRIX_EVAL}"
+    - if [ ! -z "${APPIMAGE}" ]; then 
+        echo "Load qt env"; 
+        source /opt/qt*/bin/qt*-env.sh;
+        echo "Build project"; 
+        mkdir build && cd build; 
+        qmake ..; make; 
+        echo "Create deploy folder"; 
+        mkdir deploy; 
+        cp ../deploy/galaxy-calculator.png deploy/; 
+        cp ../deploy/$BIN.desktop deploy/; 
+        mv $BIN deploy/; 
+        echo "Donwload and run linuxdeployqt"; 
+        wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
+        chmod a+x linuxdeployqt*.AppImage; 
+        unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
+        mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
+        ./linuxdeployqt*.AppImage deploy/$BIN.desktop -unsupported-allow-new-glibc -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        mv $BIN*.AppImage $BIN.AppImage; 
+        ls; 
+        printf "moved %s to %s" ${BIN}*.AppImage "${BIN}.AppImage";
+      fi    
+    - if [ ! -z "${DMG}" ]; then 
+        echo "Build project"; 
+        mkdir build && cd build; 
+        qmake ..; make; 
+        echo "Run macdeployqt"; 
+        macdeployqt $BIN.app/ -qmldir=../qml -dmg; 
+        find . | grep dmg; 
+      fi
+    - if [ ! -z "${WEBASM}" ]; then 
+        git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
+        git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; 
+        git fetch --all; git config --global user.name "Light-Wizzard"; 
+        git config --global user.email "thelightwizzard@gmail.com"; 
+        echo "Build project"; mkdir build; 
+        docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.14_latest;
+        rm -rf build/{Makefile,*.o,*.cpp}; 
+        git checkout --track origin/gh-pages; 
+        mv build/* .; 
+        rm -rf build; 
+        sudo mv $BIN.html index.html; 
+        git add --all; 
+        git commit -sm "Update WebAssembly"; 
+      fi
 before_deploy:
-  # Set up git user name and tag this commit
-  - git config --local user.name "Light-Wizzard"
-  - git config --local user.email "thelightwizzard@gmail.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
-
+    - git config --local user.name "Light-Wizzard"
+    - git config --local user.email "thelightwizzard@gmail.com"
+    - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+    - git tag $TRAVIS_TAG
 deploy:
-#  provider: releases
-    api_key: "GITHUB OAUTH TOKEN"
-    file: 
-      - "$BIN.AppImage"
-      - "index.html"
-      - "$BIN.dmg"
-    skip_cleanup: true
-
-#after_success:
-#- if [ "${TRAVIS_PULL_REQUEST}" != false ] || [ "${TRAVIS_BRANCH}" != "master" ]; then
-#    echo "This is not the master branch, no deploy will be done";
-#    travis_terminate 0;
-#  fi
-#- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-#- if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh $ARTIFACT; fi
-#- if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
-#- if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
-############################################################### End of File ###
+  api_key: GITHUB OAUTH TOKEN
+  file:
+    - "$BIN.AppImage"
+    - index.html
+    - "$BIN.dmg"
+  skip_cleanup: true
+# End of File
