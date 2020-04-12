@@ -63,19 +63,23 @@ script:
         echo "Load qt env"; 
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project"; 
+        ls;
         mkdir build && cd build; 
+        ls;
         qmake ..; make; 
         echo "Create deploy folder"; 
+        ls;
         mkdir deploy; 
         cp ../deploy/galaxy-calculator.png deploy/; 
         cp ../deploy/${BIN}.desktop deploy/; 
         mv $BIN deploy/; 
-        echo "current folder"
+        ls;
+        echo "current folder";
         ls -lh;
-        echo "root folder"
+        echo "root folder";
         ls -lh /;
-        echo "deploy folder"
-        ls -lh /build/deploy;
+        echo "deploy folder";
+        ls -lh build/deploy;
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -111,8 +115,8 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "build/deploy/${BIN}.AppImage"
-      - "build/deploy/index.html"
-      - "build/deploy/${BIN}.dmg"
+      - "/build/deploy/${BIN}.AppImage"
+      - "/build/deploy/index.html"
+      - "/build/deploy/${BIN}.dmg"
 # End of File
 
