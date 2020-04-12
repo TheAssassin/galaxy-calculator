@@ -81,6 +81,7 @@ script:
         echo "Galaxy-Calculator-d71a8e5-x86_64.AppImage and Galaxy-Calculator-d71a8e5-x86_64.AppImage.zsync"
         mv Galaxy-Calculator*.AppImage "${BIN}.AppImage"; 
         mv Galaxy-Calculator*.AppImage.zsync "${BIN}.AppImage.zsync"; 
+        ls;
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -119,9 +120,9 @@ deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
-      - "${BIN}.AppImage"
-      - "${BIN}.AppImage.zsync"
-      - "index.html"
-      - "${BIN}.dmg"
+      - "./${BIN}.AppImage"
+      - "./${BIN}.AppImage.zsync"
+      - "./index.html"
+      - "./${BIN}.dmg"
 # End of File
 
