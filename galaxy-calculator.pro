@@ -22,6 +22,7 @@ INCLUDEPATH += tmp/moc/release_shared
 
 DISTFILES += macos/Info.plist \
   .appveyor.yml \
+  .gitignore \
   .travis.yml \
   CMakeLists.txt \
   README.md \

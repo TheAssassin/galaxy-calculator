@@ -5,7 +5,6 @@ branches:
 env:
   global:
     - BIN=galaxy-calculator
-    - secure: "drLCd1qFj12SGLlynkHXaZtSBuDBHtSMFAFe0Krx7bVrPO5a9RqNavi3VBjxz88+x/72MIeRrGkYLDCbn/RHHnznbc/UQiFk8WXNr/3/p5IwE56ee/vZfRor67Be21fPb6PuKCqbaZWkAtVBy6slvc1hvdfk5F4yJIkFUW8wjhEtsbq+tAdzW83jNXjpawdx4C9QkUTuwhg51pgvQjxfEAN2lAZxay2xPN/JxW1jcfYNuGvS36P/ahWONlZVmHdEcNVMEcMycpa2JHyhkeQSdCr/bNl6gJKMnGdcCGnz5C6HXcsk6vXjxWWc0nVXWMRZxmZ1tEr5CpXpO9cbMVdIACDPjwBp22b+TR5vhKlSEBxTB3GCLik/68jwSaMMS0KklaO5VfK+fiwoUB4r4jJdIjUDEzj7lS8pai9loHv0hxMRPAJezg+TNetjUtAXCYeBvjv5xaGviclPx0f0yXPTdtqiL5xvaOGRFVoQEb6KufBO9j7pqfLVFyczK8qGsIpbrWvHeXgJdoEdk5tQyDE4SfhDvdN3TNb+ktY2hsjMeX/PUdjkTgD42pREgne3aXUoAGbo20gVQLQfvxFgz5aqV7l5nCtW5HZ8WeTk8g3ilGGM51rr/u9wdcMurhn2YouAVGMRMJ3cHCDQuNltMmbjHj6D/RAHvsmViqoDhsEp7CY="
 
 # I get a warning without them, and two extra jobs with them, comment out.
 #os:
@@ -60,7 +59,7 @@ script:
     - export GITHUB_TOKEN="${github_token}"
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then 
-        echo "Load Qt env"; 
+        echo "Load Qt env Make Linux AppImage";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project in folder=/home/travis/build/[secure]/galaxy-calculator/build/deploy/build"; 
         mkdir build && cd build; 
@@ -84,12 +83,15 @@ script:
         mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
         mv "${BIN}.AppImage" ../; 
         mv "${BIN}.AppImage.zsync" ../; 
+        echo "after move";
         ls;
         cd ../;
+        echo "after cd ../";
         ls;
+        echo "Create Linux ${BIN}.AppImage and ${BIN}.AppImage.zsync";
       fi    
     - if [ ! -z "${DMG}" ]; then 
-        echo "Build project"; 
+        echo "Build project for Mac";
         mkdir build && cd build; 
         qmake ..; make; 
         echo "Run macdeployqt"; 
@@ -97,22 +99,23 @@ script:
         mv "${BIN}.dmg" ../; 
         cd ../;
         ls;
+        echo "Create Mac ${BIN}.dmg";
       fi
     - if [ ! -z "${WEBASM}" ]; then 
+        echo "Build WEBASM";
         git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"; 
         git fetch --all; git config --global user.name "Light-Wizzard"; 
         git config --global user.email "thelightwizzard@gmail.com"; 
-        echo "Build project"; 
+        echo "make build folder and run docker";
         mkdir build; 
         docker run --rm -v "${PWD}:/project/source" -v "${PWD}/build:/project/build" maukalinow/qtwasm_builder:5.13_latest;
         rm -rf build/{Makefile,*.o,*.cpp}; 
         git checkout --track origin/gh-pages; 
         mv build/* .; 
         rm -rf build; 
-        echo "WebAssembly";
         sudo mv "${BIN}.html" index.html; 
-        echo "Renamed ${BIN}.html index.html";
+        echo "WebAssembly Renamed ${BIN}.html too index.html";
         ls;
         git add --all; 
         git commit -sm "Update WebAssembly"; 
@@ -125,12 +128,18 @@ before_deploy:
     - git tag $TRAVIS_TAG
 
 deploy:
-  - provider: releases
-    token: "${GITHUB_TOKEN}"
+    provider: releases
+    api_key:
+        secure: "drLCd1qFj12SGLlynkHXaZtSBuDBHtSMFAFe0Krx7bVrPO5a9RqNavi3VBjxz88+x/72MIeRrGkYLDCbn/RHHnznbc/UQiFk8WXNr/3/p5IwE56ee/vZfRor67Be21fPb6PuKCqbaZWkAtVBy6slvc1hvdfk5F4yJIkFUW8wjhEtsbq+tAdzW83jNXjpawdx4C9QkUTuwhg51pgvQjxfEAN2lAZxay2xPN/JxW1jcfYNuGvS36P/ahWONlZVmHdEcNVMEcMycpa2JHyhkeQSdCr/bNl6gJKMnGdcCGnz5C6HXcsk6vXjxWWc0nVXWMRZxmZ1tEr5CpXpO9cbMVdIACDPjwBp22b+TR5vhKlSEBxTB3GCLik/68jwSaMMS0KklaO5VfK+fiwoUB4r4jJdIjUDEzj7lS8pai9loHv0hxMRPAJezg+TNetjUtAXCYeBvjv5xaGviclPx0f0yXPTdtqiL5xvaOGRFVoQEb6KufBO9j7pqfLVFyczK8qGsIpbrWvHeXgJdoEdk5tQyDE4SfhDvdN3TNb+ktY2hsjMeX/PUdjkTgD42pREgne3aXUoAGbo20gVQLQfvxFgz5aqV7l5nCtW5HZ8WeTk8g3ilGGM51rr/u9wdcMurhn2YouAVGMRMJ3cHCDQuNltMmbjHj6D/RAHvsmViqoDhsEp7CY="
     file:
-      - "${BIN}.AppImage"
-      - "${BIN}.AppImage.zsync"
-      - "index.html"
-      - "${BIN}.dmg"
+        - "${BIN}.AppImage"
+        - "${BIN}.AppImage.zsync"
+        - "index.html"
+        - "${BIN}.dmg"
+    skip_cleanup: true
+    on:
+        repo: Light-Wizzard/galaxy-calculator
+        tags: true
+
 # End of File
 
