@@ -126,8 +126,6 @@ deploy:
       - "$BIN.AppImage"
       - "index.html"
       - "$BIN.dmg"
-      - "${BIN}_debug.zip"
-      - "${BIN}_release.zip"
     skip_cleanup: true
 
 #after_success:
