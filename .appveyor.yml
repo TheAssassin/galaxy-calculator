@@ -100,6 +100,4 @@ deploy:
     prerelease: true
     auth_token:
       secure: zhMbBtnPhVjygBTfOpQniE0jUPWOLewzUCFmEQIqZ/VSfFGpdzh+ZPeDU03rP1yD
-#    auth_token:
-#      secure: '%my_variable%'
 ############################################## End of File

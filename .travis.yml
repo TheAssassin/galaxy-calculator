@@ -46,9 +46,7 @@ install:
     export QTV=qt512;
     sudo apt update -qq;
     echo "Install qt libraries";
-    sudo apt install build-essential ${QTV}base
-    ${QTV}quickcontrols ${QTV}quickcontrols2
-    ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev;
+    sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev;
     export ARTIFACT="$BIN*.AppImage";
   fi
 - if [ ! -z "${DMG}" ]; then
