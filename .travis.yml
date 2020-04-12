@@ -74,10 +74,11 @@ script:
         chmod a+x linuxdeployqt*.AppImage; 
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
-        ./linuxdeployqt*.AppImage deploy/$BIN.desktop -unsupported-allow-new-glibc -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        #  -unsupported-allow-new-glibc
+        ./linuxdeployqt*.AppImage deploy/$BIN.desktop -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         mv $BIN*.AppImage $BIN.AppImage; 
-        ls; 
         printf "moved %s to %s" ${BIN}*.AppImage "${BIN}.AppImage";
+        dir C:\
       fi    
     - if [ ! -z "${DMG}" ]; then 
         echo "Build project"; 
@@ -93,7 +94,7 @@ script:
         git fetch --all; git config --global user.name "Light-Wizzard"; 
         git config --global user.email "thelightwizzard@gmail.com"; 
         echo "Build project"; mkdir build; 
-        docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.14_latest;
+        docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
         rm -rf build/{Makefile,*.o,*.cpp}; 
         git checkout --track origin/gh-pages; 
         mv build/* .; 
@@ -102,17 +103,19 @@ script:
         git add --all; 
         git commit -sm "Update WebAssembly"; 
       fi
+
 before_deploy:
     - git config --local user.name "Light-Wizzard"
     - git config --local user.email "thelightwizzard@gmail.com"
     - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
     - git tag $TRAVIS_TAG
+
 deploy:
   - provider: releases
     token: "${GITHUB_TOKEN}"
     file:
       - "deploy/${BIN}.AppImage"
-      - deploy/index.html
+      - "deploy/index.html"
       - "deploy/${BIN}.dmg"
 # End of File
 
