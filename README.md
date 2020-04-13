@@ -1,45 +1,46 @@
 # Galaxy Calculator
 
-Galaxy Calculator is a Work in Progress, it is based on Sir Isaac Newtons Calculations, and was updated to include the Math Nikola Tesla, thus inventing a new type of Math I call Trinary Mathematics, that is used to Calculate the Galaxy.
+Galaxy Calculator has 4 Calculators built into it:
+1. Galatic Calculator
+2. Madness Calculator
+3. Planet Calculator
+4. Calculator
 
-This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop and other devices.
+All use [BigNumber.js](https://github.com/MikeMcl/bignumber.js) https://github.com/MikeMcl/bignumber.js
+
+The Galaxy, Madness and Planet Calculators are based on Sir Isaac Newtons Calculations, and was updated to include the Math Nikola Tesla, 
+thus inventing a new type of Math I call Trinary Mathematics, that is used to Calculate the Galaxy.
+
+This Project is Open Source, with No License required, this is a Qt Quick QML App, that will run on Desktop and other devices, the bash script I used to port to this app is included.
 
 This App can be compiled for any OS that Qt supports: Linux, Windows, MAC, Android and iOS, as well as every OS that Qt supports, so this should run on most if not all popular OS's.
 
 I will try to make installers and executable for all supported Qt OS's, currently I have:
 
-If the badges are Green, you should be able to download the apps.
+If the badges are Green, you should be able to download the apps, if they are not, it might be that I am working on it, but it only takes a few minutes to update.
 
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
 :package: **Downloads:**
  - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.AppImage)
- - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.dmg)
  - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
+ - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.dmg)
 
 Windows: Download zip and extract it, and run the file galaxy-calculator.exe inside of the deploy folder, working on installer, see below.
 
 These are other versions of the program:
 
 Linux: 
-
-Installer (Working on Menu item in installer, it is not working)
-
-http://LightWizzard.com/installers/linux/GalaxyCalculatorInstaller
-
-Executable Standalone
-
-http://LightWizzard.com/installers/linux/GalaxyCalculator-x86_64.run
+* Installer (Working on Menu item in installer, it is not working)
+* http://LightWizzard.com/installers/linux/GalaxyCalculatorInstaller
+* Executable Standalone
+* http://LightWizzard.com/installers/linux/GalaxyCalculator-x86_64.run
 
 Windows 10
-
-Installer
-
-http://LightWizzard.com/installers/windows/GalaxyCalculatorInstaller.exe
-
-Executable Standalone
-
-http://LightWizzard.com/installers/windows/GalaxyCalculator.exe
+* Installer
+* http://LightWizzard.com/installers/windows/GalaxyCalculatorInstaller.exe
+* Executable Standalone
+* http://LightWizzard.com/installers/windows/GalaxyCalculator.exe
 
 Standalone Executable's are larger, since they have all the libraries and resources packaged into one file, but it ensures it will run in more environments that way.
 
@@ -60,14 +61,11 @@ but you have to pay for printed books, or the easy of having an ePub delivered t
 Printed Book and ePub Available at:
 
 Lulu
-
-http://www.lulu.com/spotlight/LightWizzard
+* http://www.lulu.com/spotlight/LightWizzard
 
 Amazon
-
-https://www.amazon.com/Principles-Trinary-Universe-according-Johannes/dp/1795429186/
-
-https://www.amazon.com/Principles-Trinary-Universe-according-Johannes-ebook/dp/B086D24HX9
+* Book https://www.amazon.com/Principles-Trinary-Universe-according-Johannes/dp/1795429186/
+* ePub https://www.amazon.com/Principles-Trinary-Universe-according-Johannes-ebook/dp/B086D24HX9
 
 You can also get it at any major book store, but I would recommend reading it, if you want to know all the details about the Math, you will not find them in the code as much.
 

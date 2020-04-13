@@ -41,7 +41,8 @@ install:
         sudo apt update -qq; 
         echo "Install qt libraries for Linux";
         sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
-        export ARTIFACT="$BIN*.AppImage";
+        export ARTIFACT="${BIN}*.AppImage";
+        export ARTIFACTZSYNC="${BIN}*.AppImage.zsync";
       fi
     - if [ ! -z "${DMG}" ]; then 
         echo "Download last version of Qt with brew for Mac";
@@ -94,7 +95,7 @@ script:
         git config --global user.email "thelightwizzard@gmail.com"; 
         echo "WEBASM make build folder and run docker";
         mkdir build;
-        docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
+        docker run --rm -v "${PWD}:/project/source" -v "${PWD}/build:/project/build" maukalinow/qtwasm_builder:5.13_latest;
         rm -rf build/{Makefile,*.o,*.cpp};
         git checkout --track origin/gh-pages;
         mv build/* .;
@@ -112,7 +113,7 @@ after_success:
         travis_terminate 0;
       fi
     - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh $ARTIFACT; fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${ARTIFACT}; bash ./upload.sh ${ARTIFACTZSYNC}; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
 
