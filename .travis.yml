@@ -100,9 +100,10 @@ script:
         mv build/* .;
         rm -rf build;
         sudo mv "${BIN}.html" index.html;
+        echo "Created WEBASM";
+        ls -lh;
         git add --all;
         git commit -sm "Update WebAssembly";
-        git push;
       fi    
 
 after_success:

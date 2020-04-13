@@ -8,7 +8,7 @@ This App can be compiled for any OS that Qt supports: Linux, Windows, MAC, Andro
 
 I will try to make installers and executable for all supported Qt OS's, currently I have:
 
-If the badges are Green, you should be able to download the apps (Unix upload not working currently, in work).
+If the badges are Green, you should be able to download the apps (WebAssembly upload not working currently, in work).
 
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
@@ -20,9 +20,9 @@ Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j
 
 Windows: Download zip and extract it, and run the file inside of it.
 
-Currently I am having issues with setting up Travis for the Unix (Linux/Mac) builds, the code compiles, it just does not upload to continuous, like Appveyor.
+Currently I am having issues with setting up Travis for the WebAssembly builds, the code compiles, it just does not upload to continuous.
 
-These are other verions of the program:
+These are other versions of the program:
 
 Linux: 
 Installer (Working on Menu item in installer, it is not working)
@@ -47,6 +47,8 @@ I plan to support as much as I can, once my Book or ePubs start to sell, I will 
 
 All my books are free online at http://LightWizzard.com, but it cost money to print them or push ePubs to your device.
 
+Not publicizing my books here, you can read them for free on my [Github account] (https://github.com/Light-Wizzard/The-Principles-Of-The-Trinary-Universe), 
+but you have to pay for printed books, or the easy of having an ePub delivered through your devices ePub Reader, without having to download it.
 Printed Book and ePub Available at:
 Lulu
 http://www.lulu.com/spotlight/LightWizzard
@@ -54,7 +56,7 @@ Amazon
 https://www.amazon.com/Principles-Trinary-Universe-according-Johannes/dp/1795429186/
 https://www.amazon.com/Principles-Trinary-Universe-according-Johannes-ebook/dp/B086D24HX9
 
-You can also get it at any major book store, but I would recommend reading it, if you want to know all the details about the Math.
+You can also get it at any major book store, but I would recommend reading it, if you want to know all the details about the Math, you will not find them in the code as much.
 
 If you do not see your OS, just download, extract to a folder, and open with Qt Creator, which must be installed, and compile or run it.
 
@@ -80,6 +82,8 @@ This is not a Galaxy Simulator, only a Graph and Plot, and that is very importan
 
 For more information see: [Wiki](https://github.com/Light-Wizzard/galaxy-calculator/wiki)
 
+This is a work in progress, please report any bugs, and comments.
+
 Screen Shots
 
 ![Galaxy Configuration](/doc/images/screenshot-config.png?raw=true "Galaxy Configuration")
@@ -94,5 +98,4 @@ Screen Shots
 
 ![Calculator](/doc/images/screenshot-calc.png?raw=true "Calculator")
 
-This is a work in progress, please report any bugs, and comments.
-
+End of README.md
