@@ -112,7 +112,7 @@ after_success:
         echo "This is not the master branch, no deploy will be done";
         travis_terminate 0;
       fi
-    - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+    - wget -c https://raw.githubusercontent.com/Light-Wizzard/galaxy-calculator/master/deploy/upload.sh;
     - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${ARTIFACT}; bash ./upload.sh ${ARTIFACTZSYNC}; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
