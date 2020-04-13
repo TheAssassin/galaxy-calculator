@@ -22,9 +22,12 @@ If the badges are Green, you should be able to download the apps, if they are no
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
 :package: **Downloads:**
- - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.AppImage)
+ - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.AppImage.zsync)
  - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
  - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.dmg)
+
+* [Travis Builds](https://travis-ci.org/github/Light-Wizzard/galaxy-calculator)
+* [AppVeyor Builds](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
 
 Windows: Download zip and extract it, and run the file galaxy-calculator.exe inside of the deploy folder, working on installer, see below.
 
