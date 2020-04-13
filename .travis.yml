@@ -3,9 +3,6 @@ language: cpp
 branches:
   only:
     - master
-env:
-  global:
-    - BIN=galaxy-calculator
 
 jobs:
   include:
@@ -35,14 +32,36 @@ jobs:
         - DMG="true"
         - MATRIX_EVAL="COMPILER=clang++"
         
+before_install:
+    - if [ -z "${GITHUB_TOKEN}" ]; then 
+        export GITHUB_TOKEN="${github_token}";
+      fi
+    - if [ -z "${GITHUB_USERNAME}" ]; then 
+        export GITHUB_USERNAME=Light-Wizzard;
+      fi
+    - if [ -z "${GITHUB_EMAIL}" ]; then 
+        export GITHUB_EMAIL="thelightwizzard@gmail.com";
+      fi
+    - if [ -z "${REPO_SLUG}" ]; then 
+        export REPO_SLUG="Light-Wizzard/galaxy-calculator";
+      fi
+    - if [ -z "${BIN}" ]; then 
+        export BIN="galaxy-calculator";
+      fi
+    - if [ -z "${QTV}" ]; then 
+        export QTV="qt512";
+      fi
+    - if [ -z "${QT_WASM_VER}" ]; then 
+        export QT_WASM_VER="5.13_latest";
+      fi
+        
 install:
     - if [ ! -z "${APPIMAGE}" ]; then 
-        export QTV=qt512; 
         sudo apt update -qq; 
         echo "Install qt libraries for Linux";
         sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
         export ARTIFACT="${BIN}*.AppImage";
-        export ARTIFACTZSYNC="${BIN}*.AppImage.zsync";
+        export ARTIFACT_ZSYNC="${BIN}*.AppImage.zsync";
       fi
     - if [ ! -z "${DMG}" ]; then 
         echo "Download last version of Qt with brew for Mac";
@@ -53,16 +72,15 @@ install:
       fi
       
 script:
-    - export GITHUB_TOKEN="${github_token}"
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
-        echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/galaxy-calculator";
+        echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/${BIN}";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
         mkdir build && cd build;
         qmake ..;
         make;
-        echo "Create deploy folder=/home/travis/build/[secure]/galaxy-calculator/build/deploy/build/deploy";
+        echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
         mkdir deploy;
         cp "../deploy/${BIN}.png" deploy/;
         cp "../deploy/${BIN}.desktop" deploy/; 
@@ -78,7 +96,7 @@ script:
         mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
       fi
     - if [ ! -z "${DMG}" ]; then
-        echo "Build project for Mac in /home/travis/build/[secure]/galaxy-calculator";
+        echo "Build project for Mac in /home/travis/build/[secure]/${BIN}";
         mkdir build && cd build;
         qmake ..;
         make;
@@ -87,15 +105,15 @@ script:
         find . | grep dmg;
       fi
     - if [ ! -z "${WEBASM}" ]; then
-        echo "Build WEBASM in /home/travis/build/[secure]/galaxy-calculator";
-        git remote set-url origin https://${GITHUB_TOKEN}@github.com/Light-Wizzard/galaxy-calculator;
+        echo "Build WEBASM in /home/travis/build/[secure]/${BIN}";
+        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN};
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
         git fetch --all;
-        git config --global user.name "Light-Wizzard";
-        git config --global user.email "thelightwizzard@gmail.com"; 
+        git config --global user.name "${GITHUB_USERNAME}";
+        git config --global user.email "${GITHUB_EMAIL}";
         echo "WEBASM make build folder and run docker";
         mkdir build;
-        docker run --rm -v "${PWD}:/project/source" -v "${PWD}/build:/project/build" maukalinow/qtwasm_builder:5.13_latest;
+        docker run --rm -v "${PWD}:/project/source" -v "${PWD}/build:/project/build" maukalinow/qtwasm_builder:${QT_WASM_VER};
         rm -rf build/{Makefile,*.o,*.cpp};
         git checkout --track origin/gh-pages;
         mv build/* .;
@@ -112,8 +130,8 @@ after_success:
         echo "This is not the master branch, no deploy will be done";
         travis_terminate 0;
       fi
-    - wget -c https://raw.githubusercontent.com/Light-Wizzard/galaxy-calculator/master/deploy/upload.sh;
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${ARTIFACT}; bash ./upload.sh ${ARTIFACTZSYNC}; fi
+    - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN}/master/deploy/upload.sh;
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${ARTIFACT}; bash ./upload.sh ${ARTIFACT_ZSYNC}; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
 
