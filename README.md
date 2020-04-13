@@ -22,7 +22,7 @@ If the badges are Green, you should be able to download the apps, if they are no
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
 :package: **Downloads:**
- - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.AppImage.zsync)
+ - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.AppImage)
  - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
  - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.dmg)
 
@@ -44,6 +44,19 @@ Windows 10
 * Executable Standalone: http://LightWizzard.com/installers/windows/GalaxyCalculator.exe
 
 Standalone Executable's are larger, since they have all the libraries and resources packaged into one file, but it ensures it will run in more environments that way.
+
+Linux: to use zsync you must have it installed.
+
+Currently this link has issues with the way I renamed it, working on that.
+
+:penguin: [Linux ZSync](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator.AppImage.zsync)
+
+```
+# Arch Linux or Manjaro
+sudo pacman --noconfirm --needed -S zsync
+# Ubunto, LMDE, Debian...
+sudo apt install zsync
+```
 
 I plan to support as much as I can, once my Book or ePubs start to sell, I will save up for a Mac, and iOS device, so I can make Installers for them.
 
