@@ -70,7 +70,7 @@ script:
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
-        export VERSION="";
+        export VERSION="$BIN";
         ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         ls -lh;
         echo "This breaks zsync, but also breaks app launcher";
