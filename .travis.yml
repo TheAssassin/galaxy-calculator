@@ -67,7 +67,7 @@ script:
         cp -v "../usr/share/applications/${BIN_NAME}.desktop" deploy/usr/share/applications/; 
         ls -lh deploy/usr/share/applications/;
         ls -lh;
-        mv -v "$BIN_NAME" deploy/usr/bin/; 
+        mv -v "$BIN" deploy/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
         ls -lh deploy/usr/bin/;
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
@@ -76,7 +76,7 @@ script:
         mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         OUTPUT="${BIN}";
         export VERSION=travis;
-        ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN}" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        ./linuxdeployqt*.AppImage "deploy/usr/bin/${BIN}" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         echo "Completed LinuxDeployQt";
         ls -lh;
       fi
