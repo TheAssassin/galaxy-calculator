@@ -8,4 +8,4 @@ Exec=bin/Galaxy-Calculator-travis-x86_64.AppImage
 Terminal=false
 Categories=Education;
 Keywords=calculator;
-Name[en_US]=galaxy-calculator.desktop
+Name[en_US]=Galaxy-Calculator.desktop
