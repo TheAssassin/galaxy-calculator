@@ -72,14 +72,14 @@ script:
         mv -v "$BIN" deploy/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
         ls -lh deploy/usr/bin/;
+        mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
+        cd deploy/;
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
-        mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         OUTPUT="${BIN}";
         export VERSION=travis;
-        cd deploy/;
-        ./linuxdeployqt*.AppImage "deploy/usr/bin/${BIN}" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
+        ./linuxdeployqt-continuous-x86_64.AppImage "usr/bin/${BIN}" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
         echo "Completed LinuxDeployQt";
         ls -lh;
       fi
