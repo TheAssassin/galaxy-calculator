@@ -87,17 +87,20 @@ script:
         qmake ..;
         make;
         echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
-        mkdir -p deploy/; mkdir -p deploy/usr/; mkdir -p deploy/usr/bin/; mkdir -p deploy/usr/share/; mkdir -p deploy/usr/share/applications/;
+        mkdir -p deploy/; mkdir -p deploy/usr/;  mkdir -p deploy/usr/bin/; mkdir -p deploy/usr/share/;
+        mkdir -p deploy/usr/share/applications/; mkdir -p deploy/usr/doc/; mkdir -p deploy/usr/share/doc/libc6/;
+        cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         echo "Copy files over";
-        cp -v "../usr/share/applications/${BIN}.png"     deploy/usr/share/applications/;
-        cp -v "../usr/share/applications/${BIN}.desktop" deploy/usr/share/applications/;
+        rsync -avz ../usr deploy/
         ls -lh deploy/usr/share/applications/;
+        echo "Moving executable";
         ls -lh;
         mv -v "$BIN" deploy/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
         ls -lh deploy/usr/bin/;
-        mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         cd deploy/;
+        ls -lh;
+        echo "Donwload and run linuxdeployqt continuous...";
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;

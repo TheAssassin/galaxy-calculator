@@ -66,7 +66,7 @@ install:
   - if not %QTDIR:msvc=%==%QTDIR% call "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\vcvarsall.bat" %ARCH%
   - if not %QTDIR:msvc=%==%QTDIR% set make=nmake.exe
   - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
-  - set BIN=galaxy-calculator
+  - set BIN=Galaxy-Calculator
 
 before_build:
   # Prepare the out-of-source build directory.
