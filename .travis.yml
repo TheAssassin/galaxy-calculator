@@ -72,6 +72,8 @@ script:
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN_NAME}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        echo "Completed LinuxDeployQt";
+        ls -lh;
         mv "${BIN}-"*.AppImage "${BIN}.AppImage"; 
         mv "${BIN}-"*.AppImage.zsync "${BIN}.AppImage.zsync"; 
         ls -lh;
