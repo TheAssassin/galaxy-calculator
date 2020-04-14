@@ -106,9 +106,10 @@ script:
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         OUTPUT="${BIN}";
         export VERSION=travis;
-        ./linuxdeployqt-continuous-x86_64.AppImage "usr/bin/${BIN}" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
+        ./linuxdeployqt-continuous-x86_64.AppImage "usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
         echo "Completed LinuxDeployQt";
         cd ../;
+        cp -v ../deploy/Galaxy-Calculator.desktop deploy/;
         ls -lh;
       fi
     - if [ ! -z "${DMG}" ]; then

@@ -15,6 +15,14 @@ Controller.prototype.WelcomePageCallback = function()
     // click delay here because the next button is initially disabled for ~1 second
     gui.clickButton(buttons.NextButton, 3000);
 }
+// Next Obligations Page 
+Controller.prototype.ObligationsPageCallback = function() 
+{
+    var page = gui.pageWidgetByObjectName("ObligationsPage");
+    page.obligationsAgreement.setChecked(true);
+    page.completeChanged();
+    gui.clickButton(buttons.NextButton);
+}
 // Next Credentials Page
 Controller.prototype.CredentialsPageCallback = function() 
 {
