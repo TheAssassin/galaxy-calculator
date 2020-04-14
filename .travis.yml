@@ -51,7 +51,7 @@ install:
 script:
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
-        export BIN_NAME="${BIN}";
+        export BIN_NAME="Galaxy-Calculator";
         echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/${BIN}";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
