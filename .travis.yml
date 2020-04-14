@@ -58,7 +58,7 @@ script:
         qmake ..;
         make;
         echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
-        mkdir deploy/usr/bin; mkdir deploy/usr/share/applications/;
+        mkdir -p deploy/; mkdir -p deploy/usr/; mkdir -p deploy/usr/bin/; mkdir -p deploy/usr/share/; mkdir -p deploy/usr/share/applications/;
         cp "../deploy/${BIN}.png"     deploy/usr/share/applications/;
         cp "../deploy/${BIN}.desktop" deploy/usr/share/applications/; 
         mv "$BIN" deploy/usr/bin/; 
