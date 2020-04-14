@@ -72,10 +72,11 @@ script:
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         OUTPUT="${BIN}";
-        ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN_NAME}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml --output appimage -appimage; 
+        export VERSION=travis
+        ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN_NAME}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         echo "Completed LinuxDeployQt";
         ls -lh;
-        echo "This breaks zsync, but also breaks app launcher";
+        echo "This breaks zsync, but also breaks app launcher  --output appimage";
       fi
     - if [ ! -z "${DMG}" ]; then
         export BIN_NAME="${BIN}";
