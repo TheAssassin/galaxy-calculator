@@ -4,6 +4,10 @@ branches:
   only:
     - master
 
+env:
+    global:
+        - BIN=Galaxy-Calculator
+
 jobs:
   include:
     - os: linux
@@ -52,19 +56,17 @@ install:
 script:
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
-        export BIN_NAME="Galaxy-Calculator";
-        export BIN="Galaxy-Calculator";
         echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/${BIN}";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
         mkdir build && cd build;
         qmake ..;
         make;
-        echo "Create deploy folder=/home/travis/build/[secure]/${BIN_NAME}/build/deploy/build/deploy";
+        echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
         mkdir -p deploy/; mkdir -p deploy/usr/; mkdir -p deploy/usr/bin/; mkdir -p deploy/usr/share/; mkdir -p deploy/usr/share/applications/;
         echo "Copy files over";
-        cp -v "../usr/share/applications/${BIN_NAME}.png"     deploy/usr/share/applications/;
-        cp -v "../usr/share/applications/${BIN_NAME}.desktop" deploy/usr/share/applications/; 
+        cp -v "../usr/share/applications/${BIN}.png"     deploy/usr/share/applications/;
+        cp -v "../usr/share/applications/${BIN}.desktop" deploy/usr/share/applications/;
         ls -lh deploy/usr/share/applications/;
         ls -lh;
         mv -v "$BIN" deploy/usr/bin/; 
@@ -82,7 +84,6 @@ script:
         ls -lh;
       fi
     - if [ ! -z "${DMG}" ]; then
-        export BIN_NAME="${BIN}";
         echo "Build project for Mac in /home/travis/build/[secure]/${BIN}";
         mkdir build && cd build;
         qmake ..;
@@ -92,9 +93,8 @@ script:
         find . | grep dmg;
       fi
     - if [ ! -z "${WEBASM}" ]; then
-        export BIN_NAME="${BIN}";
-        echo "Build WEBASM in /home/travis/build/[secure]/${BIN_NAME}";
-        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN_NAME};
+        echo "Build WEBASM in /home/travis/build/[secure]/${BIN}";
+        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN};
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
         git fetch --all;
         git config --global user.name "${GITHUB_USERNAME}";
@@ -106,7 +106,7 @@ script:
         git checkout --track origin/gh-pages;
         mv -v build/* .;
         rm -rf build;
-        sudo mv -v "${BIN_NAME}.html" index.html;
+        sudo mv -v "${BIN}.html" index.html;
         echo "Created WEBASM";
         ls -lh;
         git add --all;
@@ -122,4 +122,3 @@ after_success:
     - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${ARTIFACT}; bash ./upload.sh ${ARTIFACT_ZSYNC}; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
-
