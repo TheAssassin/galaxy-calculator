@@ -91,7 +91,7 @@ script:
         mkdir -p deploy/usr/share/applications/; mkdir -p deploy/usr/doc/; mkdir -p deploy/usr/share/doc/libc6/;
         cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         echo "Copy files over";
-        rsync -avz ../usr deploy/
+        rsync -Ravz  ../usr deploy/
         ls -lh deploy/usr/share/applications/;
         echo "Moving executable";
         ls -lh;
