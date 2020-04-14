@@ -76,7 +76,7 @@ script:
         mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         OUTPUT="${BIN}";
         export VERSION=travis;
-        ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN_NAME}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN}" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         echo "Completed LinuxDeployQt";
         ls -lh;
       fi
