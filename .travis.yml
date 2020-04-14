@@ -51,43 +51,44 @@ install:
 script:
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
+        export BIN_NAME="${BIN}";
         echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/${BIN}";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
         mkdir build && cd build;
         qmake ..;
         make;
-        echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
+        echo "Create deploy folder=/home/travis/build/[secure]/${BIN_NAME}/build/deploy/build/deploy";
         mkdir -p deploy/; mkdir -p deploy/usr/; mkdir -p deploy/usr/bin/; mkdir -p deploy/usr/share/; mkdir -p deploy/usr/share/applications/;
         echo "Copy files over";
-        cp -v "../usr/share/applications/${BIN}.png"     deploy/usr/share/applications/;
-        cp -v "../usr/share/applications/${BIN}.desktop" deploy/usr/share/applications/; 
+        cp -v "../usr/share/applications/${BIN_NAME}.png"     deploy/usr/share/applications/;
+        cp -v "../usr/share/applications/${BIN_NAME}.desktop" deploy/usr/share/applications/; 
         ls -lh deploy/usr/share/applications/;
-        mv -v "$BIN" deploy/usr/bin/; 
+        mv -v "$BIN_NAME" deploy/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
         ls -lh deploy/usr/bin/;
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
-        mkdir -p deploy/usr/share/doc/libc6/; cp /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
-        ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
+        ./linuxdeployqt*.AppImage "deploy/usr/share/applications/${BIN_NAME}.desktop" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
         ls -lh;
         echo "This breaks zsync, but also breaks app launcher";
-        mv Galaxy-Calculator-*.AppImage "${BIN}.AppImage"; 
-        mv Galaxy-Calculator-*.AppImage.zsync "${BIN}.AppImage.zsync"; 
       fi
     - if [ ! -z "${DMG}" ]; then
-        echo "Build project for Mac in /home/travis/build/[secure]/${BIN}";
+        export BIN_NAME="${BIN}";
+        echo "Build project for Mac in /home/travis/build/[secure]/${BIN_NAME}";
         mkdir build && cd build;
         qmake ..;
         make;
         echo "Run macdeployqt";
-        macdeployqt "${BIN}.app/" -qmldir=../qml -dmg; 
+        macdeployqt "${BIN_NAME}.app/" -qmldir=../qml -dmg; 
         find . | grep dmg;
       fi
     - if [ ! -z "${WEBASM}" ]; then
-        echo "Build WEBASM in /home/travis/build/[secure]/${BIN}";
-        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN};
+        export BIN_NAME="${BIN}";
+        echo "Build WEBASM in /home/travis/build/[secure]/${BIN_NAME}";
+        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN_NAME};
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
         git fetch --all;
         git config --global user.name "${GITHUB_USERNAME}";
@@ -97,9 +98,9 @@ script:
         docker run --rm -v "${PWD}:/project/source" -v "${PWD}/build:/project/build" maukalinow/qtwasm_builder:${QT_WASM_VER};
         rm -rf build/{Makefile,*.o,*.cpp};
         git checkout --track origin/gh-pages;
-        mv build/* .;
+        mv -v build/* .;
         rm -rf build;
-        sudo mv "${BIN}.html" index.html;
+        sudo mv -v "${BIN_NAME}.html" index.html;
         echo "Created WEBASM";
         ls -lh;
         git add --all;
