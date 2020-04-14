@@ -28,6 +28,11 @@ configuration:
   - debug
 
 install:
+  #  - QT_IF_VERSION: '3.2.2'
+  # - ps: Start-FileDownload 'https://download.qt.io/official_releases/qt-installer-framework/%QT_IF_VERSION%/QtInstallerFramework-win-x86.exe'
+  # - curl -sLo 'https://download.qt.io/official_releases/qt-installer-framework/%QT_IF_VERSION%/QtInstallerFramework-win-x86.exe'
+  # C:\Qt\QtIFW%QT_IF_VERSION%\QtInstallerFramework-win-x86.exe
+  # Installation path: C:\Qt\QtIFW2.0.1
   # Set some vars
   # C:\projects\galaxy-calculator
   
