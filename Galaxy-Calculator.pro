@@ -26,9 +26,11 @@ DISTFILES += macos/Info.plist \
   .travis.yml \
   CMakeLists.txt \
   README.md \
-  deploy/GalaxyCalculator.desktop \
-  deploy/galaxycalculator.ico \
-  deploy/galaxycalculator.png \
+  config/config.xml \
+  deploy/upload.sh \
+  packages/com.lightwizzard.galaxycalculator/data/README.txt \
+  packages/com.lightwizzard.galaxycalculator/meta/installscript.qs \
+  packages/com.lightwizzard.galaxycalculator/meta/package.xml \
   qml/BigNumber.js \
   qml/BigNumberMath.js \
   qml/Calculator.qml \
@@ -53,7 +55,10 @@ DISTFILES += macos/Info.plist \
   qml/images/refresh-32.png \
   qml/images/right-32.png \
   qml/images/stop-32.png\
-  bash/makeappendix.a.sh bash/makeappendix.a.zip
+  bash/makeappendix.a.sh bash/makeappendix.a.zip \
+  usr/share/applications/Galaxy-Calculator.desktop \
+  usr/share/applications/Galaxy-Calculator.ico \
+  usr/share/applications/Galaxy-Calculator.png
 
 win32{
 	#enter your Windows definitions here ...
