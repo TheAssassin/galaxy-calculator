@@ -93,12 +93,12 @@ after_build:
   - dir /b /s *.zip
   # Installation path: C:\Qt\QtIFW2.0.1
   - xcopy /f deploy\ packages\com.lightwizzard.galaxycalculator\data\
-  - C:\Qt\QtIFW%QT_IF_VERSION%\bin\binarycreator.exe --offline-only -c config\config.xml -p packages GalaxyCalculatorInstaller.exe
+  - C:\Qt\QtIFW3.2.2\bin\binarycreator.exe --offline-only -c config\config.xml -p packages GalaxyCalculatorInstaller.exe
   - dir
   
 artifacts:
-  #- path: '%BIN%_%CONFIGURATION%.zip'
-  - path: 'GalaxyCalculatorInstaller.exe'
+  #- path: 'GalaxyCalculatorInstaller.exe'
+  - path: '%BIN%_%CONFIGURATION%.zip'
     name: '%BIN%'
 
 deploy:
