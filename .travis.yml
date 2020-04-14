@@ -37,8 +37,8 @@ install:
         sudo apt update -qq; 
         echo "Install qt libraries for Linux";
         sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
-        export ARTIFACT="${BIN}*.AppImage";
-        export ARTIFACT_ZSYNC="${BIN}*.AppImage.zsync";
+        export ARTIFACT="${BIN}-travis-x86_64.AppImage";
+        export ARTIFACT_ZSYNC="${BIN}-travis-x86_64.AppImage.zsync";
       fi
     - if [ ! -z "${DMG}" ]; then 
         echo "Download last version of Qt with brew for Mac";
