@@ -29,8 +29,9 @@ configuration:
   - debug
 
 install:
-  - ps: Start-FileDownload 'https://download.qt.io/official_releases/qt-installer-framework/%QT_IF_VERSION%/QtInstallerFramework-win-x86.exe'
-  - QtInstallerFramework-win-x86.exe 
+  - ps: Start-FileDownload 'https://download.qt.io/official_releases/qt-installer-framework/3.2.2/QtInstallerFramework-win-x86.exe'
+  #- var isSilent = installer.value('isSilent ');
+  - QtInstallerFramework-win-x86.exe isSilent=true
   # Set some vars
   # C:\projects\galaxy-calculator
   
