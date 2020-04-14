@@ -76,18 +76,19 @@ script:
         mkdir -p deploy/usr/share/doc/libc6/; cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         OUTPUT="${BIN}";
         export VERSION=travis;
-        ./linuxdeployqt*.AppImage "deploy/usr/bin/${BIN}" -bundle-non-qt-libs -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../qml -appimage; 
+        cd deploy/;
+        ./linuxdeployqt*.AppImage "deploy/usr/bin/${BIN}" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
         echo "Completed LinuxDeployQt";
         ls -lh;
       fi
     - if [ ! -z "${DMG}" ]; then
         export BIN_NAME="${BIN}";
-        echo "Build project for Mac in /home/travis/build/[secure]/${BIN_NAME}";
+        echo "Build project for Mac in /home/travis/build/[secure]/${BIN}";
         mkdir build && cd build;
         qmake ..;
         make;
         echo "Run macdeployqt";
-        macdeployqt "${BIN_NAME}.app/" -qmldir=../qml -dmg; 
+        macdeployqt "${BIN}.app/" -qmldir=../qml -dmg;
         find . | grep dmg;
       fi
     - if [ ! -z "${WEBASM}" ]; then
