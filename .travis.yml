@@ -83,15 +83,15 @@ script:
         echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/${BIN}";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
-        mkdir build && cd build;
+        mkdir -vp build && cd build;
         qmake ..;
         make;
         echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
-        mkdir -p deploy/; mkdir -p deploy/usr/;  mkdir -p deploy/usr/bin/; mkdir -p deploy/usr/share/;
-        mkdir -p deploy/usr/share/applications/; mkdir -p deploy/usr/doc/; mkdir -p deploy/usr/share/doc/libc6/;
+        mkdir -vp deploy; mkdir -vp deploy/usr;  mkdir -vp deploy/usr/bin; mkdir -vp deploy/usr/share;
+        mkdir -vp deploy/usr/share/applications; mkdir -vp deploy/usr/doc; mkdir -vp deploy/usr/share/doc/libc6;
         cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
         echo "Copy files over";
-        rsync -Ravz  ../usr deploy/
+        cp -vr ../usr deploy/;
         ls -lh deploy/usr/share/applications/;
         echo "Moving executable";
         ls -lh;
