@@ -4,10 +4,6 @@ branches:
   only:
     - master
 
-env:
-    global:
-        - BIN=Galaxy-Calculator
-
 jobs:
   include:
     - os: linux
@@ -36,7 +32,35 @@ jobs:
       env:
         - DMG="true"
         - MATRIX_EVAL="COMPILER=clang++"
-        
+
+before_install:
+    - if [ -z "${GITHUB_TOKEN}" ]; then
+        export GITHUB_TOKEN="${github_token}";
+        echo "Add GITHUB_TOKEN to your Travis Settings Environment Varable with a value from Github Settings Developer Personal access tolkens";
+      fi
+    - if [ -z "${GITHUB_USERNAME}" ]; then
+        echo "Add GITHUB_USERNAME to your Travis Settings Environment Varable with your Github User Name, the first one in the path to github.";
+      fi
+    - if [ -z "${GITHUB_EMAIL}" ]; then
+        echo "Add GITHUB_EMAIL to your Travis Settings Environment Varable with your Github email address.";
+      fi
+    - if [ -z "${REPO_SLUG}" ]; then
+        export REPO_SLUG="Light-Wizzard/galaxy-calculator";
+        echo "Add REPO_SLUG to your Travis Settings Environment Varable with the path from your Github project, User-Name/Project-Name";
+      fi
+    - if [ -z "${BIN}" ]; then
+        export BIN="Galaxy-Calculator";
+        echo "Add BIN to your Travis Settings Environment Varable with a value from Github x";
+      fi
+    - if [ -z "${QTV}" ]; then
+        export QTV="qt512";
+        echo "Add QTV to your Travis Settings Environment Varable with the version of Qt you want to use from beineri repo, qt512";
+      fi
+    - if [ -z "${QT_WASM_VER}" ]; then
+        export QT_WASM_VER="5.13_latest";
+        echo "Add QT_WASM_VER to your Travis Settings Environment Varable with the version of Qt WASM, 5.13_latest";
+      fi
+
 install:
     - if [ ! -z "${APPIMAGE}" ]; then 
         sudo apt update -qq; 
@@ -81,6 +105,7 @@ script:
         export VERSION=travis;
         ./linuxdeployqt-continuous-x86_64.AppImage "usr/bin/${BIN}" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
         echo "Completed LinuxDeployQt";
+        cd ../;
         ls -lh;
       fi
     - if [ ! -z "${DMG}" ]; then
@@ -119,6 +144,6 @@ after_success:
         travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN}/master/deploy/upload.sh;
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${ARTIFACT}; bash ./upload.sh ${ARTIFACT_ZSYNC}; fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh deploy/${ARTIFACT}; bash ./upload.sh deploy/${ARTIFACT_ZSYNC}; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
