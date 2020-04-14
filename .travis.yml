@@ -60,12 +60,12 @@ script:
         echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
         mkdir -p deploy/; mkdir -p deploy/usr/; mkdir -p deploy/usr/bin/; mkdir -p deploy/usr/share/; mkdir -p deploy/usr/share/applications/;
         echo "Copy files over";
-        cp "../usr/share/applications/${BIN}.png"     deploy/usr/share/applications/;
-        cp "../usr/share/applications/${BIN}.desktop" deploy/usr/share/applications/; 
-        ls -lh;
-        mv "$BIN" deploy/usr/bin/; 
+        cp -v "../usr/share/applications/${BIN}.png"     deploy/usr/share/applications/;
+        cp -v "../usr/share/applications/${BIN}.desktop" deploy/usr/share/applications/; 
+        ls -lh deploy/usr/share/applications/;
+        mv -v "$BIN" deploy/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
-        ls -lh;
+        ls -lh deploy/usr/bin/;
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
