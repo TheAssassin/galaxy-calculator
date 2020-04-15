@@ -38,8 +38,7 @@ configuration:
 #    - x64
 
 install:
-  # - @echo off
-  - echo "install"
+  - echo install
   # Set some vars
   # C:\projects\galaxy-calculator
   #- cmd: echo '%QTDIR%'
@@ -54,7 +53,7 @@ install:
   # arm
   # arm64
   #- dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN"
-  - echo "Copy rc files"
+  - echo Copy rc files
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rc.exe" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\"
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rcdll.dll" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\"
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rc.exe" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\amd64_x86"
@@ -63,7 +62,7 @@ install:
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rcdll.dll" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\amd64"
   #- dir "C:\Program Files (x86)\"
   - '%QTDIR%\bin\qtenv2.bat'
-  - echo "Qt Version"
+  - echo Qt Version
   - qmake -v
   - set PRJLIBDIR=%WINDIR%\SysWOW64 # Find vclibs
   - set QTDIR
@@ -74,16 +73,16 @@ install:
   - if not %QTDIR:msvc=%==%QTDIR% call "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\vcvarsall.bat" %ARCH%
   - if not %QTDIR:msvc=%==%QTDIR% set make=nmake.exe
   - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
-  - echo "QTDIR=%QTDIR%"
+  - echo QTDIR=%QTDIR%
   - dir %QTDIR%
   - dir %QTDIR%\bin
   - dir %QTDIR%\plugins
-  - echo "C:\Qt"
+  - echo C:\Qt
   - dir C:\Qt
 
 before_build:
   # Prepare the out-of-source build directory.
-  - echo "before_build ~ APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%"
+  - echo before_build ~ APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%
   - dir
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir %APPVEYOR_BUILD_FOLDER%-build
@@ -93,17 +92,17 @@ before_build:
 
 build_script:
   # Compile it and check for .exe
-  - echo "build_script"
+  - echo build_script
   - cd %APPVEYOR_BUILD_FOLDER%-build
   - '%make%'
   - dir /b /s *.exe
-  - echo "Current Path is %cd%"
+  - echo Current Path is %cd%
 
 after_build:
   # Add a link to the build output within the source directory. This is needed because AppVeyor does
   # not support extracting artifacts from out-of-source build directories. See 'artifacts' below.
-  - echo "after_build"
-  - echo "Current Path is %cd%"
+  - echo after_build
+  - echo Current Path is %cd%
   - dir
   - dir /b /s *.exe
   - mkdir deploy
@@ -114,29 +113,29 @@ after_build:
   - copy "%APPVEYOR_BUILD_FOLDER%-build\%BIN%_%CONFIGURATION%.zip" "%APPVEYOR_BUILD_FOLDER%\%BIN%_%CONFIGURATION%.zip"
   - dir /b /s *.zip
   # Installation path: C:\Qt\QtIFW2.0.1
-  - echo "APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%"
-  - dir "%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\"
-  - dir "%APPVEYOR_BUILD_FOLDER%\"
-  - echo "MY_ENV=%MY_ENV%"
+  - echo APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%
+  - dir %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
+  - dir %APPVEYOR_BUILD_FOLDER%\
+  - echo MY_ENV=%MY_ENV%
   #- %APPVEYOR_BUILD_FOLDER%\tools\qtif_commands.cmd
-  - if exist C:\projects\ (echo "C:\projects exists")
+  - if exist C:\projects\ (echo C:\projects exists)
   - if exist C:\projects\ (dir )
   - if exist C:\projects\ (dir C:\projects\)
   - if exist C:\projects\ (dir "%APPVEYOR_BUILD_FOLDER%-build\")
   - if exist C:\projects\ (dir "%APPVEYOR_BUILD_FOLDER%-build\deploy\")
   - if exist C:\Qt\QtIFW-3.0.1\ (dir C:\Qt\QtIFW-3.0.1)
   - if exist C:\Qt\QtIFW-3.0.1\bin\ (dir C:\Qt\QtIFW-3.0.1\bin\)
-  - if exist C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe (echo "C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe exists") else (echo "C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe does not exists")
+  - if exist C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe exists) else (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe does not exists)
   #  "APPVEYOR_BUILD_FOLDER=C:\projects\galaxy-calculator"
-  - print "xcopy /s /e /f %APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\"
-  - set MY_DEPLOY="%APPVEYOR_BUILD_FOLDER%-build\deploy\"
-  - set MY_DATA="%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\"
-  - print "xcopy /s /e /f %MY_DEPLOY% %MY_DATA%"
-  - xcopy /s /e /f %MY_DEPLOY% %MY_DATA%
-  - C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c "%APPVEYOR_BUILD_FOLDER%\config\config.xml" -p "%APPVEYOR_BUILD_FOLDER%\packages" GalaxyCalculatorInstaller.exe
+  - set MY_DEPLOY=%APPVEYOR_BUILD_FOLDER%-build\deploy\
+  - set MY_DATA=%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
+  - echo xcopy /s /e /f %APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
+  - echo xcopy /s /e /f %MY_DEPLOY% %MY_DATA%
+  #- xcopy /s /e /f %MY_DEPLOY% %MY_DATA%
+  #- C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c "%APPVEYOR_BUILD_FOLDER%\config\config.xml" -p "%APPVEYOR_BUILD_FOLDER%\packages" GalaxyCalculatorInstaller.exe
 
 artifacts:
-  - path: 'GalaxyCalculatorInstaller.exe'
+  #- path: 'GalaxyCalculatorInstaller.exe'
   - path: '%BIN%_%CONFIGURATION%.zip'
     name: '%BIN%'
 
