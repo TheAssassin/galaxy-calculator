@@ -124,7 +124,10 @@ after_build:
   - if exist C:\projects\ (dir %APPVEYOR_BUILD_FOLDER%-build\)
   - if exist C:\projects\ (dir %APPVEYOR_BUILD_FOLDER%-build\deploy\)
   - if exist C:\projects\ (xcopy /f %APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\)
-  - if exist C:\projects\ (C:\Qt\QtIFW3.0.1\bin\binarycreator.exe --offline-only -c %APPVEYOR_BUILD_FOLDER%\config\config.xml -p %APPVEYOR_BUILD_FOLDER%\packages GalaxyCalculatorInstaller.exe)
+  - if exist C:\Qt\QtIFW-3.0.1\ (dir C:\Qt\QtIFW-3.0.1)
+  - if exist C:\Qt\QtIFW-3.0.1\bin\ (dir C:\Qt\QtIFW-3.0.1\bin\)
+  - if exist C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe (echo "C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe exists") else (echo "C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe does not exists")
+  - if exist C:\projects\ (C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c %APPVEYOR_BUILD_FOLDER%\config\config.xml -p %APPVEYOR_BUILD_FOLDER%\packages GalaxyCalculatorInstaller.exe)
 
 artifacts:
   - path: 'GalaxyCalculatorInstaller.exe'
