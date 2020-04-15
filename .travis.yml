@@ -102,19 +102,19 @@ script:
         echo "Moving executable";
         ls;
         mv -v "$BIN" project/usr/bin/; 
-        echo "Donwload and run linuxdeployqt continuous... TRAVIS_BUILD_DIR=$TRAVIS_BUILD_DIR"; 
+        echo "Donwload and run linuxdeployqt continuous... TRAVIS_BUILD_DIR=/home/travis/build/[secure]/galaxy-calculator"; 
         ls "$TRAVIS_BUILD_DIR/project";
         ls project/usr/bin/;
         cd project/;
         export MY_PROJECT="${PWD}";
-        echo "MY_PROJECT=${MY_PROJECT}";
+        echo "MY_PROJECT=/home/travis/build/[secure]/galaxy-calculator/build/project";
         ls;
         echo "ls";
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         export VERSION=travis;
-        ./linuxdeployqt-continuous-x86_64.AppImage "${MY_PROJECT}/usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="${HOME}/qml" -appimage;
+        ./linuxdeployqt-continuous-x86_64.AppImage "${MY_PROJECT}/usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="${TRAVIS_BUILD_DIR}/qml" -appimage;
         echo "Completed LinuxDeployQt";
         ls;
       fi
