@@ -81,13 +81,9 @@ script:
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
         echo "Load Qt env Make Linux AppImage in PWD~=/home/travis/build/[secure]/${BIN}";
-        echo "Home (/home/travis/)=$HOME";
-        ls "${HOME}/";
         source /opt/qt*/bin/qt*-env.sh;
         echo "make directory build and change directory to it";
         mkdir -vp build && cd build;
-        echo "cd build";
-        ls;
         qmake ..;
         make;
         echo "Create project folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/project";
@@ -100,23 +96,17 @@ script:
         cp -vr ../usr project/;
         ls project/usr/share/applications/;
         echo "Moving executable";
-        ls;
         mv -v "$BIN" project/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous... TRAVIS_BUILD_DIR=/home/travis/build/[secure]/galaxy-calculator"; 
-        ls "$TRAVIS_BUILD_DIR/project";
-        ls project/usr/bin/;
         cd project/;
         export MY_PROJECT="${PWD}";
         echo "MY_PROJECT=/home/travis/build/[secure]/galaxy-calculator/build/project";
-        ls;
-        echo "ls";
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         export VERSION=travis;
         ./linuxdeployqt-continuous-x86_64.AppImage "${MY_PROJECT}/usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="${TRAVIS_BUILD_DIR}/qml" -appimage;
         echo "Completed LinuxDeployQt";
-        ls;
       fi
     - if [ ! -z "${DMG}" ]; then
         echo "Build project for Mac in /home/travis/build/[secure]/${BIN}";
@@ -154,7 +144,7 @@ after_success:
         travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN}/master/tools/upload.sh;
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${HOME}/build/project/tools/${ARTIFACT}; bash ./upload.sh ${HOME}/build/project/tools/${ARTIFACT_ZSYNC}; fi
-    - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${MY_PROJECT}/${ARTIFACT}"; bash ./upload.sh "${MY_PROJECT}/${ARTIFACT_ZSYNC}"; fi
+    - if [ ! -z "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
     
