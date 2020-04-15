@@ -30,6 +30,7 @@ DISTFILES += macos/Info.plist \
   tools/Galaxy-Calculator.desktop \
   tools/qt-installer-noninteractive.qs \
   tools/qt-installer-noninteractive.qs \
+  tools/qtif_commands.cmd \
   tools/upload.sh \
   packages/com.lightwizzard.galaxycalculator/data/README.txt \
   packages/com.lightwizzard.galaxycalculator/meta/installscript.qs \

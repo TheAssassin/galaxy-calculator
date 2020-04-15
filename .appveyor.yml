@@ -1,6 +1,9 @@
 # Galaxy Calculator appveyor configuration files
 version: '{branch}-{build}'
 
+os:
+  - Visual Studio 2015
+
 branches:
   only:
     - master
@@ -10,28 +13,33 @@ init:
   - ps: $env:commit = $env:appveyor_repo_commit.SubString(0,7)
   - ps: Update-AppveyorBuild -Version ("{0}-{1}-{2}" -f $env:appveyor_repo_branch,$env:appveyor_build_number,$env:commit )
 
+image:
+  - Visual Studio 2015
+
 environment:
   VSVER: 14.0
   matrix:
     - MSVC_VERSION: 15
       RUNTIME_LINKAGE: static
-      QT_VERSION: 5.12
+      QT_VERSION: 5.13
       QT_LINKAGE: static
       COVERITY_BUILD_CANDIDATE: True
       #https://www.appveyor.com/docs/build-environment/#qt
-      QTDIR: C:\Qt\5.12\msvc2017_64
-      QT_IF_VERSION: '3.2.2'
+      QTDIR: C:\Qt\5.13\msvc2015_64
+      QT_IF_VERSION: '3.1.1'
       PRJLIBS: VCRUNTIME140.dll MSVCP140.dll
       BIN: Galaxy-Calculator
 
 configuration:
-  - release
-  - debug
+    - release
+#    - debug
+#platform:
+#    - Win32
+#    - x64
 
 install:
+  - @echo off
   - echo "install"
-  #- appveyor DownloadFile https://download.qt.io/official_releases/qt-installer-framework/3.2.2/QtInstallerFramework-win-x86.exe
-  #- QtInstallerFramework-win-x86.exe --script deploy/qt-installer-noninteractive.qs
   # Set some vars
   # C:\projects\galaxy-calculator
   #- cmd: echo '%QTDIR%'
@@ -70,6 +78,8 @@ install:
   - dir %QTDIR%
   - dir %QTDIR%\bin
   - dir %QTDIR%\plugins
+  - echo "C:\Qt"
+  - dir C:\Qt
 
 before_build:
   # Prepare the out-of-source build directory.
@@ -103,10 +113,10 @@ after_build:
   - dir /b /s *.zip
   # Installation path: C:\Qt\QtIFW2.0.1
   - echo "APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%"
-  #- xcopy /f %APPVEYOR_BUILD_FOLDER%\%APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
-  #- C:\Qt\QtIFW3.2.2\bin\binarycreator.exe --offline-only -c config\config.xml -p packages GalaxyCalculatorInstaller.exe
   - dir %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
   - dir %APPVEYOR_BUILD_FOLDER%\
+  - echo "MY_ENV=%MY_ENV%"
+  - %APPVEYOR_BUILD_FOLDER%\tools\qtif_commands.cmd
 
 artifacts:
   #- path: 'GalaxyCalculatorInstaller.exe'
