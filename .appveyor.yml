@@ -26,7 +26,7 @@ environment:
       COVERITY_BUILD_CANDIDATE: True
       #https://www.appveyor.com/docs/build-environment/#qt
       QTDIR: C:\Qt\5.13\msvc2015_64
-      QT_IF_VERSION: '3.1.1'
+      QT_IF_VERSION: '3.0.1'
       PRJLIBS: VCRUNTIME140.dll MSVCP140.dll
       BIN: Galaxy-Calculator
 
@@ -117,9 +117,11 @@ after_build:
   - dir %APPVEYOR_BUILD_FOLDER%\
   - echo "MY_ENV=%MY_ENV%"
   #- %APPVEYOR_BUILD_FOLDER%\tools\qtif_commands.cmd
+  - if exist C:\projects\ (xcopy /f C:\projects\%APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\)
+  - if exist C:\projects\ (C:\Qt\QtIFW3.0.1\bin\binarycreator.exe --offline-only -c %APPVEYOR_BUILD_FOLDER%\config\config.xml -p %APPVEYOR_BUILD_FOLDER%\packages GalaxyCalculatorInstaller.exe)
 
 artifacts:
-  #- path: 'GalaxyCalculatorInstaller.exe'
+  - path: 'GalaxyCalculatorInstaller.exe'
   - path: '%BIN%_%CONFIGURATION%.zip'
     name: '%BIN%'
 
