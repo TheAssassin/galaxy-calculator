@@ -10,7 +10,6 @@ init:
   - ps: $env:commit = $env:appveyor_repo_commit.SubString(0,7)
   - ps: Update-AppveyorBuild -Version ("{0}-{1}-{2}" -f $env:appveyor_repo_branch,$env:appveyor_build_number,$env:commit )
 
-
 environment:
   VSVER: 14.0
   matrix:
@@ -53,7 +52,6 @@ install:
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rcdll.dll" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\amd64_x86"
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rc.exe" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\amd64"
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rcdll.dll" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\amd64"
-  #- copy "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\" "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN\"
   #- dir "C:\Program Files (x86)\"
   - '%QTDIR%\bin\qtenv2.bat'
   - qmake -v
@@ -92,9 +90,9 @@ after_build:
   - copy %APPVEYOR_BUILD_FOLDER%-build\%BIN%_%CONFIGURATION%.zip %APPVEYOR_BUILD_FOLDER%\%BIN%_%CONFIGURATION%.zip
   - dir /b /s *.zip
   # Installation path: C:\Qt\QtIFW2.0.1
-  - xcopy /f deploy\ packages\com.lightwizzard.galaxycalculator\data\
+  - xcopy /f deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
   #- C:\Qt\QtIFW3.2.2\bin\binarycreator.exe --offline-only -c config\config.xml -p packages GalaxyCalculatorInstaller.exe
-  - dir packages\com.lightwizzard.galaxycalculator\data\
+  - dir %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
   
 artifacts:
   #- path: 'GalaxyCalculatorInstaller.exe'
