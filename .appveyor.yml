@@ -91,9 +91,9 @@ after_build:
   - dir /b /s *.zip
   # Installation path: C:\Qt\QtIFW2.0.1
   - echo "APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%"
-  - cmd: echo "APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%"
-  - xcopy /f %APPVEYOR_BUILD_FOLDER%\%APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
+  #- xcopy /f %APPVEYOR_BUILD_FOLDER%\%APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
   #- C:\Qt\QtIFW3.2.2\bin\binarycreator.exe --offline-only -c config\config.xml -p packages GalaxyCalculatorInstaller.exe
+  - dir %APPVEYOR_BUILD_FOLDER%\%APPVEYOR_BUILD_FOLDER%-build\deploy\
   - dir %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
 
 artifacts:
