@@ -117,7 +117,9 @@ after_build:
   - dir %APPVEYOR_BUILD_FOLDER%\
   - echo "MY_ENV=%MY_ENV%"
   #- %APPVEYOR_BUILD_FOLDER%\tools\qtif_commands.cmd
-  - if exist C:\projects\ (xcopy /f C:\projects\%APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\)
+  - if exist C:\projects\ (echo "C:\projects exists")
+  - if exist C:\projects\ (dir )
+  - if exist C:\projects\ (xcopy /f C:\projects\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\)
   - if exist C:\projects\ (C:\Qt\QtIFW3.0.1\bin\binarycreator.exe --offline-only -c %APPVEYOR_BUILD_FOLDER%\config\config.xml -p %APPVEYOR_BUILD_FOLDER%\packages GalaxyCalculatorInstaller.exe)
 
 artifacts:
