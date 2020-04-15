@@ -100,14 +100,13 @@ script:
         mv -v "$BIN" project/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
         ls project/usr/bin/;
-        cd ../;
+        cd project/;
         ls;
         echo "Donwload and run linuxdeployqt continuous...";
-        ls "${PWD}/project/";
+        ls "${PWD}/build/project/";
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
-        export OUTPUT="${BIN}";
         export VERSION=travis;
         ./linuxdeployqt-continuous-x86_64.AppImage "usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
         echo "Completed LinuxDeployQt";
