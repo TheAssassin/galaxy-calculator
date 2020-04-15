@@ -81,8 +81,8 @@ script:
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
         echo "Load Qt env Make Linux AppImage in PWD~=/home/travis/build/[secure]/${BIN}";
-        echo "$HOME"
-        ls;
+        echo "Home (/home/travis/)=$HOME";
+        ls "${HOME}/";
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
         mkdir -vp build && cd build;
@@ -90,6 +90,8 @@ script:
         qmake ..;
         make;
         echo "Create project folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/project";
+        echo "${HOME}/build";
+        ls "${HOME}/build";
         mkdir -vp project; mkdir -vp project/usr;  mkdir -vp project/usr/bin; mkdir -vp project/usr/share;
         mkdir -vp project/usr/share/applications; mkdir -vp project/usr/doc; mkdir -vp project/usr/share/doc/libc6;
         cp -v /usr/share/doc/libc6/copyright project/usr/share/doc/libc6/copyright;
