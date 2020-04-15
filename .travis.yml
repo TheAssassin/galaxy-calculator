@@ -87,18 +87,18 @@ script:
         qmake ..;
         make;
         echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
-        mkdir -vp deploy; mkdir -vp deploy/usr;  mkdir -vp deploy/usr/bin; mkdir -vp deploy/usr/share;
-        mkdir -vp deploy/usr/share/applications; mkdir -vp deploy/usr/doc; mkdir -vp deploy/usr/share/doc/libc6;
-        cp -v /usr/share/doc/libc6/copyright deploy/usr/share/doc/libc6/copyright;
+        mkdir -vp deploy; mkdir -vp project/usr;  mkdir -vp project/usr/bin; mkdir -vp project/usr/share;
+        mkdir -vp project/usr/share/applications; mkdir -vp project/usr/doc; mkdir -vp project/usr/share/doc/libc6;
+        cp -v /usr/share/doc/libc6/copyright project/usr/share/doc/libc6/copyright;
         echo "Copy files over";
-        cp -vr ../usr deploy/;
-        ls -lh deploy/usr/share/applications/;
+        cp -vr ../usr project/;
+        ls -lh project/usr/share/applications/;
         echo "Moving executable";
         ls -lh;
-        mv -v "$BIN" deploy/usr/bin/; 
+        mv -v "$BIN" project/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
-        ls -lh deploy/usr/bin/;
-        cd deploy/;
+        ls -lh project/usr/bin/;
+        cd project/;
         ls -lh;
         echo "Donwload and run linuxdeployqt continuous...";
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
@@ -109,7 +109,7 @@ script:
         ./linuxdeployqt-continuous-x86_64.AppImage "usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=../../qml -appimage;
         echo "Completed LinuxDeployQt";
         cd ../;
-        cp -v ../deploy/Galaxy-Calculator.desktop deploy/;
+        cp -v ../project/Galaxy-Calculator.desktop project/;
         ls -lh;
       fi
     - if [ ! -z "${DMG}" ]; then
@@ -147,7 +147,7 @@ after_success:
         echo "This is not the master branch, no deploy will be done";
         travis_terminate 0;
       fi
-    - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN}/master/deploy/upload.sh;
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh deploy/${ARTIFACT}; bash ./upload.sh deploy/${ARTIFACT_ZSYNC}; fi
+    - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN}/master/tools/upload.sh;
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh tools/${ARTIFACT}; bash ./upload.sh tools/${ARTIFACT_ZSYNC}; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi

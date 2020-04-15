@@ -68,13 +68,16 @@ install:
   - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
   - echo "QTDIR=%QTDIR%"
   - dir %QTDIR%
-  #- set BIN=Galaxy-Calculator
+  - dir %QTDIR%\bin
+  - dir %QTDIR%\plugins
 
 before_build:
   # Prepare the out-of-source build directory.
-  - echo "before_build"
+  - echo "before_build ~ APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%"
+  - dir
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir %APPVEYOR_BUILD_FOLDER%-build
+  - dir
   - qmake -o %APPVEYOR_BUILD_FOLDER%-build -r -Wall -Wlogic -Wparser CONFIG+=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
   - dir
 

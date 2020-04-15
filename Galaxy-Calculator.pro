@@ -27,10 +27,10 @@ DISTFILES += macos/Info.plist \
   CMakeLists.txt \
   README.md \
   config/config.xml \
-  deploy/Galaxy-Calculator.desktop \
-  deploy/qt-installer-noninteractive.qs \
-  deploy/qt-installer-noninteractive.qs \
-  deploy/upload.sh \
+  tools/Galaxy-Calculator.desktop \
+  tools/qt-installer-noninteractive.qs \
+  tools/qt-installer-noninteractive.qs \
+  tools/upload.sh \
   packages/com.lightwizzard.galaxycalculator/data/README.txt \
   packages/com.lightwizzard.galaxycalculator/meta/installscript.qs \
   packages/com.lightwizzard.galaxycalculator/meta/package.xml \
