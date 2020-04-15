@@ -127,10 +127,10 @@ after_build:
   - if exist C:\Qt\QtIFW-3.0.1\bin\ (dir C:\Qt\QtIFW-3.0.1\bin\)
   - if exist C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe exists) else (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe does not exists)
   #  "APPVEYOR_BUILD_FOLDER=C:\projects\galaxy-calculator"
-  - set MY_DEPLOY=%APPVEYOR_BUILD_FOLDER%-build\deploy\
-  - set MY_DATA=%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
-  - echo xcopy /s /e /f %APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
-  - echo xcopy /s /e /f %MY_DEPLOY% %MY_DATA%
+  #- set MY_DEPLOY=%APPVEYOR_BUILD_FOLDER%-build\deploy\
+  #- set MY_DATA=%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
+  #- echo xcopy /s /e /f %APPVEYOR_BUILD_FOLDER%-build\deploy\ %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
+  #- echo xcopy /s /e /f %MY_DEPLOY% %MY_DATA%
   #- xcopy /s /e /f "%%APPVEYOR_BUILD_FOLDER%-build\deploy\%" "%%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\%"
   #- xcopy /s /e /f "%MY_DEPLOY%" "%MY_DATA%"
   #- C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c "%APPVEYOR_BUILD_FOLDER%\config\config.xml" -p "%APPVEYOR_BUILD_FOLDER%\packages" GalaxyCalculatorInstaller.exe
