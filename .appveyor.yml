@@ -116,7 +116,7 @@ after_build:
   - dir %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
   - dir %APPVEYOR_BUILD_FOLDER%\
   - echo "MY_ENV=%MY_ENV%"
-  - %APPVEYOR_BUILD_FOLDER%\tools\qtif_commands.cmd
+  #- %APPVEYOR_BUILD_FOLDER%\tools\qtif_commands.cmd
 
 artifacts:
   #- path: 'GalaxyCalculatorInstaller.exe'
