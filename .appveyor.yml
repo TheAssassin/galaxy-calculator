@@ -38,7 +38,7 @@ configuration:
 #    - x64
 
 install:
-  - @echo off
+  #- @echo off
   - echo "install"
   # Set some vars
   # C:\projects\galaxy-calculator
