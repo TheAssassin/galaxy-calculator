@@ -81,26 +81,29 @@ script:
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
         echo "Load Qt env Make Linux AppImage in /home/travis/build/[secure]/${BIN}";
+        ls;
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
         mkdir -vp build && cd build;
+        echo "cd build";
         qmake ..;
         make;
-        echo "Create deploy folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/deploy";
-        mkdir -vp deploy; mkdir -vp project/usr;  mkdir -vp project/usr/bin; mkdir -vp project/usr/share;
+        echo "Create project folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/project";
+        mkdir -vp project; mkdir -vp project/usr;  mkdir -vp project/usr/bin; mkdir -vp project/usr/share;
         mkdir -vp project/usr/share/applications; mkdir -vp project/usr/doc; mkdir -vp project/usr/share/doc/libc6;
         cp -v /usr/share/doc/libc6/copyright project/usr/share/doc/libc6/copyright;
         echo "Copy files over";
         cp -vr ../usr project/;
-        ls -lh project/usr/share/applications/;
+        ls project/usr/share/applications/;
         echo "Moving executable";
-        ls -lh;
+        ls;
         mv -v "$BIN" project/usr/bin/; 
         echo "Donwload and run linuxdeployqt continuous..."; 
-        ls -lh project/usr/bin/;
-        cd project/;
-        ls -lh;
+        ls project/usr/bin/;
+        cd ../;
+        ls;
         echo "Donwload and run linuxdeployqt continuous...";
+        ls "${PWD}/project/";
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
@@ -110,7 +113,7 @@ script:
         echo "Completed LinuxDeployQt";
         cd ../;
         cp -v ../project/Galaxy-Calculator.desktop project/;
-        ls -lh;
+        ls;
       fi
     - if [ ! -z "${DMG}" ]; then
         echo "Build project for Mac in /home/travis/build/[secure]/${BIN}";
