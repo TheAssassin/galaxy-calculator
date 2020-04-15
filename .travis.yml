@@ -81,6 +81,7 @@ script:
     - eval "${MATRIX_EVAL}"
     - if [ ! -z "${APPIMAGE}" ]; then
         echo "Load Qt env Make Linux AppImage in PWD~=/home/travis/build/[secure]/${BIN}";
+        echo "$HOME"
         ls;
         source /opt/qt*/bin/qt*-env.sh;
         echo "Build project";
@@ -103,12 +104,12 @@ script:
         cd project/;
         ls;
         echo "Donwload and run linuxdeployqt continuous...";
-        ls "${PWD}/build/project/";
+        ls "${HOME}/build/project/";
         wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
         chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
         unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
         export VERSION=travis;
-        ./linuxdeployqt-continuous-x86_64.AppImage "${PWD}/build/project/usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="${PWD}/qml" -appimage;
+        ./linuxdeployqt-continuous-x86_64.AppImage "${HOME}/build/project/usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="${HOME}/qml" -appimage;
         echo "Completed LinuxDeployQt";
         ls;
       fi
@@ -148,7 +149,7 @@ after_success:
         travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN}/master/tools/upload.sh;
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${PWD}/build/project/tools/${ARTIFACT}; bash ./upload.sh ${PWD}/build/project/tools/${ARTIFACT_ZSYNC}; fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh ${HOME}/build/project/tools/${ARTIFACT}; bash ./upload.sh ${HOME}/build/project/tools/${ARTIFACT_ZSYNC}; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh $ARTIFACT; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
     
