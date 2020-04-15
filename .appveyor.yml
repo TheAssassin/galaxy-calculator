@@ -29,6 +29,7 @@ configuration:
   - debug
 
 install:
+  - echo "install"
   #- appveyor DownloadFile https://download.qt.io/official_releases/qt-installer-framework/3.2.2/QtInstallerFramework-win-x86.exe
   #- QtInstallerFramework-win-x86.exe --script deploy/qt-installer-noninteractive.qs
   # Set some vars
@@ -45,6 +46,7 @@ install:
   # arm
   # arm64
   #- dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN"
+  - echo "Copy rc files"
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rc.exe" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\"
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rcdll.dll" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\"
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rc.exe" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\amd64_x86"
@@ -53,6 +55,7 @@ install:
   - xcopy /f "C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86\rcdll.dll" "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\BIN\amd64"
   #- dir "C:\Program Files (x86)\"
   - '%QTDIR%\bin\qtenv2.bat'
+  - echo "Qt Version"
   - qmake -v
   - set PRJLIBDIR=%WINDIR%\SysWOW64 # Find vclibs
   - set QTDIR
@@ -63,10 +66,13 @@ install:
   - if not %QTDIR:msvc=%==%QTDIR% call "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\vcvarsall.bat" %ARCH%
   - if not %QTDIR:msvc=%==%QTDIR% set make=nmake.exe
   - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
+  - echo "QTDIR=%QTDIR%"
+  - dir %QTDIR%
   #- set BIN=Galaxy-Calculator
 
 before_build:
   # Prepare the out-of-source build directory.
+  - echo "before_build"
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir %APPVEYOR_BUILD_FOLDER%-build
   - qmake -o %APPVEYOR_BUILD_FOLDER%-build -r -Wall -Wlogic -Wparser CONFIG+=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
@@ -74,6 +80,7 @@ before_build:
 
 build_script:
   # Compile it and check for .exe
+  - echo "build_script"
   - cd %APPVEYOR_BUILD_FOLDER%-build
   - '%make%'
   - dir /b /s *.exe
@@ -81,6 +88,8 @@ build_script:
 after_build:
   # Add a link to the build output within the source directory. This is needed because AppVeyor does
   # not support extracting artifacts from out-of-source build directories. See 'artifacts' below.
+  - echo "after_build"
+  - dir
   - dir /b /s *.exe
   - mkdir deploy
   - copy %APPVEYOR_BUILD_FOLDER%-build\%CONFIGURATION%\%BIN%.exe deploy\%BIN%.exe
