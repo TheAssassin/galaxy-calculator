@@ -109,8 +109,9 @@ before_install:
         export QT_CI_PACKAGES=qt.qt${QT_PK_VERSION}.gcc_64;
         PATH="$TRAVIS_BUILD_DIR/Qt/${QT_VERSION}/gcc_64/bin:${PATH}";
       fi
-    - cp "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .;
-    - cp "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
+    - cp -v "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .;
+    - cp -v "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
+    - ls;
     - install-qt.sh -d "${QT_INSTALL_DIR}" --version "${QT_VERSION}" qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;
 
 install:
@@ -118,7 +119,7 @@ install:
         echo "Install qt libraries for Linux";
         sudo apt update -qq; 
         sudo apt-get install --force-yes -qq p7zip;
-        sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
+        sudo apt-get install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
         export ARTIFACT="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage";
         export ARTIFACT_ZSYNC="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage.zsync";
       fi
