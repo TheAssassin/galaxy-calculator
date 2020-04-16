@@ -119,7 +119,6 @@ install:
         cp -v "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .;
         cp -v "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
         echo "install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;";
-        install-qt.sh -d "${QT_INSTALL_DIR}" --version "${QT_VERSION}" qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;
         export ARTIFACT="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage";
         export ARTIFACT_ZSYNC="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage.zsync";
       fi
