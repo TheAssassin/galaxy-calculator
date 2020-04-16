@@ -1,6 +1,6 @@
 // Emacs mode hint: -*- mode: JavaScript -*-
 // qt-opensource-linux-x64-5.5.1.run --script qt-installer-noninteractive.qs
-// Next
+// Next Controller
 function Controller() 
 {
     installer.autoRejectMessageBoxes();
@@ -47,8 +47,9 @@ Controller.prototype.ComponentSelectionPageCallback = function()
     widget.deselectAll();
     widget.selectComponent("qt.55.gcc_64");
     widget.selectComponent("qt.55.qtquickcontrols");
-
-    // widget.deselectComponent("qt.tools.qtcreator");
+    widget.deselectComponent("qt.tools.qtcreator");
+    widget.deselectComponent("qt.tools.doc");
+    widget.deselectComponent("qt.tools.examples");
     // widget.deselectComponent("qt.55.qt3d");
     // widget.deselectComponent("qt.55.qtcanvas3d");
     // widget.deselectComponent("qt.55.qtlocation");
@@ -56,9 +57,6 @@ Controller.prototype.ComponentSelectionPageCallback = function()
     // widget.deselectComponent("qt.55.qtscript");
     // widget.deselectComponent("qt.55.qtwebengine");
     // widget.deselectComponent("qt.extras");
-    // widget.deselectComponent("qt.tools.doc");
-    // widget.deselectComponent("qt.tools.examples");
-
     gui.clickButton(buttons.NextButton);
 }
 // Next License Agreement Page

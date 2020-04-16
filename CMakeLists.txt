@@ -1,4 +1,4 @@
-project(galaxy-calculator)
+project(Galaxy-Calculator)
 
 cmake_minimum_required(VERSION 2.8)
 
@@ -14,3 +14,10 @@ find_package(Qt5 REQUIRED
 )
 
 add_subdirectory(src)
+
+# install resources
+add_subdirectory(resources)
+
+# install resources
+add_subdirectory(usr/share/icons)
+

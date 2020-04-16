@@ -3,19 +3,28 @@ language: cpp
 branches:
   only:
     - master
-
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous)/
 jobs:
   include:
     - os: linux
       dist: xenial
       sudo: require
-      compiler: g++
+      compiler: gcc
       addons:
         apt:
           sources:
             - sourceline: ppa:ubuntu-toolchain-r/test
             - sourceline: ppa:beineri/opt-qt-5.12.6-xenial
           packages:
+            - binutils
+            - g++-7
+            - libgl1-mesa-dev
+            - libxkbcommon-x11-0
+            - zlib1g-dev
+            - libzstd-dev
+            - p7zip-full  
             - g++-7
             - git
       env:
@@ -34,92 +43,108 @@ jobs:
         - MATRIX_EVAL="COMPILER=clang++"
 
 before_install:
+    - export RED='\033[0;31m';
+    - export NC='\033[0m';
     - if [ -z "${GITHUB_TOKEN}" ]; then
         export GITHUB_TOKEN="${github_token}";
-        echo "Add GITHUB_TOKEN to your Travis Settings Environment Varable with a value from Github Settings Developer Personal access tolkens";
+        echo "${RED}Add GITHUB_TOKEN to your Travis Settings Environment Variable with a value from Github Settings Developer Personal access tolkens{NC}";
       fi
     - if [ -z "${GITHUB_USERNAME}" ]; then
-        echo "Add GITHUB_USERNAME to your Travis Settings Environment Varable with your Github User Name, the first one in the path to github.";
+        echo "${RED}Add GITHUB_USERNAME to your Travis Settings Environment Variable with your Github User Name, the first one in the path to github{NC}";
+      fi
+    - if [ -z "${GITHUB_PROJECT}" ]; then
+        echo "${RED}Add GITHUB_PROJECT to your Travis Settings Environment Variable with your Github Project Name, the second one in the path to github{NC}";
       fi
     - if [ -z "${GITHUB_EMAIL}" ]; then
-        echo "Add GITHUB_EMAIL to your Travis Settings Environment Varable with your Github email address.";
+        echo "${RED}Add GITHUB_EMAIL to your Travis Settings Environment Variable with your Github email address{NC}";
       fi
     - if [ -z "${REPO_SLUG}" ]; then
         export REPO_SLUG="Light-Wizzard/galaxy-calculator";
-        echo "Add REPO_SLUG to your Travis Settings Environment Varable with the path from your Github project, User-Name/Project-Name";
+        echo "${RED}Add REPO_SLUG to your Travis Settings Environment Variable with the path from your Github project, User-Name/Project-Name{NC}";
       fi
-    - if [ -z "${BIN}" ]; then
-        export BIN="Galaxy-Calculator";
-        echo "Add BIN to your Travis Settings Environment Varable with a value from Github x";
+    - if [ -z "${BIN_PRO_RES_NAME}" ]; then
+        export BIN_PRO_RES_NAME="Galaxy-Calculator";
+        echo "${RED}Add BIN_PRO_RES_NAME to your Travis Settings Environment Variable with a value from Github x{NC}";
       fi
     - if [ -z "${QTV}" ]; then
         export QTV="qt512";
-        echo "Add QTV to your Travis Settings Environment Varable with the version of Qt you want to use from beineri repo, qt512";
+        echo "${RED}Add QTV to your Travis Settings Environment Variable with the version of Qt you want to use from beineri repo, qt512{NC}";
       fi
     - if [ -z "${QT_WASM_VER}" ]; then
         export QT_WASM_VER="5.13_latest";
-        echo "Add QT_WASM_VER to your Travis Settings Environment Varable with the version of Qt WASM, 5.13_latest";
+        echo "${RED}Add QT_WASM_VER to your Travis Settings Environment Variable with the version of Qt WASM, 5.13_latest{NC}";
       fi
+    - if [ -z "${QT_EMAIL}" ]; then
+        echo "${RED}Add QT_EMAIL to your Travis Settings Environment Variable with the Email Address for your Qt Account in your qtaccount.ini file, leave blank if not using it{NC}";
+      fi
+    - if [ -z "${QT_JWT}" ]; then
+        echo "${RED}Add QT_JWT to your Travis Settings Environment Variable with the jwt for your Qt Account in your qtaccount.ini file, leave blank if not using it{NC}";
+      fi
+    - if [ -z "${QT_U}" ]; then
+        echo "${RED}Add QT_U to your Travis Settings Environment Variable with the u for your Qt Account in your qtaccount.ini file, leave blank if not using it{NC}";
+      fi
+    - if [ -z "${QT_VERSION}" ]; then
+        export QT_VERSION="5.13.2";
+        echo "${RED}Add QT_VERSION to your Travis Settings Environment Variables the Version of Qt to install, default is ${QT_VERSION} {NC}";
+      fi
+    - if [ -z "${QT_PK_VERSION}" ]; then
+        case "$QT_VERSION" in
+            '5.12.7')
+                export QT_PK_VERSION="5.5127";
+                ;;
+            '5.13.2')
+                export QT_PK_VERSION="5.5132";
+                ;;
+            '5.14.2')
+                export QT_PK_VERSION="5.5142";
+                ;;
+            esac        
+      fi
+    - if [ -z "${QT_INSTALL_DIR}" ]; then
+        export QT_INSTALL_DIR="${TRAVIS_BUILD_DIR}/Qt";
+        echo "${RED}Add QT_INSTALL_DIR to your Travis Settings Environment Variables the Qt installation Directory, default is ${QT_INSTALL_DIR} {NC}";
+      fi
+    - if [ -z "${QT_BIN}" ]; then
+        export QT_BIN="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64/bin";
+        export QT_CI_PACKAGES=qt.qt${QT_PK_VERSION}.gcc_64;
+        PATH="$TRAVIS_BUILD_DIR/Qt/${QT_VERSION}/gcc_64/bin:${PATH}";
+      fi
+    - cp "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .;
+    - cp "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
+    - install-qt.sh -d "${QT_INSTALL_DIR}" --version "${QT_VERSION}" qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;
 
 install:
     - if [ ! -z "${APPIMAGE}" ]; then 
-        sudo apt update -qq; 
         echo "Install qt libraries for Linux";
+        sudo apt update -qq; 
+        sudo apt-get install --force-yes -qq p7zip;
         sudo apt install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
-        export ARTIFACT="${BIN}-travis-x86_64.AppImage";
-        export ARTIFACT_ZSYNC="${BIN}-travis-x86_64.AppImage.zsync";
+        export ARTIFACT="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage";
+        export ARTIFACT_ZSYNC="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage.zsync";
       fi
     - if [ ! -z "${DMG}" ]; then 
         echo "Download last version of Qt with brew for Mac";
         brew update > /dev/null; 
         brew install qt5; 
         chmod -R 755 /usr/local/opt/qt5/*; 
-        export QTDIR="/usr/local/opt/qt5"; export PATH="${QTDIR}/bin:$PATH"; export ARTIFACT="${BIN}*.dmg"; 
+        export QTDIR="/usr/local/opt/qt5"; export PATH="${QTDIR}/bin:$PATH"; export ARTIFACT="${BIN_PRO_RES_NAME}*.dmg"; 
       fi
       
 script:
     - eval "${MATRIX_EVAL}"
-    - if [ ! -z "${APPIMAGE}" ]; then
-        echo "Load Qt env Make Linux AppImage in PWD~=/home/travis/build/[secure]/${BIN}";
-        source /opt/qt*/bin/qt*-env.sh;
-        echo "make directory build and change directory to it";
-        mkdir -vp build && cd build;
-        qmake ..;
-        make;
-        echo "Create project folder=/home/travis/build/[secure]/${BIN}/build/deploy/build/project";
-        echo "Home build ${HOME}/build";
-        ls "${HOME}/build";
-        mkdir -vp project; mkdir -vp project/usr;  mkdir -vp project/usr/bin; mkdir -vp project/usr/share;
-        mkdir -vp project/usr/share/applications; mkdir -vp project/usr/doc; mkdir -vp project/usr/share/doc/libc6;
-        cp -v /usr/share/doc/libc6/copyright project/usr/share/doc/libc6/copyright;
-        echo "Copy files over";
-        cp -vr ../usr project/;
-        ls project/usr/share/applications/;
-        echo "Moving executable";
-        mv -v "$BIN" project/usr/bin/; 
-        echo "Donwload and run linuxdeployqt continuous... TRAVIS_BUILD_DIR=/home/travis/build/[secure]/galaxy-calculator"; 
-        cd project/;
-        export MY_PROJECT="${PWD}";
-        echo "MY_PROJECT=/home/travis/build/[secure]/galaxy-calculator/build/project";
-        wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
-        chmod a+x linuxdeployqt-continuous-x86_64.AppImage;
-        unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
-        export VERSION=travis;
-        ./linuxdeployqt-continuous-x86_64.AppImage "${MY_PROJECT}/usr/share/applications/${BIN}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="${TRAVIS_BUILD_DIR}/qml" -appimage;
-        echo "Completed LinuxDeployQt";
-      fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash tools/build-with-qmake.sh; fi
     - if [ ! -z "${DMG}" ]; then
-        echo "Build project for Mac in /home/travis/build/[secure]/${BIN}";
+        echo "Build project for Mac in /home/travis/build/[secure]/${BIN_PRO_RES_NAME}";
         mkdir build && cd build;
         qmake ..;
         make;
         echo "Run macdeployqt";
-        macdeployqt "${BIN}.app/" -qmldir=../qml -dmg;
+        macdeployqt "${BIN_PRO_RES_NAME}.app/" -qmldir=../qml -dmg;
         find . | grep dmg;
       fi
     - if [ ! -z "${WEBASM}" ]; then
-        echo "Build WEBASM in /home/travis/build/[secure]/${BIN}";
-        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN};
+        echo "Build WEBASM in /home/travis/build/[secure]/${BIN_PRO_RES_NAME}";
+        git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME};
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
         git fetch --all;
         git config --global user.name "${GITHUB_USERNAME}";
@@ -131,7 +156,7 @@ script:
         git checkout --track origin/gh-pages;
         mv -v build/* .;
         rm -rf build;
-        sudo mv -v "${BIN}.html" index.html;
+        sudo mv -v "${BIN_PRO_RES_NAME}.html" index.html;
         echo "Created WEBASM";
         ls -lh;
         git add --all;
@@ -143,8 +168,9 @@ after_success:
         echo "This is not the master branch, no deploy will be done";
         travis_terminate 0;
       fi
-    - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN}/master/tools/upload.sh;
+    - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME}/master/tools/upload.sh;
     - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${MY_PROJECT}/${ARTIFACT}"; bash ./upload.sh "${MY_PROJECT}/${ARTIFACT_ZSYNC}"; fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${MY_PROJECT}/${ARTIFACT_GCI}"; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
     

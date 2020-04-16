@@ -3,15 +3,47 @@ TARGET = Galaxy-Calculator
 
 QT += qml quick quickcontrols2
 
+CONFIG += c++11 release
+
 SOURCES += src/main.cpp src/tablemodel.cpp
 HEADERS += src/tablemodel.h
 
 RESOURCES += resources.qrc
 
-EXAMPLE_FILES += doc
+QML_IMPORT_PATH =
+
+QML_DESIGNER_IMPORT_PATH =
+
+DEFINES += QT_DEPRECATED_WARNINGS
 
 macos:QMAKE_INFO_PLIST = macos/Info.plist
 ios:QMAKE_INFO_PLIST = ios/Info.plist
+
+win32{
+	#enter your Windows definitions here ...
+}
+
+unix{
+    isEmpty(PREFIX) {
+        PREFIX = /usr
+    }
+
+    target.path = $$PREFIX/bin
+    shortcutfiles.files = resources/Galaxy-Calculator.desktop
+    shortcutfiles.path = $$PREFIX/share/applications/
+    data.files += resources/Galaxy-Calculator.png
+    data.path = $$PREFIX/share/icons/
+
+    INSTALLS += shortcutfiles
+    INSTALLS += data
+	macx {
+		# Mac OS X definitions should be entered here ...
+	}
+	 else {
+		# Linux definitions go here ...
+	}
+}
+
 
 target.path = /usr/local/GalaxyCalculator
 INSTALLS += target
@@ -63,19 +95,6 @@ DISTFILES += macos/Info.plist \
   usr/share/applications/Galaxy-Calculator.desktop \
   usr/share/applications/Galaxy-Calculator.ico \
   usr/share/applications/Galaxy-Calculator.png
-
-win32{
-	#enter your Windows definitions here ...
-}
-
-unix{
-	macx {
-		# Mac OS X definitions should be entered here ...
-	}
-	 else {
-		# Linux definitions go here ...
-	}
-}
 
 #test { # the following files will be included for Unit test build
 #    message(Test build)

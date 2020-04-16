@@ -5,6 +5,11 @@
     <Title>Galaxy Calculator by Light Wizzard</Title>
     <Publisher>Light-Wizzard</Publisher>
     <!-- Directory name is used in component.xml -->
-    <StartMenuDir>Galaxy Calculator</StartMenuDir>
-    <TargetDir>@HomeDir@/GalaxyCalculator</TargetDir>
+    <StartMenuDir>Galaxy-Calculator</StartMenuDir>
+    <TargetDir>@HomeDir@/Galaxy-Calculator/Online</TargetDir>
+    <RemoteRepositories>
+        <Repository>
+            <Url>http://localhost/repository/</Url>
+        </Repository>
+    </RemoteRepositories>
 </Installer>

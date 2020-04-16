@@ -1,0 +1,89 @@
+#!/bin/bash
+# QT-CI Project
+# License: Apache-2.0
+# https://github.com/benlau/qtci
+
+set -e; #quit on error
+
+if [ $# -lt 2 ]; then
+    echo "extract-ifw qtifw output_path";
+    exit -1;
+fi
+
+export PATH="$PATH:$PWD";
+export WORKDIR="$PWD";
+INSTALLER="$1";
+OUTPUT="$2";
+SCRIPT="$(mktemp)";
+
+cat <<EOF > $SCRIPT
+// Next Controller
+function Controller() 
+{
+    installer.autoRejectMessageBoxes();
+    installer.installationFinished.connect(function() 
+    {
+        gui.clickButton(buttons.NextButton);
+    })
+}
+// Next with delay Welcome Page
+Controller.prototype.WelcomePageCallback = function() 
+{
+    // click delay here because the next button is initially disabled for ~1 second
+    gui.clickButton(buttons.NextButton, 3000);
+}
+// Next Obligations Page 
+Controller.prototype.ObligationsPageCallback = function() 
+{
+    var page = gui.pageWidgetByObjectName("ObligationsPage");
+    page.obligationsAgreement.setChecked(true);
+    page.completeChanged();
+    gui.clickButton(buttons.NextButton);
+}
+// Next Credentials Page
+Controller.prototype.CredentialsPageCallback = function() 
+{
+    gui.clickButton(buttons.NextButton);
+}
+// Introduction Page
+Controller.prototype.IntroductionPageCallback = function() 
+{
+    gui.clickButton(buttons.NextButton);
+}
+// Target Directory Page
+Controller.prototype.TargetDirectoryPageCallback = function() 
+{
+    var widget = gui.currentPageWidget();
+    if (widget != null) 
+    {
+        widget.TargetDirectoryLineEdit.setText("$OUTPUT");
+    }
+    gui.clickButton(buttons.NextButton);
+}
+// License Agreement Page
+Controller.prototype.LicenseAgreementPageCallback = function() 
+{
+    var widget = gui.currentPageWidget();
+    if (widget != null) 
+    {
+        widget.AcceptLicenseRadioButton.setChecked(true);
+    }
+    gui.clickButton(buttons.NextButton);
+}
+// Ready For Installation Page
+Controller.prototype.ReadyForInstallationPageCallback = function() 
+{
+    gui.clickButton(buttons.CommitButton);
+}
+// Finished Page
+Controller.prototype.FinishedPageCallback = function() 
+{
+    gui.clickButton(buttons.FinishButton);
+}
+EOF
+
+chmod u+x "$1";
+"$1" --script "$SCRIPT";
+################################# End of File #################################
+
+
