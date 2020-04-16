@@ -84,7 +84,7 @@ before_install:
         echo "${RED}Add QT_U to your Travis Settings Environment Variable with the u for your Qt Account in your qtaccount.ini file, leave blank if not using it{NC}";
       fi
     - if [ -z "${QT_VERSION}" ]; then
-        export QT_VERSION="5.13.2";
+        export QT_VERSION="5.12.7";
         echo "${RED}Add QT_VERSION to your Travis Settings Environment Variables the Version of Qt to install, default is ${QT_VERSION} {NC}";
       fi
     - if [ -z "${QT_PK_VERSION}" ]; then
