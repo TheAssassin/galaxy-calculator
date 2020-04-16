@@ -131,7 +131,8 @@ after_build:
   - set MY_DATA=""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
   - echo xcopy /s /e /f ""%APPVEYOR_BUILD_FOLDER%-build\deploy\"" ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
   - echo xcopy /s /e /f ""%MY_DEPLOY%"" ""%MY_DATA%""
-  - xcopy /s /e /f ""%APPVEYOR_BUILD_FOLDER%-build\deploy\"" ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
+  #- xcopy /s /e /f ""%APPVEYOR_BUILD_FOLDER%-build\deploy\"" ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
+  - copy -rv ""%APPVEYOR_BUILD_FOLDER%-build\deploy\"" ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
   #- xcopy /s /e /f ""%MY_DEPLOY%"" ""%MY_DATA%""
   - C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c ""%APPVEYOR_BUILD_FOLDER%\config\config.xml"" -p ""%APPVEYOR_BUILD_FOLDER%\packages"" GalaxyCalculatorInstaller.exe
 
