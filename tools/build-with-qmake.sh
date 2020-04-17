@@ -61,6 +61,9 @@ ls "${REPO_ROOT}/resources";
 ./linuxdeploy-x86_64.AppImage --appdir "AppDir" -e "${BIN_PRO_RES_NAME}" -i "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.png" -d "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.desktop" --plugin qt --output appimage;
 ls;
 # move built AppImage back into original CWD
-mv ${BIN_PRO_RES_NAME}*.AppImage "$OLD_CWD";
-
+mv ${BIN_PRO_RES_NAME}*.AppImage "${OLD_CWD}";
+#
+mkdir -vp "${OLD_CWD}/usr/share/doc/libc6";
+cp -v /usr/share/doc/libc6/copyright "${OLD_CWD}/usr/share/doc/libc6/copyright";
+################################ End of File ##################################
 
