@@ -3,10 +3,12 @@ ls;
 set -x;
 set -e;
 # Set the OUTPUT name for AppImage to be the same as the BIN_PRO_RES_NAME
-OUTPUT="${BIN_PRO_RES_NAME}";
+export OUTPUT="${BIN_PRO_RES_NAME}";
 # AppImageUpdate Informatoin
-#export UPDATE_INFORMATION="gh-releases-zsync|${GITHUB_USERNAME}|${GITHUB_PROJECT}|continuous|${BIN_PRO_RES_NAME}-*x86_64.AppImage.zsync";
-export UPDATE_INFORMATION="zsync|https://github.com/${GITHUB_USERNAME}/${GITHUB_PROJECT}/releases/download/continuous/${BIN_PRO_RES_NAME}-x86_64.AppImage.zsync";
+export VERBOSE=1;
+export UPDATE_INFORMATION="gh-releases-zsync|${GITHUB_USERNAME}|${GITHUB_PROJECT}|continuous|${BIN_PRO_RES_NAME}-*x86_64.AppImage.zsync";
+echo "UPDATE_INFORMATION=$UPDATE_INFORMATION";
+#export UPDATE_INFORMATION="zsync|https://github.com/${GITHUB_USERNAME}/${GITHUB_PROJECT}/releases/download/continuous/${BIN_PRO_RES_NAME}-x86_64.AppImage.zsync";
 # building in temporary directory to keep system clean
 # use RAM disk if possible (as in: not building on CI system like Travis, and RAM disk is available)
 if [ "$CI" == "" ] && [ -d "/dev/shm" ]; then
@@ -27,7 +29,7 @@ function cleanup()
 trap cleanup EXIT
 
 # store repo root as variable
-REPO_ROOT="$(readlink -f $(dirname $(dirname $0)))";
+REPO_ROOT="$(readlink -f "$(dirname "$(dirname "$0")")")";
 OLD_CWD="$(readlink -f .)";
 
 echo "REPO_ROOT=$REPO_ROOT";
@@ -41,7 +43,7 @@ pushd "$BUILD_DIR";
 qmake -makefile "${REPO_ROOT}";
 
 # build project and install files into AppDir
-make -j$(nproc);
+make -j"$(nproc)";
 make install INSTALL_ROOT="AppDir";
 echo "Downloading AppImage";
 # now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt
@@ -60,22 +62,18 @@ ls "${REPO_ROOT}/resources";
 ./linuxdeploy-x86_64.AppImage --appdir "AppDir" -e "${BIN_PRO_RES_NAME}" -i "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.png" -d "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.desktop" --plugin qt --output appimage;
 ls;
 # move built AppImage back into original CWD
-mv ${BIN_PRO_RES_NAME}*.AppImage "${OLD_CWD}";
+mv "${BIN_PRO_RES_NAME}"*.AppImage "${OLD_CWD}";
+#mv "${BIN_PRO_RES_NAME}"*.AppImage.zsync "${OLD_CWD}";
 popd;
 ls;
 #
-mkdir -vp "/usr/share/doc/libc6";
-#cp -rv "/usr/share/doc/libc6/copyright" "usr/share/doc/libc6/copyright";
-#ls "/usr/share/doc/libc6/copyright";
-#ls "usr/share/doc/libc6/copyright";
-echo "Running Qt Installer";
-if [ ! -z "QT_EMAIL" ]; then echo "[General]\nemail=${QT_EMAIL}\n[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
+echo "Running Qt Installer Framework";
+if [ -n "$QT_EMAIL" ]; then print "[General]\nemail=${QT_EMAIL}\n[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
 7z e "tools/qtinstallerframework.7z" -o./qtinstallerframework;
 ls;
 ls -lh qtinstallerframework/; 
 chmod +x ./qtinstallerframework;
 export ARTIFACT_GCI="${BIN_PRO_RES_NAME}-Installer";
-# tools/build-with-qmake.sh: line 75: ./qtinstallerframework/binarycreator: No such file or directory
 ./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_GCI}";
 ls;
 echo "Completed build-with-qmake.sh";

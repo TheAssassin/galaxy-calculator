@@ -109,7 +109,7 @@ before_install:
       fi
 
 install:
-    - if [ ! -z "${APPIMAGE}" ]; then 
+    - if [ -n "${APPIMAGE}" ]; then 
         echo "Install qt libraries for Linux";
         sudo apt-get update --yes; 
         sudo apt-get install --yes p7zip;
@@ -123,8 +123,9 @@ install:
         echo "install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;";
         export ARTIFACT="${BIN_PRO_RES_NAME}-x86_64.AppImage";
         export ARTIFACT_ZSYNC="${BIN_PRO_RES_NAME}-x86_64.AppImage.zsync";
+        export ARTIFACT_QIF="${BIN_PRO_RES_NAME}-";
       fi
-    - if [ ! -z "${DMG}" ]; then 
+    - if [ -n "${DMG}" ]; then 
         echo "Download last version of Qt with brew for Mac";
         brew update > /dev/null; 
         brew install qt5; 
@@ -134,8 +135,8 @@ install:
       
 script:
     - eval "${MATRIX_EVAL}"
-    - if [ ! -z "${APPIMAGE}" ]; then bash tools/build-with-qmake.sh; fi
-    - if [ ! -z "${DMG}" ]; then
+    - if [ -n "${APPIMAGE}" ]; then bash tools/build-with-qmake.sh; fi
+    - if [ -n "${DMG}" ]; then
         echo "Build project for Mac in /home/travis/build/[secure]/${BIN_PRO_RES_NAME}";
         mkdir build && cd build;
         qmake ..;
@@ -144,7 +145,7 @@ script:
         macdeployqt "${BIN_PRO_RES_NAME}.app/" -qmldir=../qml -dmg;
         find . | grep dmg;
       fi
-    - if [ ! -z "${WEBASM}" ]; then
+    - if [ -n "${WEBASM}" ]; then
         echo "Build WEBASM in /home/travis/build/[secure]/${BIN_PRO_RES_NAME}";
         git remote set-url origin https://${GITHUB_TOKEN}@github.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME};
         git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*";
@@ -171,8 +172,8 @@ after_success:
         travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME}/master/tools/upload.sh;
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT}"; bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT_GCI}"; fi
-    - if [ ! -z "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
-    - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
+    - if [ -n "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT}"; bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
+    - if [ -n "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT_GCI}"; bash ./upload.sh "${ARTIFACT_QIF}"; fi
+    - if [ -n "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
+    - if [ -n "${WEBASM}" ]; then git push origin gh-pages; fi
     
