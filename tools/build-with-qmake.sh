@@ -63,10 +63,10 @@ ls "${REPO_ROOT}/resources";
 echo "Completed LinuxDeploy"
 ls;
 # move built AppImage back into original CWD
-if [ -f "${BIN_PRO_RES_NAME}"*.AppImage ]; then
+if [ -f "${BIN_PRO_RES_NAME}"-x86_64.AppImage ]; then
     mv "${BIN_PRO_RES_NAME}"*.AppImage "${OLD_CWD}";
 fi
-if [ -f "${BIN_PRO_RES_NAME}"*.AppImage.zsync ]; then
+if [ -f "${BIN_PRO_RES_NAME}"-x86_64.AppImage.zsync ]; then
     mv "${BIN_PRO_RES_NAME}"*.AppImage.zsync "${OLD_CWD}";
 fi
 popd;
