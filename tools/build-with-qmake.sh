@@ -3,7 +3,7 @@ ls;
 set -x;
 set -e;
 # Set the OUTPUT name for AppImage to be the same as the BIN_PRO_RES_NAME
-export OUTPUT="${BIN_PRO_RES_NAME}";
+export OUTPUT="${BIN_PRO_RES_NAME}.AppImage";
 # AppImageUpdate Informatoin
 export VERBOSE=1;
 export UPDATE_INFORMATION="gh-releases-zsync|${GITHUB_USERNAME}|${GITHUB_PROJECT}|continuous|${BIN_PRO_RES_NAME}-*x86_64.AppImage.zsync";
@@ -63,11 +63,13 @@ ls "${REPO_ROOT}/resources";
 echo "Completed LinuxDeploy"
 ls;
 # move built AppImage back into original CWD
-if [ -f "${BIN_PRO_RES_NAME}"-x86_64.AppImage ]; then
-    mv "${BIN_PRO_RES_NAME}"*.AppImage "${OLD_CWD}";
+if [ -f "${BIN_PRO_RES_NAME}".AppImage ]; then
+    echo "Found ${BIN_PRO_RES_NAME}.AppImage"
+    mv "${BIN_PRO_RES_NAME}".AppImage "${OLD_CWD}";
 fi
-if [ -f "${BIN_PRO_RES_NAME}"-x86_64.AppImage.zsync ]; then
-    mv "${BIN_PRO_RES_NAME}"*.AppImage.zsync "${OLD_CWD}";
+if [ -f "${BIN_PRO_RES_NAME}".AppImage.zsync ]; then
+    echo "Found ${BIN_PRO_RES_NAME}.AppImage.zsync"
+    mv "${BIN_PRO_RES_NAME}".AppImage.zsync "${OLD_CWD}";
 fi
 popd;
 ls;
