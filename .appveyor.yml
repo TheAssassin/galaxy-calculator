@@ -129,7 +129,7 @@ after_build:
   
 artifacts:
   - path: '%BIN%-%CONFIGURATION%.zip'
-    name: 'Zip-%CONFIGURATION%-Release'
+    name: 'Zip-%CONFIGURATION%'
   - path: '%BIN%-Installer.zip'  
     name: 'ZipInstaller'
   - path: '%BIN%-Installer.exe'
@@ -138,7 +138,7 @@ artifacts:
 deploy:
   - provider: GitHub
     release: continuous
-    artifact: 'Zip-%CONFIGURATION%-Release'
+    artifact: 'Zip-%CONFIGURATION%'
     draft: false
     prerelease: true
     auth_token:
