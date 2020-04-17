@@ -29,6 +29,8 @@ trap cleanup EXIT
 REPO_ROOT="$(readlink -f $(dirname $(dirname $0)))";
 OLD_CWD="$(readlink -f .)";
 
+echo "REPO_ROOT=$REPO_ROOT";
+echo "OLD_CWD=$OLD_CWD";
 # switch to build dir
 pushd "$BUILD_DIR";
 
@@ -39,7 +41,7 @@ qmake "$REPO_ROOT";
 # build project and install files into AppDir
 make -j$(nproc);
 make install INSTALL_ROOT="AppDir";
-
+echo "Downloading AppImage";
 # now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt
 # download linuxdeploy and its Qt plugin
 wget -c -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage;
