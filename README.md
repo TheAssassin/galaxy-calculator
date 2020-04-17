@@ -24,28 +24,17 @@ Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j
 :package: **Downloads:**
  - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.AppImage)
  - :penguin: :inbox_tray: [Linux ZSync](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.AppImage.zsync)
- - :penguin: :outbox_tray: [Linux Installer](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.Installer)
+ - :penguin: :outbox_tray: [Linux Installer](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator-Installer)
  - :office: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
  - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.dmg)
 
 These are built here:
-* [Travis Builds](https://travis-ci.org/github/Light-Wizzard/galaxy-calculator)
-* [AppVeyor Builds](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
+* [Travis Builds](https://travis-ci.org/github/Light-Wizzard/galaxy-calculator) [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
+* [AppVeyor Builds](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
 
-Windows (Tested on 7 and 10 let me know if 8 works): Download zip and extract it, and run the file galaxy-calculator.exe inside of the deploy folder, working on installer, see below.
+Windows (Tested on 7 and 10 let me know if 8 works): Download zip and extract it, and run the file galaxy-calculator.exe inside of the deploy folder.
 
 These are other versions of the program that I made by hand:
-
-Linux: 
-* Installer: (Working on Menu item in installer, it is not working)
-* http://LightWizzard.com/installers/linux/GalaxyCalculatorInstaller
-* Executable Standalone: http://LightWizzard.com/installers/linux/GalaxyCalculator-x86_64.run
-
-Windows 10
-* Installer: http://LightWizzard.com/installers/windows/GalaxyCalculatorInstaller.exe
-* Executable Standalone: http://LightWizzard.com/installers/windows/GalaxyCalculator.exe
-
-Standalone Executable's are larger, since they have all the libraries and resources packaged into one file, but it ensures it will run in more environments that way.
 
 Linux: to use zsync you must have it installed.
 
