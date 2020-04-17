@@ -61,6 +61,7 @@ ls;
 # move built AppImage back into original CWD
 mv ${BIN_PRO_RES_NAME}*.AppImage "${OLD_CWD}";
 popd;
+ls;
 #
 mkdir -vp "/usr/share/doc/libc6";
 cp -rv "/usr/share/doc/libc6/copyright/*" "usr/share/doc/libc6/copyright";
@@ -71,7 +72,6 @@ ls;
 export ARTIFACT_GCI="${BIN_PRO_RES_NAME}-Installer";
 ./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_GCI}";
 ls;
-
 echo "Completed build-with-qmake.sh";
 ################################ End of File ##################################
 
