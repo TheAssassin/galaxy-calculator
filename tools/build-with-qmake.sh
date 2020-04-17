@@ -45,8 +45,8 @@ make install INSTALL_ROOT="AppDir";
 echo "Downloading AppImage";
 # now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt
 # download linuxdeploy and its Qt plugin
-wget -c -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage;
-wget -c -nv https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage;
+wget -c -nv "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage";
+wget -c -nv "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage";
 
 # make them executable
 chmod +x linuxdeploy*.AppImage;
@@ -62,8 +62,18 @@ ls "${REPO_ROOT}/resources";
 ls;
 # move built AppImage back into original CWD
 mv ${BIN_PRO_RES_NAME}*.AppImage "${OLD_CWD}";
+popd;
 #
-mkdir -vp "${OLD_CWD}/usr/share/doc/libc6";
-cp -v /usr/share/doc/libc6/copyright "${OLD_CWD}/usr/share/doc/libc6/copyright";
+mkdir -vp "/usr/share/doc/libc6";
+cp -v "/usr/share/doc/libc6/copyright" "/usr/share/doc/libc6/copyright";
+echo "Running Qt Installer";
+if [ ! -z "QT_EMAIL" ]; then echo "[General]\nemail=${QT_EMAIL}\n[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
+7z e "tools/qtinstallerframework.7z"
+
+export ARTIFACT_GCI="${BIN_PRO_RES_NAME}-Installer";
+./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_GCI}";
+ls;
+
+echo "Completed build-with-qmake.sh";
 ################################ End of File ##################################
 

@@ -123,11 +123,12 @@ after_build:
   - xcopy /s /e /f "%APPVEYOR_BUILD_FOLDER%-build\deploy" "%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data"
   - C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c "%APPVEYOR_BUILD_FOLDER%\config\config.xml" -p "%APPVEYOR_BUILD_FOLDER%\packages" "%BIN%-Installer.exe"
   - dir /b /s %BIN%-*.exe
-
+  - dir
+  
 artifacts:
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: '%BIN%'
-  - path: '%BIN%-Installer.exe'
+  - path: '%BIN%-*.exe'
     name: '%BIN%-Installer'
 
 deploy:
