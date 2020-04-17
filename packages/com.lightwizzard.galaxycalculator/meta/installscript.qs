@@ -36,9 +36,15 @@ Component.prototype.createOperations = function()
     // call default implementation to actually install GalaxyCalculator.exe!
     component.createOperations();
 
-    if (systemInfo.productType === "windows") {
+    if (systemInfo.productType === "windows") 
+    {
         component.addOperation("CreateShortcut", "@TargetDir@/Galaxy-Calculator.exe", "@StartMenuDir@/Galaxy-Calculator.lnk",
             "workingDirectory=@TargetDir@", "iconPath=%SystemRoot%/system32/SHELL32.dll",
             "iconId=2", "description=Galaxy Calculator by the Light Wizzard");
     }
+    if (installer.value("os") === "x11")
+    {
+        component.addOperation("CreateDesktopEntry", "/usr/share/applications/YourApp.desktop", "Version=1.0\nType=Application\nTerminal=false\nExec=@TargetDir@/YourApp.sh\nName=YourApp_name\nIcon=@TargetDir@YourApp_icon.png\nName[en_US]=YourApp_name");
+        component.addElevatedOperation("Copy", "/usr/share/applications/YourApp.desktop", "@HomeDir@/Desktop/YourApp.desktop");
+    }    
 }
