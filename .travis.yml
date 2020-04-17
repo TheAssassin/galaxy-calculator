@@ -171,8 +171,8 @@ after_success:
         travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME}/master/tools/upload.sh;
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${MY_PROJECT}/${ARTIFACT}"; bash ./upload.sh "${MY_PROJECT}/${ARTIFACT_ZSYNC}"; fi
-    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${MY_PROJECT}/${ARTIFACT_GCI}"; fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT}"; bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
+    - if [ ! -z "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT_GCI}"; fi
     - if [ ! -z "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
     - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
     
