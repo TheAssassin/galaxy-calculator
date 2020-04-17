@@ -127,22 +127,13 @@ after_build:
   - dir
   
 artifacts:
-  - path: '%BIN%-%CONFIGURATION%.zip'
+  - path: '%BIN%-*.zip'
     name: '%BIN%'
-  - path: '%BIN%-Installer.zip'
-    name: 'Installer'
 
 deploy:
   - provider: GitHub
     release: continuous
     artifact: '%BIN%'
-    draft: false
-    prerelease: true
-    auth_token:
-      secure: zhMbBtnPhVjygBTfOpQniE0jUPWOLewzUCFmEQIqZ/VSfFGpdzh+ZPeDU03rP1yD
-  - provider: GitHub
-    release: continuous
-    artifact: 'Installer'
     draft: false
     prerelease: true
     auth_token:
