@@ -134,9 +134,8 @@ artifacts:
 deploy:
   - provider: GitHub
     release: continuous
-    artifact: 
-        - '%BIN%'
-        - GalaxyCalculatorInstaller
+    artifact: '%BIN%'
+    artifact: GalaxyCalculatorInstaller
     draft: false
     prerelease: true
     auth_token:

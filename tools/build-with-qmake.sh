@@ -13,21 +13,24 @@ if [ "$CI" == "" ] && [ -d "/dev/shm" ]; then
 else
     TEMP_BASE="/tmp";
 fi
+# store repo root as variable
+REPO_ROOT="$(readlink -f $(dirname $(dirname $0)))";
+OLD_CWD="$(readlink -f .)";
 # Make Build Directory
-BUILD_DIR="$(mktemp -d -p "$TEMP_BASE" "${BIN_PRO_RES_NAME}-build-XXXXXX")";
+#BUILD_DIR="$(mktemp -d -p "$TEMP_BASE" "${BIN_PRO_RES_NAME}-build-XXXXXX")";
+BUILD_DIR="${REPO_ROOT}/build";
+mkdir -vp build && cd build;
 
 # make sure to clean up build dir, even if errors occur
 function cleanup() 
 {
     if [ -d "$BUILD_DIR" ]; then
+        cd "${REPO_ROOT}";
         rm -rf "$BUILD_DIR"
     fi
 }
 trap cleanup EXIT
 
-# store repo root as variable
-REPO_ROOT="$(readlink -f $(dirname $(dirname $0)))";
-OLD_CWD="$(readlink -f .)";
 
 echo "REPO_ROOT=$REPO_ROOT";
 echo "OLD_CWD=$OLD_CWD";
