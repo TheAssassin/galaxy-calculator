@@ -125,10 +125,10 @@ after_build:
   - dir
 
 artifacts:
-  - path: '%BIN%-Installer.exe'
-    name: '%BIN%-Installer'
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: '%BIN%'
+  - path: '%BIN%-Installer.exe'
+    name: '%BIN%-Installer'
 
 deploy:
   - provider: GitHub
