@@ -69,7 +69,8 @@ mkdir -vp "/usr/share/doc/libc6";
 #ls "usr/share/doc/libc6/copyright";
 echo "Running Qt Installer";
 if [ ! -z "QT_EMAIL" ]; then echo "[General]\nemail=${QT_EMAIL}\n[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
-7z e "tools/qtinstallerframework.7z"
+mkdir -p qtinstallerframework;
+7z e "tools/qtinstallerframework.7z" qtinstallerframework/
 ls;
 export ARTIFACT_GCI="${BIN_PRO_RES_NAME}-Installer";
 # tools/build-with-qmake.sh: line 75: ./qtinstallerframework/binarycreator: No such file or directory
