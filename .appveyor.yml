@@ -129,9 +129,9 @@ after_build:
 artifacts:
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: 'Zip-%CONFIGURATION%-Release'
-  - path: '%BIN%-Installer.zip'  
+  - path: '%APPVEYOR_BUILD_FOLDER%\%BIN%-Installer.zip'  
     name: 'ZipInstaller'
-  - path: '%BIN%-Installer.exe'
+  - path: '%APPVEYOR_BUILD_FOLDER%\%BIN%-Installer.exe'
     name: 'ExecutableFile'
 
 deploy:
