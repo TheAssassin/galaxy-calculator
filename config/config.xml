@@ -6,5 +6,5 @@
     <Publisher>Light-Wizzard</Publisher>
     <!-- Directory name is used in component.xml -->
     <StartMenuDir>Galaxy-Calculator</StartMenuDir>
-    <TargetDir>@HomeDir@/Galaxy-Calculator/StartMenu</TargetDir>
+    <TargetDir>@HomeDir@/Galaxy-Calculator</TargetDir>
 </Installer>

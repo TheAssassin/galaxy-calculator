@@ -76,6 +76,11 @@ before_install:
     - if [ -z "${QT_U}" ]; then
         echo -e "${WARNING_COLOR}Add QT_U to your Travis Settings Environment Variable with the u for your Qt Account in your qtaccount.ini file, leave blank if not using it${NC}";
       fi
+    - if [ -z "${QIF_PACKAGE_DATA}" ]; then
+        echo -e "${WARNING_COLOR}Add QIF_PACKAGE_DATA to your Travis Settings Environment Variable with the u for your Qt Account in your qtaccount.ini file, leave blank if not using it${NC}";
+        export QIF_PACKAGE_DATA="packages/com.lightwizzard.galaxycalculator/data";
+      fi
+
 
 install:
     - if [ -n "${APPIMAGE}" ]; then 

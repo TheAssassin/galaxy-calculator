@@ -65,11 +65,11 @@ ls;
 # move built AppImage back into original CWD
 if [ -f "${BIN_PRO_RES_NAME}".AppImage ]; then
     echo "Found ${BIN_PRO_RES_NAME}.AppImage"
-    mv "${BIN_PRO_RES_NAME}".AppImage "${OLD_CWD}";
+    mv "${BIN_PRO_RES_NAME}.AppImage" "${OLD_CWD}";
 fi
 if [ -f "${BIN_PRO_RES_NAME}".AppImage.zsync ]; then
     echo "Found ${BIN_PRO_RES_NAME}.AppImage.zsync"
-    mv "${BIN_PRO_RES_NAME}".AppImage.zsync "${OLD_CWD}";
+    mv "${BIN_PRO_RES_NAME}.AppImage.zsync" "${OLD_CWD}";
 fi
 popd;
 ls;
@@ -80,8 +80,9 @@ if [ -n "${QT_EMAIL}" ]; then printf "%s" "[QtAccount]\nemail=${QT_EMAIL}\njwt=$
 ls;
 ls -lh qtinstallerframework/; 
 chmod +x ./qtinstallerframework;
-export ARTIFACT_GCI="${BIN_PRO_RES_NAME}-Installer";
-./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_GCI}";
+cp -rv "${BIN_PRO_RES_NAME}.AppImage" "${QIF_PACKAGE_DATA}";
+cp -rv "${BIN_PRO_RES_NAME}.AppImage.zsync" "${QIF_PACKAGE_DATA}";
+./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_QIF}";
 ls;
 echo "Completed build-with-qmake.sh";
 ################################ End of File ##################################
