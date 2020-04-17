@@ -113,9 +113,12 @@ before_install:
 install:
     - if [ ! -z "${APPIMAGE}" ]; then 
         echo "Install qt libraries for Linux";
-        sudo apt update -qq; 
-        sudo apt-get install --force-yes p7zip;
-        sudo apt-get install build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
+        sudo apt-get update -q --yes; 
+        sudo apt-get install --yes p7zip;
+        sudo apt-get install --yes build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
+        sudo apt-get autoremove;
+        sudo apt-get -f install;
+        sudo apt-get autoclean;
         cp -v "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .;
         cp -v "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
         echo "install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;";

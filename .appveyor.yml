@@ -112,12 +112,7 @@ after_build:
   - 7z a -tzip "%BIN%_%CONFIGURATION%.zip" deploy -r
   - copy "%APPVEYOR_BUILD_FOLDER%-build\%BIN%_%CONFIGURATION%.zip" "%APPVEYOR_BUILD_FOLDER%\%BIN%_%CONFIGURATION%.zip"
   - dir /b /s *.zip
-  # Installation path: C:\Qt\QtIFW2.0.1
   - echo APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%
-  - dir %APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\
-  - dir %APPVEYOR_BUILD_FOLDER%\
-  - echo MY_ENV=%MY_ENV%
-  #- %APPVEYOR_BUILD_FOLDER%\tools\qtif_commands.cmd
   - if exist C:\projects\ (echo C:\projects exists)
   - if exist C:\projects\ (dir )
   - if exist C:\projects\ (dir C:\projects\)
@@ -126,20 +121,11 @@ after_build:
   - if exist C:\Qt\QtIFW-3.0.1\ (dir C:\Qt\QtIFW-3.0.1)
   - if exist C:\Qt\QtIFW-3.0.1\bin\ (dir C:\Qt\QtIFW-3.0.1\bin\)
   - if exist C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe exists) else (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe does not exists)
-  #  "APPVEYOR_BUILD_FOLDER=C:\projects\galaxy-calculator"
-  - set MY_DEPLOY=""%APPVEYOR_BUILD_FOLDER%-build\deploy\""
-  - set MY_DATA=""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
-  - echo xcopy /s /e /f ""%APPVEYOR_BUILD_FOLDER%-build\deploy\"" ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
-  - echo xcopy /s /e /f ""%MY_DEPLOY%"" ""%MY_DATA%""
-  - dir ""%APPVEYOR_BUILD_FOLDER%-build\deploy\"" 
-  - dir ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
   - xcopy /s /e /f ""%APPVEYOR_BUILD_FOLDER%-build\deploy"" ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data""
-  #- copy -rv ""%APPVEYOR_BUILD_FOLDER%-build\deploy\"" ""%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data\""
-  #- xcopy /s /e /f ""%MY_DEPLOY%"" ""%MY_DATA%""
-  #- C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c ""%APPVEYOR_BUILD_FOLDER%\config\config.xml"" -p ""%APPVEYOR_BUILD_FOLDER%\packages"" GalaxyCalculatorInstaller.exe
+  - C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c ""%APPVEYOR_BUILD_FOLDER%\config\config.xml"" -p ""%APPVEYOR_BUILD_FOLDER%\packages"" GalaxyCalculatorInstaller.exe
 
 artifacts:
-  #- path: 'GalaxyCalculatorInstaller.exe'
+  - path: 'GalaxyCalculatorInstaller.exe'
   - path: '%BIN%_%CONFIGURATION%.zip'
     name: '%BIN%'
 
