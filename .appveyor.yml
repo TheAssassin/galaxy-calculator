@@ -127,8 +127,6 @@ after_build:
 artifacts:
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: '%BIN%'
-  - path: '%BIN%-Installer.exe'
-    name: '%BIN%-Installer'
 
 deploy:
   - provider: GitHub
