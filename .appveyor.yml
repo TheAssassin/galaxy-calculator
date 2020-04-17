@@ -73,21 +73,21 @@ install:
   - if not %QTDIR:msvc=%==%QTDIR% set make=nmake.exe
   - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
   - echo QTDIR=%QTDIR%
-  - dir %QTDIR%
-  - dir %QTDIR%\bin
-  - dir %QTDIR%\plugins
-  - echo C:\Qt
-  - dir C:\Qt
+  #- dir %QTDIR%
+  #- dir %QTDIR%\bin
+  #- dir %QTDIR%\plugins
+  #- echo C:\Qt
+  #- dir C:\Qt
 
 before_build:
   # Prepare the out-of-source build directory.
   - echo before_build ~ APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%
-  - dir
+  #- dir
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir %APPVEYOR_BUILD_FOLDER%-build
-  - dir %APPVEYOR_BUILD_FOLDER%
+  #- dir %APPVEYOR_BUILD_FOLDER%
   - qmake -o %APPVEYOR_BUILD_FOLDER%-build -r -Wall -Wlogic -Wparser CONFIG+=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
-  - dir %APPVEYOR_BUILD_FOLDER%-build
+  #- dir %APPVEYOR_BUILD_FOLDER%-build
 
 build_script:
   # Compile it and check for .exe
@@ -102,7 +102,7 @@ after_build:
   # not support extracting artifacts from out-of-source build directories. See 'artifacts' below.
   - echo after_build
   - echo Current Path is %cd%
-  - dir
+  #- dir
   - dir /b /s *.exe
   - mkdir deploy
   - copy "%APPVEYOR_BUILD_FOLDER%-build\%CONFIGURATION%\%BIN%.exe" "deploy\%BIN%.exe"
@@ -110,7 +110,7 @@ after_build:
   - for %%I in (%PRJLIBS%) do copy %PRJLIBDIR%\%%I deploy\
   - 7z a -tzip "%BIN%-%CONFIGURATION%.zip" deploy -r
   - copy "%APPVEYOR_BUILD_FOLDER%-build\%BIN%-%CONFIGURATION%.zip" "%APPVEYOR_BUILD_FOLDER%\%BIN%-%CONFIGURATION%.zip"
-  - dir /b /s *.zip
+  - dir /b /s %BIN%-*.zip
   - echo APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%
   - if exist C:\projects\ (echo C:\projects exists)
   - if exist C:\projects\ (dir )
@@ -122,16 +122,25 @@ after_build:
   - if exist C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe exists) else (echo C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe does not exists)
   - xcopy /s /e /f "%APPVEYOR_BUILD_FOLDER%-build\deploy" "%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data"
   - C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c "%APPVEYOR_BUILD_FOLDER%\config\config.xml" -p "%APPVEYOR_BUILD_FOLDER%\packages" "%BIN%-Installer.exe"
-  - dir
+  - dir /b /s %BIN%-*.exe
 
 artifacts:
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: '%BIN%'
+  - path: '%BIN%-Installer.exe'
+    name: '%BIN%-Installer'
 
 deploy:
   - provider: GitHub
     release: continuous
-    artifact: '%BIN%-*'
+    artifact: '%BIN%'
+    draft: false
+    prerelease: true
+    auth_token:
+      secure: zhMbBtnPhVjygBTfOpQniE0jUPWOLewzUCFmEQIqZ/VSfFGpdzh+ZPeDU03rP1yD
+  - provider: GitHub
+    release: continuous
+    artifact: '%BIN%-Installer'
     draft: false
     prerelease: true
     auth_token:
