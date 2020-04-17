@@ -64,7 +64,9 @@ popd;
 ls;
 #
 mkdir -vp "/usr/share/doc/libc6";
-cp -rv "/usr/share/doc/libc6/copyright" "usr/share/doc/libc6/copyright";
+#cp -rv "/usr/share/doc/libc6/copyright" "usr/share/doc/libc6/copyright";
+ls "/usr/share/doc/libc6/copyright";
+ls "usr/share/doc/libc6/copyright";
 echo "Running Qt Installer";
 if [ ! -z "QT_EMAIL" ]; then echo "[General]\nemail=${QT_EMAIL}\n[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
 7z e "tools/qtinstallerframework.7z"
