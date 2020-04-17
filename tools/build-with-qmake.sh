@@ -36,7 +36,8 @@ pushd "$BUILD_DIR";
 
 # configure build files with qmake
 # we need to explicitly set the install prefix, as CMake's default is /usr/local for some reason...
-qmake "$REPO_ROOT";
+#qmake "$REPO_ROOT";
+qmake ..;
 
 # build project and install files into AppDir
 make -j$(nproc);
@@ -58,7 +59,7 @@ ls "${REPO_ROOT}/resources";
 # QtQuickApp does support "make install", but we don't use it because we want to show the manual packaging approach in this example
 # initialize AppDir, bundle shared libraries, add desktop file and icon, use Qt plugin to bundle additional resources, and build AppImage, all in one command
 ./linuxdeploy-x86_64.AppImage --appdir "AppDir" -e "${BIN_PRO_RES_NAME}" -i "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.png" -d "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.desktop" --plugin qt --output appimage;
-
+ls;
 # move built AppImage back into original CWD
 mv ${BIN_PRO_RES_NAME}*.AppImage "$OLD_CWD";
 

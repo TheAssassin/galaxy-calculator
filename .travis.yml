@@ -113,7 +113,7 @@ before_install:
 install:
     - if [ ! -z "${APPIMAGE}" ]; then 
         echo "Install qt libraries for Linux";
-        sudo apt-get update -q --yes; 
+        sudo apt-get update --yes; 
         sudo apt-get install --yes p7zip;
         sudo apt-get install --yes build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
         sudo apt-get autoremove;
