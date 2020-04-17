@@ -127,7 +127,7 @@ after_build:
   - dir
   
 artifacts:
-  - path: '%BIN%-*.zip'
+  - path: '*.zip'
     name: '%BIN%'
 
 deploy:

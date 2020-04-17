@@ -5,7 +5,9 @@ set -e;
 # Set the OUTPUT name for AppImage to be the same as the BIN_PRO_RES_NAME
 OUTPUT="${BIN_PRO_RES_NAME}";
 # AppImageUpdate Informatoin
-export UPDATE_INFORMATION="gh-releases-zsync|${GITHUB_USERNAME}|${GITHUB_PROJECT}|continuous|${BIN_PRO_RES_NAME}-*x86_64.AppImage.zsync";
+#export UPDATE_INFORMATION="gh-releases-zsync|${GITHUB_USERNAME}|${GITHUB_PROJECT}|continuous|${BIN_PRO_RES_NAME}-*x86_64.AppImage.zsync";
+Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator-x86_64.AppImage
+export UPDATE_INFORMATION="zsync|https://github.com/${GITHUB_USERNAME}/${GITHUB_PROJECT}/releases/download/continuous/${BIN_PRO_RES_NAME}-x86_64.AppImage.zsync";
 # building in temporary directory to keep system clean
 # use RAM disk if possible (as in: not building on CI system like Travis, and RAM disk is available)
 if [ "$CI" == "" ] && [ -d "/dev/shm" ]; then
