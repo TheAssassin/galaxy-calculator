@@ -128,7 +128,7 @@ after_build:
 artifacts:
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: '%BIN%'
-  - path: *.exe
+  - path: Galaxy-Calculator-Installer.exe
     name: 'Installer'
 
 deploy:
