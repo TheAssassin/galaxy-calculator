@@ -125,13 +125,15 @@ after_build:
   - dir /b /s *.zip
   - dir /b /s *.exe
   - dir
+  - echo Completed-Build
   
 artifacts:
+  - dir
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: 'Zip-%CONFIGURATION%-Release'
-  - path: '%APPVEYOR_BUILD_FOLDER%\%BIN%-Installer.zip'  
+  - path: '%BIN%-Installer.zip'  
     name: 'ZipInstaller'
-  - path: '%APPVEYOR_BUILD_FOLDER%\%BIN%-Installer.exe'
+  - path: '%BIN%-Installer.exe'
     name: 'ExecutableFile'
 
 deploy:
