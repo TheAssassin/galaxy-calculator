@@ -110,7 +110,6 @@ after_build:
   - for %%I in (%PRJLIBS%) do copy %PRJLIBDIR%\%%I deploy\
   - 7z a -tzip "%BIN%-%CONFIGURATION%.zip" deploy -r
   - copy "%APPVEYOR_BUILD_FOLDER%-build\%BIN%-%CONFIGURATION%.zip" "%APPVEYOR_BUILD_FOLDER%\%BIN%-%CONFIGURATION%.zip"
-  - dir /b /s %BIN%-*.zip
   - echo APPVEYOR_BUILD_FOLDER=%APPVEYOR_BUILD_FOLDER%
   - if exist C:\projects\ (echo C:\projects exists)
   - if exist C:\projects\ (dir )
@@ -123,17 +122,27 @@ after_build:
   - xcopy /s /e /f "%APPVEYOR_BUILD_FOLDER%-build\deploy" "%APPVEYOR_BUILD_FOLDER%\packages\com.lightwizzard.galaxycalculator\data"
   - C:\Qt\QtIFW-3.0.1\bin\binarycreator.exe --offline-only -c "%APPVEYOR_BUILD_FOLDER%\config\config.xml" -p "%APPVEYOR_BUILD_FOLDER%\packages" "%BIN%-Installer.exe"
   - 7z a -tzip "%BIN%-Installer.zip" "%BIN%-Installer.exe"
-  - dir /b /s %BIN%-*.exe
+  - dir /b /s *.zip
+  - dir /b /s *.exe
   - dir
   
 artifacts:
   - path: '*.zip'
-    name: '%BIN%'
+    name: 'ZipFiles'
+  - path: '*.exe'
+    name: 'ExecutableFiles'
 
 deploy:
   - provider: GitHub
     release: continuous
-    artifact: '%BIN%'
+    artifact: 'ZipFiles'
+    draft: false
+    prerelease: true
+    auth_token:
+      secure: zhMbBtnPhVjygBTfOpQniE0jUPWOLewzUCFmEQIqZ/VSfFGpdzh+ZPeDU03rP1yD
+  - provider: GitHub
+    release: continuous
+    artifact: 'ExecutableFiles'
     draft: false
     prerelease: true
     auth_token:
