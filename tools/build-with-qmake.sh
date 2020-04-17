@@ -3,7 +3,7 @@ ls;
 set -x;
 set -e;
 # Set the OUTPUT name for AppImage to be the same as the BIN_PRO_RES_NAME
-OUTPUT="$BIN_PRO_RES_NAME";
+OUTPUT="${BIN_PRO_RES_NAME}";
 # AppImageUpdate Informatoin
 export UPDATE_INFORMATION="gh-releases-zsync|${GITHUB_USERNAME}|${GITHUB_PROJECT}|continuous|${BIN_PRO_RES_NAME}-*x86_64.AppImage.zsync";
 # building in temporary directory to keep system clean
@@ -13,35 +13,30 @@ if [ "$CI" == "" ] && [ -d "/dev/shm" ]; then
 else
     TEMP_BASE="/tmp";
 fi
-# store repo root as variable
-REPO_ROOT="$(readlink -f $(dirname $(dirname $0)))";
-OLD_CWD="$(readlink -f .)";
 # Make Build Directory
-#BUILD_DIR="$(mktemp -d -p "$TEMP_BASE" "${BIN_PRO_RES_NAME}-build-XXXXXX")";
-BUILD_DIR="${REPO_ROOT}/build";
-mkdir -vp build && cd build;
+BUILD_DIR="$(mktemp -d -p "$TEMP_BASE" "${BIN_PRO_RES_NAME}-build-XXXXXX")";
 
 # make sure to clean up build dir, even if errors occur
 function cleanup() 
 {
     if [ -d "$BUILD_DIR" ]; then
-        cd "${REPO_ROOT}";
         rm -rf "$BUILD_DIR"
     fi
 }
 trap cleanup EXIT
 
+# store repo root as variable
+REPO_ROOT="$(readlink -f $(dirname $(dirname $0)))";
+OLD_CWD="$(readlink -f .)";
 
 echo "REPO_ROOT=$REPO_ROOT";
 echo "OLD_CWD=$OLD_CWD";
 # switch to build dir
-#pushd "$BUILD_DIR";
-cd "$BUILD_DIR";
+pushd "$BUILD_DIR";
 
 # configure build files with qmake
 # we need to explicitly set the install prefix, as CMake's default is /usr/local for some reason...
-#qmake "$REPO_ROOT";
-qmake ..;
+qmake -makefile "${REPO_ROOT}/${BIN_PRO_RES_NAME}.pro";
 
 # build project and install files into AppDir
 make -j$(nproc);
