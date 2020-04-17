@@ -45,62 +45,36 @@ before_install:
     - export NC='\033[0m';
     - if [ -z "${GITHUB_TOKEN}" ]; then
         export GITHUB_TOKEN="${github_token}";
-        echo -e "${WARNING_COLOR}Add GITHUB_TOKEN to your Travis Settings Environment Variable with a value from Github Settings Developer Personal access tolkens{NC}";
+        echo -e "${WARNING_COLOR}Add GITHUB_TOKEN to your Travis Settings Environment Variable with a value from Github Settings Developer Personal access tolkens${NC}";
       fi
     - if [ -z "${GITHUB_USERNAME}" ] || [ -z "${GITHUB_PROJECT}" ]; then
         OLD_IFS="$IFS"; IFS='/'; read -a repo_parts <<< "$TRAVIS_REPO_SLUG"; IFS="$OLD_IFS";
         export GITHUB_USERNAME="${repo_parts[0]}";  export GITHUB_PROJECT="${repo_parts[1]}";
-        echo -e "${WARNING_COLOR}GITHUB_USERNAME=$GITHUB_USERNAME and GITHUB_PROJECT=$GITHUB_PROJECT{NC}";
+        echo -e "${WARNING_COLOR}GITHUB_USERNAME=$GITHUB_USERNAME and GITHUB_PROJECT=$GITHUB_PROJECT${NC}";
       fi
     - if [ -z "${GITHUB_EMAIL}" ]; then
-        echo -e "${WARNING_COLOR}Add GITHUB_EMAIL to your Travis Settings Environment Variable with your Github email address{NC}";
+        echo -e "${WARNING_COLOR}Add GITHUB_EMAIL to your Travis Settings Environment Variable with your Github email address${NC}";
       fi
     - if [ -z "${BIN_PRO_RES_NAME}" ]; then
         export BIN_PRO_RES_NAME="Galaxy-Calculator";
-        echo -e "${WARNING_COLOR}Add BIN_PRO_RES_NAME to your Travis Settings Environment Variable with a value from Github x{NC}";
+        echo -e "${WARNING_COLOR}Add BIN_PRO_RES_NAME to your Travis Settings Environment Variable with a value from Github value for Binary, pro, and resource Name ${NC}";
       fi
     - if [ -z "${QTV}" ]; then
         export QTV="qt512";
-        echo -e "${WARNING_COLOR}Add QTV to your Travis Settings Environment Variable with the version of Qt you want to use from beineri repo, qt512{NC}";
+        echo -e "${WARNING_COLOR}Add QTV to your Travis Settings Environment Variable with the version of Qt you want to use from beineri repo, qt512${NC}";
       fi
     - if [ -z "${QT_WASM_VER}" ]; then
         export QT_WASM_VER="5.13_latest";
-        echo -e "${WARNING_COLOR}Add QT_WASM_VER to your Travis Settings Environment Variable with the version of Qt WASM, 5.13_latest{NC}";
+        echo -e "${WARNING_COLOR}Add QT_WASM_VER to your Travis Settings Environment Variable with the version of Qt WASM, 5.13_latest${NC}";
       fi
     - if [ -z "${QT_EMAIL}" ]; then
-        echo -e "${WARNING_COLOR}Add QT_EMAIL to your Travis Settings Environment Variable with the Email Address for your Qt Account in your qtaccount.ini file, leave blank if not using it{NC}";
+        echo -e "${WARNING_COLOR}Add QT_EMAIL to your Travis Settings Environment Variable with the Email Address for your Qt Account in your qtaccount.ini file, leave blank if not using it${NC}";
       fi
     - if [ -z "${QT_JWT}" ]; then
-        echo -e "${WARNING_COLOR}Add QT_JWT to your Travis Settings Environment Variable with the jwt for your Qt Account in your qtaccount.ini file, leave blank if not using it{NC}";
+        echo -e "${WARNING_COLOR}Add QT_JWT to your Travis Settings Environment Variable with the jwt for your Qt Account in your qtaccount.ini file, leave blank if not using it${NC}";
       fi
     - if [ -z "${QT_U}" ]; then
-        echo -e "${WARNING_COLOR}Add QT_U to your Travis Settings Environment Variable with the u for your Qt Account in your qtaccount.ini file, leave blank if not using it{NC}";
-      fi
-    - if [ -z "${QT_VERSION}" ]; then
-        export QT_VERSION="5.12.7";
-        echo -e "${WARNING_COLOR}Add QT_VERSION to your Travis Settings Environment Variables the Version of Qt to install, default is ${QT_VERSION} {NC}";
-      fi
-    - if [ -z "${QT_PK_VERSION}" ]; then
-        case "$QT_VERSION" in
-            '5.12.7')
-                export QT_PK_VERSION="5.5127";
-                ;;
-            '5.13.2')
-                export QT_PK_VERSION="5.5132";
-                ;;
-            '5.14.2')
-                export QT_PK_VERSION="5.5142";
-                ;;
-            esac        
-      fi
-    - if [ -z "${QT_INSTALL_DIR}" ]; then
-        export QT_INSTALL_DIR="${TRAVIS_BUILD_DIR}/Qt";
-        echo -e "${WARNING_COLOR}Add QT_INSTALL_DIR to your Travis Settings Environment Variables the Qt installation Directory, default is ${QT_INSTALL_DIR} {NC}";
-      fi
-    - if [ -z "${QT_BIN}" ]; then
-        export QT_BIN="${QT_INSTALL_DIR}/${QT_VERSION}/gcc_64/bin";
-        export QT_CI_PACKAGES=qt.qt${QT_PK_VERSION}.gcc_64;
-        PATH="$TRAVIS_BUILD_DIR/Qt/${QT_VERSION}/gcc_64/bin:${PATH}";
+        echo -e "${WARNING_COLOR}Add QT_U to your Travis Settings Environment Variable with the u for your Qt Account in your qtaccount.ini file, leave blank if not using it${NC}";
       fi
 
 install:
@@ -109,16 +83,11 @@ install:
         sudo apt-get update --yes; 
         sudo apt-get install --yes p7zip;
         sudo apt-get install --yes build-essential ${QTV}base ${QTV}quickcontrols ${QTV}quickcontrols2 ${QTV}graphicaleffects ${QTV}svg ${QTV}scxml libgl1-mesa-dev; 
-        sudo apt-get autoremove;
-        sudo apt-get -f install;
-        sudo apt-get autoclean;
+        sudo apt-get autoremove; sudo apt-get -f install; sudo apt-get autoclean;
         source /opt/qt*/bin/qt*-env.sh;
-        cp -v "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .;
-        cp -v "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
-        echo "install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;";
-        export ARTIFACT="${BIN_PRO_RES_NAME}-x86_64.AppImage";
-        export ARTIFACT_ZSYNC="${BIN_PRO_RES_NAME}-x86_64.AppImage.zsync";
-        export ARTIFACT_QIF="${BIN_PRO_RES_NAME}-";
+        cp -v "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .; cp -v "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
+        export ARTIFACT_APPIMAGE="${BIN_PRO_RES_NAME}.AppImage";  export ARTIFACT_ZSYNC="${BIN_PRO_RES_NAME}.AppImage.zsync";
+        export ARTIFACT_QIF="${BIN_PRO_RES_NAME}-Installer";
       fi
     - if [ -n "${DMG}" ]; then 
         echo "Download last version of Qt with brew for Mac";
@@ -163,14 +132,13 @@ script:
 
 after_success:
     - if [ "${TRAVIS_PULL_REQUEST}" != false ] || [ "${TRAVIS_BRANCH}" != "master" ]; then
-        echo "This is not the master branch, no deploy will be done";
-        travis_terminate 0;
+        echo "This is not the master branch, no deploy will be done"; travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME}/master/tools/upload.sh;
-    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT}" ];      then bash ./upload.sh "${ARTIFACT}";; fi
-    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_ZSYNC}" ] then bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
-    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_GCI}" ];  then bash ./upload.sh "${ARTIFACT_GCI}"; fi
-    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_QIF}" ];  then bash ./upload.sh "${ARTIFACT_QIF}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT_APPIMAGE}";; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_ZSYNC}" ]     then bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_GCI}" ];      then bash ./upload.sh "${ARTIFACT_GCI}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_QIF}" ];      then bash ./upload.sh "${ARTIFACT_QIF}"; fi
     - if [ -n "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
     - if [ -n "${WEBASM}" ]; then git push origin gh-pages; fi
     
