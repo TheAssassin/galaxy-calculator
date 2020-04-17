@@ -32,7 +32,8 @@ OLD_CWD="$(readlink -f .)";
 echo "REPO_ROOT=$REPO_ROOT";
 echo "OLD_CWD=$OLD_CWD";
 # switch to build dir
-pushd "$BUILD_DIR";
+#pushd "$BUILD_DIR";
+cd "$BUILD_DIR";
 
 # configure build files with qmake
 # we need to explicitly set the install prefix, as CMake's default is /usr/local for some reason...

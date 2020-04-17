@@ -126,14 +126,17 @@ after_build:
   - dir
 
 artifacts:
-  - path: 'GalaxyCalculatorInstaller.exe'
+  - path: GalaxyCalculatorInstaller.exe
+    name: 'GalaxyCalculatorInstaller'
   - path: '%BIN%_%CONFIGURATION%.zip'
     name: '%BIN%'
 
 deploy:
   - provider: GitHub
     release: continuous
-    artifact: '%BIN%'
+    artifact: 
+        - '%BIN%'
+        - GalaxyCalculatorInstaller
     draft: false
     prerelease: true
     auth_token:
