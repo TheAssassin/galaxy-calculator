@@ -1,10 +1,10 @@
 # Galaxy Calculator
 
 Galaxy Calculator has 4 Calculators built into it:
-1. Galatic Calculator
-2. Madness Calculator
-3. Planet Calculator
-4. Calculator
+1. :milky_way: Galatic Calculator
+2. :confounded: Madness Calculator
+3. :earth_americas: Planet Calculator
+4. :computer: Calculator
 
 All use [BigNumber.js](https://github.com/MikeMcl/bignumber.js) https://github.com/MikeMcl/bignumber.js
 
@@ -22,9 +22,10 @@ If the badges are Green, you should be able to download the apps, if they are no
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
 :package: **Downloads:**
- - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator-travis-x86_64.AppImage)
- - :penguin: :inbox_tray: [Linux ZSync](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator-travis-x86_64.AppImage.zsync)
- - :computer: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
+ - :penguin: [Linux](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.AppImage)
+ - :penguin: :inbox_tray: [Linux ZSync](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.AppImage.zsync)
+ - :penguin: :outbox_tray: [Linux Installer](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.Installer)
+ - :office: [Windows](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/galaxy-calculator_release.zip)
  - :apple: [Apple](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.dmg)
 
 These are built here:

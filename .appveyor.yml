@@ -127,22 +127,31 @@ after_build:
   - dir
   
 artifacts:
-  - path: /.\*.zip/  
-    name: 'ZipFiles'
-  - path: /.\*.exe/ 
-    name: 'ExecutableFiles'
+  - path: '%BIN%-%CONFIGURATION%.zip'
+    name: 'Zip-%CONFIGURATION%-Release'
+  - path: '%BIN%-Installer.zip'  
+    name: 'ZipInstaller'
+  - path: '%BIN%-Installer.exe'
+    name: 'ExecutableFile'
 
 deploy:
   - provider: GitHub
     release: continuous
-    artifact: 'ZipFiles'
+    artifact: 'Zip-%CONFIGURATION%-Release'
     draft: false
     prerelease: true
     auth_token:
       secure: zhMbBtnPhVjygBTfOpQniE0jUPWOLewzUCFmEQIqZ/VSfFGpdzh+ZPeDU03rP1yD
   - provider: GitHub
     release: continuous
-    artifact: 'ExecutableFiles'
+    artifact: 'ZipInstaller'
+    draft: false
+    prerelease: true
+    auth_token:
+      secure: zhMbBtnPhVjygBTfOpQniE0jUPWOLewzUCFmEQIqZ/VSfFGpdzh+ZPeDU03rP1yD
+  - provider: GitHub
+    release: continuous
+    artifact: 'ExecutableFile'
     draft: false
     prerelease: true
     auth_token:
