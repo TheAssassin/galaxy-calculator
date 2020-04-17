@@ -29,6 +29,7 @@ environment:
       QT_IF_VERSION: '3.0.1'
       PRJLIBS: VCRUNTIME140.dll MSVCP140.dll
       BIN: Galaxy-Calculator
+      MY_ENV: AppVeyor
 
 configuration:
     - release
@@ -130,7 +131,7 @@ after_build:
 artifacts:
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: 'Zip-%CONFIGURATION%'
-  - path: '%BIN%-Installer.zip'  
+  - path: 'Galaxy-Calculator-Installer.zip'  
     name: 'ZipInstaller'
   - path: '%BIN%-Installer.exe'
     name: 'ExecutableFile'
