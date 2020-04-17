@@ -73,7 +73,7 @@ popd;
 ls;
 #
 echo "Running Qt Installer Framework";
-if [ -n "$QT_EMAIL" ]; then print "[General]\nemail=${QT_EMAIL}\n[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
+if [ -n "${QT_EMAIL}" ]; then printf "%s" "[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
 7z e "tools/qtinstallerframework.7z" -o./qtinstallerframework;
 ls;
 ls -lh qtinstallerframework/; 
