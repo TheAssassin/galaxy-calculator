@@ -128,7 +128,6 @@ after_build:
   - echo Completed-Build
   
 artifacts:
-  - dir
   - path: '%BIN%-%CONFIGURATION%.zip'
     name: 'Zip-%CONFIGURATION%-Release'
   - path: '%BIN%-Installer.zip'  
