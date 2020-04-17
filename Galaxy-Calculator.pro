@@ -61,11 +61,6 @@ DISTFILES += macos/Info.plist \
   tools/Galaxy-Calculator.desktop \
   tools/build-with-cmake.sh \
   tools/build-with-qmake.sh \
-  tools/extract-ifw \
-  tools/extract-qt-installer \
-  tools/install-qt \
-  tools/qt-installer-noninteractive.qs \
-  tools/qtif_commands.cmd \
   tools/qtinstallerframework.7z \
   tools/upload.sh \
   packages/com.lightwizzard.galaxycalculator/data/README.txt \

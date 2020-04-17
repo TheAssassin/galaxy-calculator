@@ -47,18 +47,13 @@ before_install:
         export GITHUB_TOKEN="${github_token}";
         echo "${RED}Add GITHUB_TOKEN to your Travis Settings Environment Variable with a value from Github Settings Developer Personal access tolkens{NC}";
       fi
-    - if [ -z "${GITHUB_USERNAME}" ]; then
-        echo "${RED}Add GITHUB_USERNAME to your Travis Settings Environment Variable with your Github User Name, the first one in the path to github{NC}";
-      fi
-    - if [ -z "${GITHUB_PROJECT}" ]; then
-        echo "${RED}Add GITHUB_PROJECT to your Travis Settings Environment Variable with your Github Project Name, the second one in the path to github{NC}";
+    - if [ -z "${GITHUB_USERNAME}" ] || [ -z "${GITHUB_PROJECT}" ]; then
+        OLD_IFS="$IFS"; IFS='/'; read -a repo_parts <<< "$TRAVIS_REPO_SLUG"; IFS="$OLD_IFS";
+        export GITHUB_USERNAME="$repo_parts[0]";  export GITHUB_PROJECT="$repo_parts[1]";
+        echo "GITHUB_USERNAME=$GITHUB_USERNAME and GITHUB_PROJECT=$GITHUB_PROJECT";
       fi
     - if [ -z "${GITHUB_EMAIL}" ]; then
         echo "${RED}Add GITHUB_EMAIL to your Travis Settings Environment Variable with your Github email address{NC}";
-      fi
-    - if [ -z "${REPO_SLUG}" ]; then
-        export REPO_SLUG="Light-Wizzard/galaxy-calculator";
-        echo "${RED}Add REPO_SLUG to your Travis Settings Environment Variable with the path from your Github project, User-Name/Project-Name{NC}";
       fi
     - if [ -z "${BIN_PRO_RES_NAME}" ]; then
         export BIN_PRO_RES_NAME="Galaxy-Calculator";
@@ -172,8 +167,10 @@ after_success:
         travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME}/master/tools/upload.sh;
-    - if [ -n "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT}"; bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
-    - if [ -n "${APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT_GCI}"; bash ./upload.sh "${ARTIFACT_QIF}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT}" ];      then bash ./upload.sh "${ARTIFACT}";; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_ZSYNC}" ] then bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_GCI}" ];  then bash ./upload.sh "${ARTIFACT_GCI}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_QIF}" ];  then bash ./upload.sh "${ARTIFACT_QIF}"; fi
     - if [ -n "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
     - if [ -n "${WEBASM}" ]; then git push origin gh-pages; fi
     
