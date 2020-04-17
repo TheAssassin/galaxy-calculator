@@ -47,10 +47,8 @@ echo "Downloading AppImage";
 # download linuxdeploy and its Qt plugin
 wget -c -nv "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage";
 wget -c -nv "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage";
-
 # make them executable
 chmod +x linuxdeploy*.AppImage;
-
 # make sure Qt plugin finds QML sources so it can deploy the imported files
 export QML_SOURCES_PATHS="${REPO_ROOT}/src";
 echo "QML_SOURCES_PATHS=${QML_SOURCES_PATHS}";
@@ -65,11 +63,11 @@ mv ${BIN_PRO_RES_NAME}*.AppImage "${OLD_CWD}";
 popd;
 #
 mkdir -vp "/usr/share/doc/libc6";
-cp -v "/usr/share/doc/libc6/copyright" "/usr/share/doc/libc6/copyright";
+cp -rv "/usr/share/doc/libc6/copyright/*" "usr/share/doc/libc6/copyright";
 echo "Running Qt Installer";
 if [ ! -z "QT_EMAIL" ]; then echo "[General]\nemail=${QT_EMAIL}\n[QtAccount]\nemail=${QT_EMAIL}\njwt=${QT_JWT}\nu=${QT_U}" > qtaccount.ini; fi;
 7z e "tools/qtinstallerframework.7z"
-
+ls;
 export ARTIFACT_GCI="${BIN_PRO_RES_NAME}-Installer";
 ./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_GCI}";
 ls;
