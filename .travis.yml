@@ -119,6 +119,7 @@ install:
         sudo apt-get autoremove;
         sudo apt-get -f install;
         sudo apt-get autoclean;
+        source /opt/qt*/bin/qt*-env.sh;
         cp -v "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .;
         cp -v "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
         echo "install-qt.sh -d ${QT_INSTALL_DIR} --version ${QT_VERSION} qtbase qtdeclarative qtquickcontrols2 qttranslations qtscript qtsvg qtimageformats qttools icu;";

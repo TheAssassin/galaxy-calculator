@@ -36,7 +36,8 @@ pushd "$BUILD_DIR";
 
 # configure build files with qmake
 # we need to explicitly set the install prefix, as CMake's default is /usr/local for some reason...
-qmake -makefile "${REPO_ROOT}/${BIN_PRO_RES_NAME}.pro";
+#qmake -makefile "${REPO_ROOT}/${BIN_PRO_RES_NAME}.pro";
+qmake -makefile "${REPO_ROOT}";
 
 # build project and install files into AppDir
 make -j$(nproc);
