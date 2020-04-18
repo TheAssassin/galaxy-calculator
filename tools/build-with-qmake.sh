@@ -56,19 +56,19 @@ ls "${REPO_ROOT}/resources";
 ls;
 declare -i LINUX_DEPLOY_USING; LINUX_DEPLOY_USING=0;
 if [ "${LINUX_DEPLOY_USING}" -eq 0 ]; then
-
-    echo "Downloading AppImage";
+    echo "Downloading LinuxDeploy AppImage and Qt Plugin";
     # now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt
     # download linuxdeploy and its Qt plugin
     wget -c -nv "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage";
     wget -c -nv "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage";
     # make them executable
     chmod +x linuxdeploy*.AppImage;
+    echo "Starting linuxdeploy-x86_64.AppImage";
     # QtQuickApp does support "make install", but we don't use it because we want to show the manual packaging approach in this example
     # initialize AppDir, bundle shared libraries, add desktop file and icon, use Qt plugin to bundle additional resources, and build AppImage, all in one command
     ./linuxdeploy-x86_64.AppImage --appdir "AppDir" -e "${BIN_PRO_RES_NAME}" -i "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.png" -d "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.desktop" --plugin qt --output appimage;
+    echo "Finished linuxdeploy-x86_64.AppImage";
 fi
-
 # move built AppImage back into original CWD
 if [ -f "${BIN_PRO_RES_NAME}".AppImage ]; then
     echo "Found ${BIN_PRO_RES_NAME}.AppImage"
@@ -81,14 +81,18 @@ if [ -f "${BIN_PRO_RES_NAME}".AppImage.zsync ]; then
     mv "${BIN_PRO_RES_NAME}.AppImage.zsync" "${OLD_CWD}";
 fi
 popd;
-
+#
 LINUX_DEPLOY_USING=1;
 if [ "${LINUX_DEPLOY_USING}" -eq 1 ]; then
+    echo "Downloading LinuxDeployQt";
     wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
     chmod a+x "linuxdeployqt-continuous-x86_64.AppImage";
     unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
     export VERSION="travis";
+    echo "Starting linuxdeployqt-continuous-x86_64.AppImage";
+    ls;
     ./linuxdeployqt-continuous-x86_64.AppImage "usr/share/applications/${BIN_PRO_RES_NAME}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="qml/" -appimage;
+    echo "Finished linuxdeployqt-continuous-x86_64.AppImage"
 fi
 
 echo "Completed LinuxDeploy"
