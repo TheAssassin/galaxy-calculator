@@ -97,8 +97,9 @@ if [ "${LINUX_DEPLOY_USING}" -eq 1 ]; then
 
     if [ -f "${BIN_PRO_RES_NAME}" ]; then
         echo "Found ${BIN_PRO_RES_NAME}"
-        cp "${BIN_PRO_RES_NAME}" "/usr/bin";
-        chmod +x "/usr/bin/${BIN_PRO_RES_NAME}";
+        ls "${TRAVIS_BUILD_DIR}/usr";
+        cp "${BIN_PRO_RES_NAME}" "${TRAVIS_BUILD_DIR}/usr/bin";
+        chmod +x "${TRAVIS_BUILD_DIR}/usr/bin/${BIN_PRO_RES_NAME}";
     fi
 
     echo "Starting linuxdeployqt-continuous-x86_64.AppImage";
