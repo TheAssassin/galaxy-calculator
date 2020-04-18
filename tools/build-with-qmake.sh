@@ -48,23 +48,27 @@ qmake -makefile "${REPO_ROOT}";
 # build project and install files into AppDir
 make -j"$(nproc)";
 make install INSTALL_ROOT="AppDir";
-echo "Downloading AppImage";
-# now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt
-# download linuxdeploy and its Qt plugin
-wget -c -nv "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage";
-wget -c -nv "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage";
-# make them executable
-chmod +x linuxdeploy*.AppImage;
 # make sure Qt plugin finds QML sources so it can deploy the imported files
 export QML_SOURCES_PATHS="${REPO_ROOT}/src";
 echo "QML_SOURCES_PATHS=${QML_SOURCES_PATHS}";
 echo "-d ${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.desktop";
 ls "${REPO_ROOT}/resources";
-# QtQuickApp does support "make install", but we don't use it because we want to show the manual packaging approach in this example
-# initialize AppDir, bundle shared libraries, add desktop file and icon, use Qt plugin to bundle additional resources, and build AppImage, all in one command
-./linuxdeploy-x86_64.AppImage --appdir "AppDir" -e "${BIN_PRO_RES_NAME}" -i "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.png" -d "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.desktop" --plugin qt --output appimage;
-echo "Completed LinuxDeploy"
 ls;
+declare -i LINUX_DEPLOY_USING; LINUX_DEPLOY_USING=0;
+if [ "${LINUX_DEPLOY_USING}" -eq 0 ]; then
+
+    echo "Downloading AppImage";
+    # now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt
+    # download linuxdeploy and its Qt plugin
+    wget -c -nv "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage";
+    wget -c -nv "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage";
+    # make them executable
+    chmod +x linuxdeploy*.AppImage;
+    # QtQuickApp does support "make install", but we don't use it because we want to show the manual packaging approach in this example
+    # initialize AppDir, bundle shared libraries, add desktop file and icon, use Qt plugin to bundle additional resources, and build AppImage, all in one command
+    ./linuxdeploy-x86_64.AppImage --appdir "AppDir" -e "${BIN_PRO_RES_NAME}" -i "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.png" -d "${REPO_ROOT}/resources/${BIN_PRO_RES_NAME}.desktop" --plugin qt --output appimage;
+fi
+
 # move built AppImage back into original CWD
 if [ -f "${BIN_PRO_RES_NAME}".AppImage ]; then
     echo "Found ${BIN_PRO_RES_NAME}.AppImage"
@@ -77,6 +81,17 @@ if [ -f "${BIN_PRO_RES_NAME}".AppImage.zsync ]; then
     mv "${BIN_PRO_RES_NAME}.AppImage.zsync" "${OLD_CWD}";
 fi
 popd;
+
+LINUX_DEPLOY_USING=1;
+if [ "${LINUX_DEPLOY_USING}" -eq 1 ]; then
+    wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage";
+    chmod a+x "linuxdeployqt-continuous-x86_64.AppImage";
+    unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
+    export VERSION="travis";
+    ./linuxdeployqt-continuous-x86_64.AppImage "usr/share/applications/${BIN_PRO_RES_NAME}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="qml/" -appimage;
+fi
+
+echo "Completed LinuxDeploy"
 
 ls;
 #

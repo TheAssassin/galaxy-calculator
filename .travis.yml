@@ -96,6 +96,7 @@ install:
         cp -v "${TRAVIS_BUILD_DIR}/tools/extract-qt-installer" .; cp -v "${TRAVIS_BUILD_DIR}/tools/install-qt" .;
         export ARTIFACT_APPIMAGE="${BIN_PRO_RES_NAME}.AppImage";  export ARTIFACT_ZSYNC="${BIN_PRO_RES_NAME}.AppImage.zsync";
         export ARTIFACT_QIF="${BIN_PRO_RES_NAME}-Installer";
+        export ARTIFACT_APPIMAGE_2="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage";  export ARTIFACT_ZSYNC_2="${BIN_PRO_RES_NAME}-travis-x86_64.AppImage.zsync";
       fi
     - if [ -n "${DMG}" ]; then 
         echo "Download last version of Qt with brew for Mac";
@@ -143,9 +144,11 @@ after_success:
         echo "This is not the master branch, no deploy will be done"; travis_terminate 0;
       fi
     - wget -c https://raw.githubusercontent.com/${GITHUB_USERNAME}/${BIN_PRO_RES_NAME}/master/tools/upload.sh;
-    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_APPIMAGE}" ]; then bash ./upload.sh "${ARTIFACT_APPIMAGE}"; fi
-    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_ZSYNC}" ];    then bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
-    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_QIF}" ];      then bash ./upload.sh "${ARTIFACT_QIF}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_APPIMAGE}" ];   then bash ./upload.sh "${ARTIFACT_APPIMAGE}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_ZSYNC}" ];      then bash ./upload.sh "${ARTIFACT_ZSYNC}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_APPIMAGE_2}" ]; then bash ./upload.sh "${ARTIFACT_APPIMAGE_2}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_ZSYNC_2}" ];    then bash ./upload.sh "${ARTIFACT_ZSYNC_2}"; fi
+    - if [ -n "${APPIMAGE}" ] && [ -f "${ARTIFACT_QIF}" ];        then bash ./upload.sh "${ARTIFACT_QIF}"; fi
     - if [ -n "${DMG}" ]; then bash ./upload.sh "$ARTIFACT"; fi
     - if [ -n "${WEBASM}" ]; then git push origin gh-pages; fi
     
