@@ -94,6 +94,13 @@ if [ "${LINUX_DEPLOY_USING}" -eq 1 ]; then
     chmod a+x "linuxdeployqt-continuous-x86_64.AppImage";
     unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH;
     export VERSION="travis";
+
+    if [ -f "${BIN_PRO_RES_NAME}" ]; then
+        echo "Found ${BIN_PRO_RES_NAME}"
+        cp "${BIN_PRO_RES_NAME}" "/usr/bin";
+        chmod +x "/usr/bin/${BIN_PRO_RES_NAME}";
+    fi
+
     echo "Starting linuxdeployqt-continuous-x86_64.AppImage";
     ls;
     echo "./linuxdeployqt-continuous-x86_64.AppImage ${TRAVIS_BUILD_DIR}/usr/share/applications/${BIN_PRO_RES_NAME}.desktop -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=${TRAVIS_BUILD_DIR}/qml/ -appimage;";
