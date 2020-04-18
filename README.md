@@ -21,10 +21,11 @@ If the badges are Green, you should be able to download the apps, if they are no
 
 This project is in work, so files might break, but source code should run if compiled on any machine.
 The Qt Installer Framework is working for Linux and Windows, but the AppImage in Linux is broken, and the Windows Installer will not download.
-
+## Status
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
-:package: **Downloads:**
+
+## :package: **Downloads:**
  - :penguin: [Linux Working](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator-travis-x86_64.AppImage)
  - :penguin: [Linux Not working](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.AppImage)
  - :penguin: :inbox_tray: [Linux ZSync Not working](https://github.com/Light-Wizzard/galaxy-calculator/releases/download/continuous/Galaxy-Calculator.AppImage.zsync)
@@ -70,6 +71,8 @@ You can also get it at any major book store, but I would recommend reading it, i
 
 If you do not see your OS, just download, extract to a folder, and open with Qt Creator, which must be installed, and compile or run it.
 
+## Development Progress
+
 TableView for Qt version greater than or equal to 5.12, still has a lot of work, as a result, it does not like a few things, like changing themes on the fly, 
 or even having a theme, and I cannot seem to get the text alignment to work, as such, the table looks ugly, but will improve with each Qt release.
 
@@ -89,6 +92,7 @@ and the Radius of of the Galaxy in Miles in Diameter, and how many Tracks you wa
 
 I removed the Local Storage Feature due to permissions on some devices.
 
+## Background
 The Galaxy Calculator is a one button click to calculate, it records the Track Number, how many Trinary Engines it takes to be on that track, 
 its Suns minimum and maximum Speed in Miles an Hour, the Livable Planets Frequency, the Suns Orbital Distance in Miles, and the Tracks Frequency, 
 which Sir Isaac Newton used to determine when the End of Civilization will happen, and according to his and my calculation, 
@@ -115,7 +119,7 @@ For more information see: [Wiki](https://github.com/Light-Wizzard/galaxy-calcula
 
 This is a work in progress, please report any bugs, and comments.
 
-Screen Shots
+## Screen Shots
 
 ![Galaxy Configuration](/doc/images/screenshot-config.png?raw=true "Galaxy Configuration")
 
