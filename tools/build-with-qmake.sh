@@ -1,4 +1,7 @@
 #! /bin/bash
+# Last Update: 17 April 2020
+# replace the ? in shell check
+# cd /mnt/qnap-light-wizzard/workspace/GalaticCalculator/Galaxy-Calculator/tools; shell?check -x build-with-qmake.sh
 ls; 
 set -x;
 set -e;
@@ -86,12 +89,13 @@ ls -lh qtinstallerframework/;
 chmod -R +x ./qtinstallerframework;
 cp -v "${BIN_PRO_RES_NAME}.AppImage" "${QIF_PACKAGE_DATA}";
 cp -v "${BIN_PRO_RES_NAME}.AppImage.zsync" "${QIF_PACKAGE_DATA}";
-cp -v "resources/Galaxy-Calculator.desktop" "${QIF_PACKAGE_DATA}";
+# cp -v "resources/Galaxy-Calculator.desktop" "${QIF_PACKAGE_DATA}";
 cp -v "resources/Galaxy-Calculator.png" "${QIF_PACKAGE_DATA}";
 cp -v "resources/Galaxy-Calculator.svg" "${QIF_PACKAGE_DATA}";
 cp -v "resources/Galaxy-Calculator.ico" "${QIF_PACKAGE_DATA}";
-mkdir -p icons;
-cp -rv "usr/share/icons" "${QIF_PACKAGE_DATA}/icons";
+
+rsync -a "usr/share/icons" "${QIF_PACKAGE_DATA}/icons";
+
 echo "Running Qt Installer Framework";
 ./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_QIF}";
 ls;

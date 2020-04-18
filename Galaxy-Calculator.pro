@@ -98,7 +98,15 @@ DISTFILES += macos/Info.plist \
   packages/com.lightwizzard.galaxycalculator/meta/package.xml \
   usr/share/applications/Galaxy-Calculator.desktop \
   usr/share/applications/Galaxy-Calculator.ico \
-  usr/share/applications/Galaxy-Calculator.png
+  usr/share/applications/Galaxy-Calculator.png \
+  usr/share/icons/Papirus-Dark/16x16/apps/Galaxy-Calculator.svg \
+  usr/share/icons/Papirus-Dark/22x22/apps/Galaxy-Calculator.svg \
+  usr/share/icons/Papirus-Dark/24x24/apps/Galaxy-Calculator.svg \
+  usr/share/icons/Papirus-Dark/32x32/categories/Galaxy-Calculator.svg \
+  usr/share/icons/Papirus-Dark/48x48/categories/Galaxy-Calculator.svg \
+  usr/share/icons/Papirus-Dark/64x64/categories/Galaxy-Calculator.svg \
+  usr/share/icons/hicolor/48x48/apps/Galaxy-Calculator.png \
+  usr/share/icons/hicolor/scalable/apps/Galaxy-Calculator.svg
 
 #test { # the following files will be included for Unit test build
 #    message(Test build)
