@@ -54,14 +54,13 @@ I plan to support as much as I can, once my Book or ePubs start to sell, I will 
 All my books are free online at http://LightWizzard.com, but it cost money to print them or push ePubs to your device.
 
 I am not publicizing my books here, you can read them for free on my 
-[Github account Light-Wizzard/The-Principles-Of-The-Trinary-Universe] (https://github.com/Light-Wizzard/The-Principles-Of-The-Trinary-Universe), 
+[Github account Light-Wizzard/The-Principles-Of-The-Trinary-Universe](https://github.com/Light-Wizzard/The-Principles-Of-The-Trinary-Universe),
 but you have to pay for printed books, or the easy of having an ePub delivered through your devices ePub Reader, without having to download it.
 
 Printed Book and ePub Available at:
 
 Lulu
 * http://www.lulu.com/spotlight/LightWizzard
-
 Amazon
 * Book https://www.amazon.com/Principles-Trinary-Universe-according-Johannes/dp/1795429186/
 * ePub https://www.amazon.com/Principles-Trinary-Universe-according-Johannes-ebook/dp/B086D24HX9
