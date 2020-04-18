@@ -80,6 +80,11 @@ if [ -f "${BIN_PRO_RES_NAME}".AppImage.zsync ]; then
     chmod +x "${BIN_PRO_RES_NAME}.AppImage.zsync";
     mv "${BIN_PRO_RES_NAME}.AppImage.zsync" "${OLD_CWD}";
 fi
+if [ -f "${BIN_PRO_RES_NAME}" ]; then
+    echo "Found ${BIN_PRO_RES_NAME}"
+    chmod +x "${BIN_PRO_RES_NAME}";
+    mv "${BIN_PRO_RES_NAME}" "${OLD_CWD}";
+fi
 popd;
 #
 LINUX_DEPLOY_USING=1;
