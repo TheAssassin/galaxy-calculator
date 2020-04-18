@@ -64,11 +64,12 @@ if [ "${LINUX_DEPLOY_USING}" -eq 0 ]; then
     # make them executable
     chmod +x linuxdeploy*.AppImage;
     
-    if [ -d "${TRAVIS_BUILD_DIR}/qml" ]; then
-        echo "Found ${TRAVIS_BUILD_DIR}/qml"
-        mkdir -p qml;
-        cp -rv "${TRAVIS_BUILD_DIR}/qml" "qml/";
-    fi
+    # Tried this to figure out why I am getting "QtQuick" is not installed
+    #if [ -d "${TRAVIS_BUILD_DIR}/qml" ]; then
+    #    echo "Found ${TRAVIS_BUILD_DIR}/qml"
+    #    mkdir -p qml;
+    #    cp -rv "${TRAVIS_BUILD_DIR}/qml" "qml/";
+    #fi
     
     echo "Starting linuxdeploy-x86_64.AppImage";
     # QtQuickApp does support "make install", but we don't use it because we want to show the manual packaging approach in this example
@@ -93,7 +94,7 @@ if [ -f "${BIN_PRO_RES_NAME}" ]; then
     mv "${BIN_PRO_RES_NAME}" "${OLD_CWD}";
 fi
 popd;
-#
+# I added this to troubleshoot why the above is not working, its not including Qt libraries
 LINUX_DEPLOY_USING=1;
 if [ "${LINUX_DEPLOY_USING}" -eq 1 ]; then
     echo "Downloading LinuxDeployQt";
@@ -150,6 +151,7 @@ echo "Running Qt Installer Framework";
 # OS X
 # "/Users/$USERNAME/Library/Application Support/Qt/qtlicenses.ini"
 # "/Users/$USERNAME/Library/Application Support/Qt/qtaccount.ini"
+# Not sure if this is working, it will work without it, but it can be useful for commercial use.
 if [ -n "${QT_EMAIL}" ]; then printf "[QtAccount]\nemail=%s\njwt=%s\nu=%s" "${QT_EMAIL}" "${QT_JWT}" "${QT_U}" > qtaccount.ini; fi;
 ./qtinstallerframework/binarycreator -c "${TRAVIS_BUILD_DIR}/config/config.xml" -p "${TRAVIS_BUILD_DIR}/packages" "${ARTIFACT_QIF}";
 # remove this file now for security: Note that these Values are stored in Travis Environment Variables, and the credential part is encrypted to begin with
