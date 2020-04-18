@@ -58,14 +58,6 @@ DISTFILES += macos/Info.plist \
   CMakeLists.txt \
   README.md \
   config/config.xml \
-  tools/Galaxy-Calculator.desktop \
-  tools/build-with-cmake.sh \
-  tools/build-with-qmake.sh \
-  tools/qtinstallerframework.7z \
-  tools/upload.sh \
-  packages/com.lightwizzard.galaxycalculator/data/README.txt \
-  packages/com.lightwizzard.galaxycalculator/meta/installscript.qs \
-  packages/com.lightwizzard.galaxycalculator/meta/package.xml \
   qml/BigNumber.js \
   qml/BigNumberMath.js \
   qml/Calculator.qml \
@@ -91,6 +83,19 @@ DISTFILES += macos/Info.plist \
   qml/images/right-32.png \
   qml/images/stop-32.png\
   bash/makeappendix.a.sh bash/makeappendix.a.zip \
+  tools/Galaxy-Calculator.desktop \
+  tools/build-with-cmake.sh \
+  tools/build-with-qmake.sh \
+  tools/qtinstallerframework.7z \
+  tools/upload.sh \
+  resources/CMakeLists.txt \
+  resources/Galaxy-Calculator.desktop \
+  resources/Galaxy-Calculator.svg \
+  resources/Galaxy-Calculator.ico \
+  resources/Galaxy-Calculator.png \
+  packages/com.lightwizzard.galaxycalculator/data/README.txt \
+  packages/com.lightwizzard.galaxycalculator/meta/installscript.qs \
+  packages/com.lightwizzard.galaxycalculator/meta/package.xml \
   usr/share/applications/Galaxy-Calculator.desktop \
   usr/share/applications/Galaxy-Calculator.ico \
   usr/share/applications/Galaxy-Calculator.png
