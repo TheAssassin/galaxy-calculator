@@ -128,7 +128,6 @@ mkdir -pv qtinstallerframework;
 ls;
 ls -lh qtinstallerframework/; 
 chmod -R +x ./qtinstallerframework;
-<<<<<<< HEAD
 cp -v "${TRAVIS_BUILD_DIR}/${BIN_PRO_RES_NAME}.AppImage" "${QIF_PACKAGE_DATA}";
 cp -v "${TRAVIS_BUILD_DIR}/${BIN_PRO_RES_NAME}.AppImage.zsync" "${QIF_PACKAGE_DATA}";
 # cp -v "resources/Galaxy-Calculator.desktop" "${QIF_PACKAGE_DATA}";
@@ -142,19 +141,6 @@ ls "${QIF_PACKAGE_DATA}/icons";
 echo "Running Qt Installer Framework";
 # Note that this is only for building the Qt-IF file, it does not ship with this qtaccount.ini
 # These values can be found here:
-=======
-cp -v "${BIN_PRO_RES_NAME}.AppImage" "${QIF_PACKAGE_DATA}";
-cp -v "${BIN_PRO_RES_NAME}.AppImage.zsync" "${QIF_PACKAGE_DATA}";
-# cp -v "resources/Galaxy-Calculator.desktop" "${QIF_PACKAGE_DATA}";
-cp -v "resources/Galaxy-Calculator.png" "${QIF_PACKAGE_DATA}";
-cp -v "resources/Galaxy-Calculator.svg" "${QIF_PACKAGE_DATA}";
-cp -v "resources/Galaxy-Calculator.ico" "${QIF_PACKAGE_DATA}";
-
-rsync -Ravr "usr/share/icons" "${QIF_PACKAGE_DATA}/icons";
-
-echo "Running Qt Installer Framework";
-# Note that this is only for building the Qt IF file, it does not ship with this qtaccount.ini
->>>>>>> 6a53086b7625c4ca56cc1727e15700aeb6846bd8
 # Windows
 # "C:/Users/%USERNAME%/AppData/Roaming/Qt/qtlicenses.ini"
 # "C:/Users/%USERNAME%/AppData/Roaming/Qt/qtaccount.ini"
@@ -165,15 +151,9 @@ echo "Running Qt Installer Framework";
 # "/Users/$USERNAME/Library/Application Support/Qt/qtlicenses.ini"
 # "/Users/$USERNAME/Library/Application Support/Qt/qtaccount.ini"
 if [ -n "${QT_EMAIL}" ]; then printf "[QtAccount]\nemail=%s\njwt=%s\nu=%s" "${QT_EMAIL}" "${QT_JWT}" "${QT_U}" > qtaccount.ini; fi;
-<<<<<<< HEAD
 ./qtinstallerframework/binarycreator -c "${TRAVIS_BUILD_DIR}/config/config.xml" -p "${TRAVIS_BUILD_DIR}/packages" "${ARTIFACT_QIF}";
 # remove this file now for security: Note that these Values are stored in Travis Environment Variables, and the credential part is encrypted to begin with
 if [ -n "${QT_EMAIL}" ]; then rm -fv qtaccount.ini; fi;
-=======
-./qtinstallerframework/binarycreator -c config/config.xml -p packages "${ARTIFACT_QIF}";
-# remove this file now for security: Note that these Values are stored in Travis Environment Variables, and the credential part is encrypted to begin with
-if [ -n "${QT_EMAIL}" ]; then rm -f qtaccount.ini; fi;
->>>>>>> 6a53086b7625c4ca56cc1727e15700aeb6846bd8
 ls;
 echo "Completed build-with-qmake.sh";
 ################################ End of File ##################################
