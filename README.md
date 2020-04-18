@@ -20,6 +20,7 @@ I will try to make installers and executable for all supported Qt OS's, currentl
 If the badges are Green, you should be able to download the apps, if they are not, it might be that I am working on it, but it only takes a few minutes to update.
 
 This project is in work, so files might break, but source code should run if compiled on any machine.
+The Qt Installer Framework is working for Linux and Windows, but the AppImage in Linux is broken, and the Windows Installer will not download.
 
 Unix: [![Travis Build Status](https://travis-ci.org/Light-Wizzard/galaxy-calculator.svg?branch=master)](https://travis-ci.org/Light-Wizzard/galaxy-calculator)
 Windows: [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/j7htumuwfx31elf6?svg=true)](https://ci.appveyor.com/project/Light-Wizzard/galaxy-calculator)
@@ -40,7 +41,6 @@ Windows (Tested on 7 and 10 let me know if 8 works): Download zip and extract it
 These are other versions of the program that I made by hand:
 
 Linux: to use zsync you must have it installed.
-
 
 ```
 # Arch Linux or Manjaro
