@@ -63,6 +63,13 @@ if [ "${LINUX_DEPLOY_USING}" -eq 0 ]; then
     wget -c -nv "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage";
     # make them executable
     chmod +x linuxdeploy*.AppImage;
+    
+    if [ -d "${TRAVIS_BUILD_DIR}/qml" ]; then
+        echo "Found ${TRAVIS_BUILD_DIR}/qml"
+        mkdir -p qml;
+        cp -rv "${TRAVIS_BUILD_DIR}/qml" "qml/";
+    fi
+    
     echo "Starting linuxdeploy-x86_64.AppImage";
     # QtQuickApp does support "make install", but we don't use it because we want to show the manual packaging approach in this example
     # initialize AppDir, bundle shared libraries, add desktop file and icon, use Qt plugin to bundle additional resources, and build AppImage, all in one command
@@ -98,8 +105,7 @@ if [ "${LINUX_DEPLOY_USING}" -eq 1 ]; then
     if [ -f "${BIN_PRO_RES_NAME}" ]; then
         echo "Found ${BIN_PRO_RES_NAME}"
         ls "${TRAVIS_BUILD_DIR}/usr";
-        cp "${BIN_PRO_RES_NAME}" "${TRAVIS_BUILD_DIR}/usr/bin";
-        chmod +x "${TRAVIS_BUILD_DIR}/usr/bin/${BIN_PRO_RES_NAME}";
+        cp -pv "${BIN_PRO_RES_NAME}" "${TRAVIS_BUILD_DIR}/usr/bin";
     fi
 
     echo "Starting linuxdeployqt-continuous-x86_64.AppImage";
