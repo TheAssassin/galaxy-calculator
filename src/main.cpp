@@ -12,6 +12,8 @@
 #include <QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
 #include <QQuickStyle>
+#include <QFileInfo>
+#include <QIcon>
 #include "tablemodel.h"
 
 // Workaround: As of Qt 5.4 QtQuick does not expose QUrl::fromUserInput.
@@ -37,6 +39,8 @@ int main(int argc, char *argv[])
 {
 //! [0]
     QGuiApplication app(argc, argv);
+    QFileInfo fi(app.applicationDirPath() + "/../share/pixmaps/Galaxy-Calculator.png");
+    QGuiApplication::setWindowIcon(QIcon(fi.absoluteFilePath()));
     qmlRegisterType<TableModel>("TableModel", 0, 1, "TableModel");
 //! [0]
     QGuiApplication::setApplicationDisplayName(QCoreApplication::translate("main", "Light Wizzard"));

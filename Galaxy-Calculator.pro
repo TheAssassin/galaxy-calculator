@@ -32,8 +32,7 @@ unix{
     shortcutfiles.files = resources/Galaxy-Calculator.desktop
     shortcutfiles.path = $$PREFIX/share/applications/
     data.files += resources/Galaxy-Calculator.png
-    data.path = $$PREFIX/share/icons/
-
+    data.path = $$PREFIX/share/pixmaps/
     INSTALLS += shortcutfiles
     INSTALLS += data
 	macx {

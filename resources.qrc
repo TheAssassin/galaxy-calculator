@@ -26,6 +26,10 @@
         <file>qml/images/stop-32.png</file>
         <file>qml/images/refresh-32.png</file>
         <file>qml/qmldir</file>
+        <file>resources/Galaxy-Calculator.desktop</file>
+        <file>resources/Galaxy-Calculator.ico</file>
+        <file>resources/Galaxy-Calculator.png</file>
+        <file>resources/Galaxy-Calculator.svg</file>
         <file>favicon.png</file>
         <file>favicon.ico</file>
     </qresource>
