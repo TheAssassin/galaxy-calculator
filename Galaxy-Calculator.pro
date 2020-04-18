@@ -3,17 +3,19 @@ TARGET = Galaxy-Calculator
 
 QT += qml quick quickcontrols2
 
-CONFIG += c++11 release
+CONFIG += c++11 debug_and_release
 
 SOURCES += src/main.cpp src/tablemodel.cpp
 HEADERS += src/tablemodel.h
 
 RESOURCES += resources.qrc
-
-QML_IMPORT_PATH = qml
+#
 # This did not change Qt not being installed in LinuxDeploy
-#QML_IMPORT_PATH = $$PWD/qml
+# QML_IMPORT_PATH = qml
+# QML_IMPORT_PATH = $$PWD/qml
 # this is for a Designer, I think that is ui, I do not have any
+# QML_DESIGNER_IMPORT_PATH will be used only in Qt Quick Designer
+QML_IMPORT_PATH =
 QML_DESIGNER_IMPORT_PATH =
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -49,7 +51,7 @@ unix{
 INSTALLS += target
 
 INCLUDEPATH += tmp/moc/release_shared
-
+# CONFIG += static staticlib
 # QMAKE_LFLAGS += -static
 
 DISTFILES += macos/Info.plist \
