@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/Calculator.qml</file>
+        <file>qml/Configuration.qml</file>
+        <file>qml/GalaxyCalculator.qml</file>
+        <file>qml/EnergyCalculator.qml</file>
+        <file>qml/LoadProgressStyle.qml</file>
+        <file>qml/PushButton.qml</file>
+        <file>qml/+android/LoadProgressStyle.qml</file>
+        <file>qml/MadnessMeter.qml</file>
+        <file>qml/Main.qml</file>
+        <file>qml/Style.qml</file>
+        <file>qml/TextEditorColor.qml</file>
+        <file>qml/WorldCalculator.qml</file>
+        <file>qml/TextEditorBox.qml</file>
+        <file>qml/BigNumber.js</file>
+        <file>qml/BigNumberMath.js</file>
+        <file>qml/PiCalculator.js</file>
+        <file>qml/Common.js</file>
+        <file>qml/EnergyCalculator.js</file>
+        <file>qml/Eval.js</file>
+        <file>qml/GalaxyCalculateIt.js</file>
+        <file>qml/WorldCalculator.js</file>
+        <file>qml/images/right-32.png</file>
+        <file>qml/images/left-32.png</file>
+        <file>qml/images/stop-32.png</file>
+        <file>qml/images/refresh-32.png</file>
+        <file>qml/qmldir</file>
+        <file>favicon.png</file>
+        <file>favicon.ico</file>
+    </qresource>
+</RCC>
