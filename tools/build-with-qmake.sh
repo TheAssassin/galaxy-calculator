@@ -94,7 +94,7 @@ cp -v "resources/Galaxy-Calculator.png" "${QIF_PACKAGE_DATA}";
 cp -v "resources/Galaxy-Calculator.svg" "${QIF_PACKAGE_DATA}";
 cp -v "resources/Galaxy-Calculator.ico" "${QIF_PACKAGE_DATA}";
 
-rsync -a "usr/share/icons" "${QIF_PACKAGE_DATA}/icons";
+rsync -Ravr "usr/share/icons" "${QIF_PACKAGE_DATA}/icons";
 
 echo "Running Qt Installer Framework";
 # Note that this is only for building the Qt IF file, it does not ship with this qtaccount.ini
