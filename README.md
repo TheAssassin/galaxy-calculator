@@ -61,6 +61,7 @@ Printed Book and ePub Available at:
 
 Lulu
 * http://www.lulu.com/spotlight/LightWizzard
+
 Amazon
 * Book https://www.amazon.com/Principles-Trinary-Universe-according-Johannes/dp/1795429186/
 * ePub https://www.amazon.com/Principles-Trinary-Universe-according-Johannes-ebook/dp/B086D24HX9
