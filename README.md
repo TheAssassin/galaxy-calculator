@@ -60,11 +60,11 @@ but you have to pay for printed books, or the easy of having an ePub delivered t
 Printed Book and ePub Available at:
 
 Lulu
-* http://www.lulu.com/spotlight/LightWizzard
+* :book: :computer: http://www.lulu.com/spotlight/LightWizzard
 
 Amazon
-* Book https://www.amazon.com/Principles-Trinary-Universe-according-Johannes/dp/1795429186/
-* ePub https://www.amazon.com/Principles-Trinary-Universe-according-Johannes-ebook/dp/B086D24HX9
+* :book: Book https://www.amazon.com/Principles-Trinary-Universe-according-Johannes/dp/1795429186/
+* :computer: ePub https://www.amazon.com/Principles-Trinary-Universe-according-Johannes-ebook/dp/B086D24HX9
 
 You can also get it at any major book store, but I would recommend reading it, if you want to know all the details about the Math, you will not find them in the code as much.
 
