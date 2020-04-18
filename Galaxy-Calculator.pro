@@ -96,7 +96,10 @@ DISTFILES += macos/Info.plist \
   packages/com.lightwizzard.galaxycalculator/data/README.txt \
   packages/com.lightwizzard.galaxycalculator/meta/installscript.qs \
   packages/com.lightwizzard.galaxycalculator/meta/package.xml \
+<<<<<<< HEAD
   usr/share/bin/README.md \
+=======
+>>>>>>> 6a53086b7625c4ca56cc1727e15700aeb6846bd8
   usr/share/applications/Galaxy-Calculator.desktop \
   usr/share/applications/Galaxy-Calculator.ico \
   usr/share/applications/Galaxy-Calculator.png \
