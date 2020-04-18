@@ -91,7 +91,8 @@ if [ "${LINUX_DEPLOY_USING}" -eq 1 ]; then
     export VERSION="travis";
     echo "Starting linuxdeployqt-continuous-x86_64.AppImage";
     ls;
-    ./linuxdeployqt-continuous-x86_64.AppImage "usr/share/applications/${BIN_PRO_RES_NAME}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="qml/" -appimage;
+    echo "./linuxdeployqt-continuous-x86_64.AppImage ${TRAVIS_BUILD_DIR}/usr/share/applications/${BIN_PRO_RES_NAME}.desktop -extra-plugins=iconengines,imageformats -verbose=2 -qmldir=${TRAVIS_BUILD_DIR}/qml/ -appimage;";
+    ./linuxdeployqt-continuous-x86_64.AppImage "${TRAVIS_BUILD_DIR}/usr/share/applications/${BIN_PRO_RES_NAME}.desktop" -extra-plugins=iconengines,imageformats -verbose=2 -qmldir="${TRAVIS_BUILD_DIR}/qml/" -appimage;
     echo "Finished linuxdeployqt-continuous-x86_64.AppImage"
 fi
 
